@@ -1,0 +1,372 @@
+export const profile = {
+  name: "Saad Shahid",
+  firstName: "Saad",
+  lastName: "Shahid",
+  role: "AI Engineer & Software Engineer",
+  location: "Lahore, Punjab, Pakistan",
+  email: "saad39587@gmail.com",
+  phone: "+92-321-4429267",
+  whatsapp: "923214429267",
+  whatsappDisplay: "+92 321 4429267",
+  github: "https://github.com/saad92005",
+  linkedin: "https://www.linkedin.com/in/saadshahidpk",
+  linkedinDisplay: "linkedin.com/in/saadshahidpk",
+  headline: "Building\nintelligent\nsoftware.",
+  subheadline:
+    "AI Engineer & Software Engineer building practical AI systems, applications, automation workflows, and digital products.",
+  metaLine: ["Lahore, Pakistan", "Python / AI / Software", "Open to opportunities"],
+};
+
+export const heroBadges = [
+  "NLP & LLMs",
+  "RAG & Agents",
+  "Python & PyTorch",
+  "Generative AI",
+  "Process Automation",
+];
+
+export const stats = [
+  { value: 1.2, decimals: 1, suffix: "+", label: "Years back-office & tech operations experience" },
+  { value: 25, decimals: 0, suffix: "+", label: "Technologies in active use across AI, software & automation" },
+  { value: 100, decimals: 0, suffix: "%", label: "Full-stack AI & app deployments (TechPro, AES Portal)" },
+  { value: 3, decimals: 0, suffix: "+", label: "Enterprise systems & automation tools built" },
+];
+
+export const bio = {
+  lead:
+    "I'm a Computer Science student at UMT, building practical expertise across modern AI systems and software engineering.",
+  paragraphs: [
+    "Alongside that, I have real operational and business experience — working with business data, reporting systems, Excel dashboards, workflow management, process improvement, and client requirements.",
+  ],
+  keywords: [
+    { label: "AI", tone: "teal" },
+    { label: "Machine Learning", tone: "teal" },
+    { label: "NLP", tone: "teal" },
+    { label: "Generative AI", tone: "teal" },
+    { label: "LLMs", tone: "teal" },
+    { label: "RAG", tone: "teal" },
+    { label: "Prompt Engineering", tone: "teal" },
+    { label: "AI Assistants", tone: "teal" },
+    { label: "Automation", tone: "accent" },
+    { label: "Software Engineering", tone: "violet" },
+  ] as { label: string; tone: "teal" | "accent" | "violet" }[],
+};
+
+export const philosophy = [
+  {
+    index: "01",
+    title: "Build",
+    description: "Turn real requirements into working software.",
+    tone: "accent",
+    subpoints: ["Architecture", "UI / UX", "Logic"],
+  },
+  {
+    index: "02",
+    title: "Ship",
+    description: "Move beyond prototypes and deploy usable products.",
+    tone: "violet",
+    subpoints: ["CI / CD", "Deployment", "Monitoring"],
+  },
+  {
+    index: "03",
+    title: "Iterate",
+    description: "Debug, improve, measure, and keep learning.",
+    tone: "teal",
+    subpoints: ["Analytics", "Feedback", "Optimization"],
+  },
+];
+
+export const capabilities = [
+  {
+    title: "AI Engineering",
+    items: ["LLMs", "RAG", "AI Assistants", "AI Agents", "Generative AI", "NLP"],
+  },
+  {
+    title: "Software Engineering",
+    items: ["Python", "APIs", "Databases", "Application Architecture", "Testing", "Debugging", "Deployment"],
+  },
+  {
+    title: "AI Automation",
+    items: ["Workflow Automation", "AI-Powered Workflows", "API Integrations", "Business Process Automation"],
+  },
+  {
+    title: "Web & Mobile",
+    items: ["Responsive Websites", "Android Applications", "Application Interfaces"],
+  },
+  {
+    title: "Data & Operations",
+    items: ["Dashboards", "Reporting Systems", "Data Management", "Process Improvement"],
+  },
+];
+
+export const stack: { category: string; items: string[] }[] = [
+  {
+    category: "AI / ML",
+    items: [
+      "Python",
+      "Machine Learning",
+      "Generative AI",
+      "LLMs",
+      "NLP",
+      "RAG",
+      "Prompt Engineering",
+      "AI Assistants",
+      "AI Agents",
+    ],
+  },
+  {
+    category: "Software",
+    items: [
+      "Python",
+      "REST APIs",
+      "Databases",
+      "GitHub",
+      "Application Architecture",
+      "Debugging",
+      "Testing",
+      "Deployment",
+    ],
+  },
+  {
+    category: "Web / Mobile",
+    items: ["Web Development", "Responsive Design", "Android Development", "React / React Native"],
+  },
+  {
+    category: "Automation",
+    items: ["Workflow Automation", "AI Automation", "APIs", "Data Workflows", "Microsoft Excel"],
+  },
+];
+
+export const aiLab = [
+  {
+    slug: "llm-systems",
+    title: "LLM Systems",
+    description: "Working with large language models as the reasoning core of an application.",
+    pipeline: ["Input", "Model", "Tools", "Memory / Context", "Output"],
+  },
+  {
+    slug: "rag",
+    title: "RAG",
+    description: "Grounding model output in retrieved, relevant context instead of memory alone.",
+    pipeline: ["Query", "Retrieve", "Rank", "Augment", "Generate"],
+  },
+  {
+    slug: "ai-assistants",
+    title: "AI Assistants",
+    description: "Conversational interfaces that help a user complete a task, not just chat.",
+    pipeline: ["Intent", "Context", "Action", "Response"],
+  },
+  {
+    slug: "ai-agents",
+    title: "AI Agents",
+    description: "Model-driven systems that plan, call tools, and act toward a goal.",
+    pipeline: ["Goal", "Plan", "Tool Call", "Observe", "Act"],
+  },
+  {
+    slug: "automation",
+    title: "Automation",
+    description: "Chaining AI and business logic into workflows that run without manual input.",
+    pipeline: ["Trigger", "AI Step", "Business Logic", "Action"],
+  },
+  {
+    slug: "prompt-engineering",
+    title: "Prompt Engineering",
+    description: "Designing instructions and context that make model output reliable and useful.",
+    pipeline: ["Instruction", "Context", "Constraints", "Output", "Iterate"],
+  },
+];
+
+export type Project = {
+  slug: string;
+  name: string;
+  category: string;
+  tag: string;
+  problem: string;
+  approach: string;
+  system: string[];
+  features: string[];
+  result: string;
+  technology: string[];
+  images: { src: string; alt: string }[];
+  links?: { label: string; href: string }[];
+  status?: string;
+  frame?: "phone" | "browser" | "attendance";
+};
+
+export const projects: Project[] = [
+  {
+    slug: "aes-portal",
+    name: "AES Portal",
+    category: "Android Application / Business Management / AI",
+    tag: "Android App / Enterprise",
+    status: "Shipped — live on Google Play",
+    problem:
+      "Al Areesh Engineering Solutions ran work orders, attendance, and expense approvals across manual, disconnected processes — hard to track, slow to reconcile, and dependent on paper and spreadsheets.",
+    approach:
+      "Designed a single Android application covering the full operational loop for field and office staff, with geolocation-verified attendance and an integrated AI assistant for in-app support.",
+    system: [
+      "Employee opens app",
+      "Work order / attendance / expense action",
+      "Location & data captured",
+      "Synced to central database",
+      "Management dashboard & notifications",
+    ],
+    features: [
+      "Work order tracking",
+      "Geo-location employee attendance",
+      "Expense workflows",
+      "Notifications",
+      "Operational management dashboards",
+      "Integrated AI assistant",
+    ],
+    result: "Deployed and in active daily use across multiple regions.",
+    technology: ["Android", "Geolocation APIs", "AI Assistant Integration", "Database Workflows"],
+    images: [
+      { src: "/images/projects/aes-portal-dashboard.jpeg", alt: "AES Portal regional dashboard" },
+      { src: "/images/projects/aes-portal-workorders.jpeg", alt: "AES Portal work orders list" },
+      { src: "/images/projects/aes-portal-quotations.jpeg", alt: "AES Portal quotations" },
+      { src: "/images/projects/aes-portal-invoices.jpeg", alt: "AES Portal invoices" },
+      { src: "/images/projects/aes-portal-reports.jpeg", alt: "AES Portal reports" },
+      { src: "/images/projects/aes-portal-leave.jpeg", alt: "AES Portal leave management" },
+      { src: "/images/projects/aes-portal-gmailsync.jpeg", alt: "AES Portal Gmail sync" },
+    ],
+    frame: "phone",
+  },
+  {
+    slug: "aes-attendance",
+    name: "AES Automated Attendance System",
+    category: "Automation / Location / Business System",
+    tag: "Automation / Geolocation",
+    problem:
+      "Attendance was self-reported and manually compiled, making it slow to verify and easy to misreport — especially for field staff working across sites.",
+    approach:
+      "Built an installable PWA that captures employee attendance using geolocation, reverse-geocodes the address, and syncs structured check-in / check-out records to a central automation workflow — no dedicated backend server to host or maintain.",
+    system: ["Employee Check-in", "Geolocation API", "Verification", "Database", "Central Dashboard"],
+    features: [
+      "Geolocation-based check-in / check-out",
+      "Automatic reverse geocoding of check-in location",
+      "Automated late-arrival detection",
+      "Offline-capable PWA with background sync",
+    ],
+    result: "Deployed and in active use for field attendance tracking.",
+    technology: ["JavaScript", "Geolocation API", "Service Worker", "n8n Automation"],
+    images: [
+      { src: "/images/projects/aes-attendance-app.png", alt: "AES Attendance check-in screen" },
+      { src: "/images/projects/aes-attendance-checkedin.png", alt: "AES Attendance checked-in state with location log" },
+    ],
+    links: [{ label: "View on GitHub", href: "https://github.com/saad92005/attendtrack" }],
+    frame: "phone",
+  },
+  {
+    slug: "techpro-uae",
+    name: "TechPro UAE",
+    category: "Web Development / Business Website",
+    tag: "Web Application / Client",
+    problem:
+      "An Abu Dhabi/Sharjah industrial supplier needed a professional, responsive web presence that could credibly represent the business and structure its product/service information for customers.",
+    approach:
+      "Designed and developed a responsive business website end to end — from information architecture to production deployment.",
+    system: ["Content structure", "Responsive layout", "Production build", "Deployment"],
+    features: ["Responsive interface", "Structured content", "Modern web experience", "SEO-conscious structure"],
+    result: "Deployed and live in production.",
+    technology: ["Next.js", "Responsive Design", "Vercel Deployment"],
+    images: [{ src: "/images/projects/techpro-uae.jpeg", alt: "TechPro UAE homepage" }],
+    links: [{ label: "Visit Website", href: "https://techprouae.com" }],
+    frame: "browser",
+  },
+  {
+    slug: "omnira",
+    name: "Omnira",
+    category: "Desktop Application / AI Assistant",
+    tag: "AI Desktop App",
+    status: "In development — Phase 0",
+    problem:
+      "Wanted a genuinely local, Jarvis-style AI assistant for the desktop — voice and chat with real system actions — without locking into a single AI vendor or paying for infrastructure just to experiment.",
+    approach:
+      "Built a monorepo with a Tauri + React desktop shell and a Fastify + Prisma backend, behind a vendor-agnostic LLM provider interface so the model isn't hardcoded, plus Whisper-based voice transcription and a permission-gated system-control layer.",
+    system: ["Voice / Chat Input", "Desktop Shell (Tauri)", "API (Fastify)", "LLM Provider Interface", "Permissioned System Actions"],
+    features: [
+      "Voice input via Whisper (Groq)",
+      "Vendor-agnostic LLM orchestration",
+      "Permission-gated system control",
+      "Windows installer (NSIS / MSI)",
+      "PWA-installable web build",
+    ],
+    result:
+      "Verified end-to-end on Windows — built, installed, and launched as a real desktop app; currently in active development.",
+    technology: ["TypeScript", "Tauri", "React", "Fastify", "Prisma", "Groq API"],
+    images: [],
+    links: [{ label: "View on GitHub", href: "https://github.com/saad92005/omnira" }],
+  },
+  {
+    slug: "arabic-dialect-mt",
+    name: "Arabic Dialect Machine Translation",
+    category: "AI / NLP Research",
+    tag: "NLP / Research",
+    problem:
+      "Standard machine translation systems are trained on Modern Standard Arabic and perform poorly on regional dialects (Moroccan, Levantine, Gulf, Tunisian) because parallel training data for dialects is scarce and diverges sharply from MSA in vocabulary and morphology.",
+    approach:
+      "Built and compared two translation approaches for a university NLP course — a from-scratch Seq2Seq GRU baseline, and a transfer-learning model fine-tuning AraBERT (pre-trained on 77GB of Arabic text) with a GRU decoder — to demonstrate how pre-training helps in a low-resource setting.",
+    system: ["Arabic Dialect Input", "AraBERT Tokenizer", "AraBERT Encoder", "GRU Decoder", "English Output"],
+    features: [
+      "Baseline vs. BERT-enhanced comparison",
+      "4 dialects covered (Moroccan, Levantine, Gulf, Tunisian)",
+      "Transfer learning via AraBERT fine-tuning",
+      "Written up as an IEEE-format research paper",
+    ],
+    result: "Completed as a course project, with a full baseline-vs-transfer-learning comparison and an IEEE-format paper.",
+    technology: ["Python", "PyTorch", "Hugging Face Transformers", "AraBERT"],
+    images: [],
+    links: [{ label: "View on GitHub", href: "https://github.com/saad92005/arabic-dialect-mt-nlp" }],
+  },
+];
+
+export type ExperienceEntry = {
+  role: string;
+  org: string;
+  subrole: string;
+  period: string;
+  note?: string;
+  points: string[];
+};
+
+export const experience: ExperienceEntry[] = [
+  {
+    role: "Business Development Head (Pakistan)",
+    org: "OGem Systems",
+    subrole: "Marketing & AI Solutions",
+    period: "March 2026 – July 2026",
+    points: [
+      "Built the Pakistan BD function from scratch and created prospecting workflows.",
+      "Designed outreach and targeting strategy for SMB and mid-market prospects across AI automation, web apps, and SaaS.",
+      "Ran multi-channel campaigns that doubled inbound lead volume within the first quarter.",
+      "Worked with development teams to scope projects and cut proposal turnaround time by 40%.",
+      "Managed client relationships and contributed to 3+ software and automation projects.",
+    ],
+  },
+  {
+    role: "Back Office Executive",
+    org: "Al Areesh Engineering Solutions (Pvt.) Ltd.",
+    subrole: "Operations, Data Management & Technology Support",
+    period: "July 2025 – Present",
+    note: "Began as an internship (Jul 2025 – Dec 2025), continued as Executive.",
+    points: [
+      "Built Excel dashboards, trackers, and reporting systems for work orders, quotations, expenses, and billing.",
+      "Coordinated workflows across data management and process improvement.",
+      "Supported attendance systems and workflow automation initiatives.",
+      "Bridged back-office operations with custom technology solutions.",
+    ],
+  },
+];
+
+export const education = {
+  degree: "Bachelor of Computer Science",
+  school: "University of Management and Technology (UMT)",
+  location: "Lahore, Pakistan",
+  period: "October 2023 – August 2027",
+};
+
+export const certifications = [
+  "Machine Learning using Python",
+  "Claude Academy: Deploying Claude Enterprise with Confidence — The Five Decisions That Shape Your Rollout",
+];
