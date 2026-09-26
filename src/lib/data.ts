@@ -195,6 +195,59 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "thinkdesk",
+    name: "ThinkDesk",
+    category: "AI SaaS Platform / Knowledge Workspace",
+    tag: "Full-Stack AI SaaS",
+    status: "Live — real billing & deployed",
+    problem:
+      "Most \"chat with your PDF\" tools stop at a single Q&A box with no way to verify an answer, no team access control, no way to act on what's found, and no real path to being an actual product — just a demo.",
+    approach:
+      "Built a genuine multi-tenant SaaS from the ground up: hybrid (vector + keyword) retrieval with citation-backed answers, document intelligence, AI agent actions that require explicit human approval before anything is sent externally, and real Lemon Squeezy billing — not a single fake button in the whole product.",
+    system: [
+      "Upload PDF",
+      "Chunk & embed locally (fastembed)",
+      "Hybrid search + rerank",
+      "Grounded LLM answer + citation",
+      "Human-approved agent action",
+    ],
+    features: [
+      "Hybrid retrieval (vector + BM25) with reciprocal rank fusion and cross-encoder reranking",
+      "Every chat answer links back to its exact source passage — never fabricated",
+      "AI agent drafts an action (email/document summary); nothing reaches Slack until a human explicitly approves it",
+      "Automation rules that queue drafts for approval instead of acting unattended",
+      "Gmail, Slack & Notion connectors with real OAuth",
+      "Real Lemon Squeezy checkout and signature-verified billing webhooks — a working paid tier, not a mockup",
+      "Free-plan usage limits enforced server-side (3 documents / 50 messages)",
+      "Multi-tenant workspaces with role-based access, isolated per organization",
+    ],
+    result:
+      "Deployed and live, with a real test-mode purchase completed end-to-end (checkout → signed webhook → subscription unlocked) and a 105-test backend suite covering retrieval, tenant isolation, connectors, agent approval flow, and billing.",
+    technology: [
+      "Next.js",
+      "TypeScript",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "fastembed",
+      "Groq LLM API",
+      "OAuth 2.0",
+      "Lemon Squeezy",
+      "Vercel",
+    ],
+    images: [
+      { src: "/images/projects/thinkdesk-landing.png", alt: "ThinkDesk landing page" },
+      { src: "/images/projects/thinkdesk-chat.png", alt: "ThinkDesk chat with a cited, grounded answer" },
+      { src: "/images/projects/thinkdesk-documents.png", alt: "ThinkDesk document upload and processing" },
+      { src: "/images/projects/thinkdesk-billing.png", alt: "ThinkDesk real usage limits and billing" },
+    ],
+    links: [
+      { label: "Live Demo", href: "https://thinkdesk-three.vercel.app" },
+      { label: "View on GitHub", href: "https://github.com/saad92005/thinkdesk" },
+    ],
+    frame: "browser",
+  },
+  {
     slug: "aes-portal",
     name: "AES Portal",
     category: "Android Application / Business Management / AI",
