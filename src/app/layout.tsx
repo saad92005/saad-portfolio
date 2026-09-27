@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { profile } from "@/lib/data";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,7 +14,6 @@ const inter = Inter({
 const title = "Saad Shahid — AI Automation & Software Engineer";
 const description =
   "AI Engineer & Software Engineer building practical AI systems, automation workflows, and production applications.";
-const siteUrl = "https://saadshahid.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
