@@ -1,14 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Stats from "@/components/Stats";
-import About from "@/components/About";
-import Philosophy from "@/components/Philosophy";
-import Capabilities from "@/components/Capabilities";
-import Skills from "@/components/Skills";
+import Marquee from "@/components/Marquee";
 import Projects from "@/components/Projects";
+import About from "@/components/About";
 import Experience from "@/components/Experience";
-import Differentiator from "@/components/Differentiator";
-import AiLab from "@/components/AiLab";
+import Skills from "@/components/Skills";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -17,17 +13,13 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main">
         <Hero />
-        <Stats />
-        <About />
-        <Philosophy />
-        <Capabilities />
-        <Skills />
+        <Marquee />
         <Projects />
+        <About />
         <Experience />
-        <Differentiator />
-        <AiLab />
+        <Skills />
         <Education />
         <Contact />
       </main>

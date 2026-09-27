@@ -1,69 +1,49 @@
 "use client";
 
 import { motion } from "framer-motion";
-import KineticHeading from "./KineticHeading";
-
-const toneClass: Record<string, string> = {
-  amber: "text-accent",
-  violet: "text-violet",
-  teal: "text-teal",
-  rose: "text-rose",
-};
-
-const toneGlow: Record<string, string> = {
-  amber: "var(--accent)",
-  violet: "var(--violet)",
-  teal: "var(--teal)",
-  rose: "var(--rose)",
-};
+import type { ElementType } from "react";
 
 export default function SectionHeading({
   eyebrow,
   title,
   description,
-  tone = "amber",
   align = "left",
-  gradientTail = 0,
-  gradientStyle,
-  glow = false,
+  as = "h2",
 }: {
   eyebrow: string;
   title: string;
   description?: string;
-  tone?: "amber" | "violet" | "teal" | "rose";
   align?: "left" | "center";
-  /** Number of trailing words in the title to render with the gradient accent treatment. */
-  gradientTail?: number;
-  /** CSS `background` value for the gradient words; falls back to the shared accent gradient. */
-  gradientStyle?: string;
-  /** Adds a subtle ambient text-glow to the eyebrow label, in the section's tone color. */
-  glow?: boolean;
+  as?: ElementType;
 }) {
+  const Heading = as;
   return (
-    <div className={`mb-16 ${align === "center" ? "text-center mx-auto" : ""} max-w-3xl`}>
+    <div className={`mb-14 ${align === "center" ? "text-center mx-auto" : ""} max-w-2xl`}>
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.5 }}
-        className={`font-mono text-[11px] tracking-[0.2em] uppercase mb-4 ${toneClass[tone]}`}
-        style={glow ? { textShadow: `0 0 18px color-mix(in srgb, ${toneGlow[tone]} 55%, transparent)` } : undefined}
+        className="text-sm font-semibold uppercase tracking-[0.15em] accent mb-4"
       >
         {eyebrow}
       </motion.p>
-      <KineticHeading
-        text={title}
-        as="h2"
-        gradientTail={gradientTail}
-        gradientStyle={gradientStyle}
-        className="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.02]"
-      />
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6, delay: 0.05 }}
+      >
+        <Heading className="font-black tracking-tight leading-[1.05] text-[clamp(1.9rem,4.5vw,3rem)]">
+          {title}
+        </Heading>
+      </motion.div>
       {description && (
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
           className={`mt-5 text-ink-dim max-w-lg leading-relaxed ${align === "center" ? "mx-auto" : ""}`}
         >
           {description}
