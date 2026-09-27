@@ -7,15 +7,13 @@ export default function Footer() {
     <footer className="border-t border-line py-10">
       <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div>
-          <p className="font-mono text-[13px] tracking-widest">
-            {profile.name.toUpperCase()}
+          <p className="font-display font-extrabold text-[15px] tracking-tight text-ink">
+            {profile.name}
           </p>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-ink-faint mt-1.5">
-            AI Engineer / Software Engineer — {profile.location.split(",")[0]}, Pakistan
+          <p className="text-[13px] text-ink-faint mt-1.5">
+            AI Engineer / Software Engineer — Lahore, Pakistan
           </p>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-ink-faint mt-1">
-            Build · Ship · Iterate
-          </p>
+          <p className="text-[13px] text-ink-faint mt-0.5">Build · Ship · Iterate</p>
         </div>
 
         <div className="flex flex-col items-start sm:items-end gap-3">
@@ -47,15 +45,13 @@ export default function Footer() {
             </a>
             <a
               href="#top"
-              data-cursor-hover
-              data-cursor-text="Top"
-              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:border-accent hover:text-accent hover:shadow-[0_0_20px_-4px_var(--accent)] transition-all"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center text-ink-dim hover:border-accent hover:text-accent transition-colors"
               aria-label="Back to top"
             >
               ↑
             </a>
           </div>
-          <p className="font-mono text-[11px] text-ink-faint">© 2026 {profile.name}</p>
+          <p className="text-[13px] text-ink-faint">© 2026 {profile.name}</p>
         </div>
       </div>
     </footer>

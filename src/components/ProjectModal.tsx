@@ -97,7 +97,7 @@ export default function ProjectModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-bg/90 backdrop-blur-sm"
+            className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
           />
 
           <motion.div
@@ -108,12 +108,11 @@ export default function ProjectModal({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="panel relative w-full max-w-3xl max-h-[85vh] overflow-y-auto p-6 sm:p-9"
+            className="card relative w-full max-w-3xl max-h-[85vh] overflow-y-auto p-6 sm:p-9"
           >
             <button
               onClick={onClose}
               aria-label="Close"
-              data-cursor-hover
               className="absolute top-5 right-5 w-9 h-9 rounded-full border border-line flex items-center justify-center text-ink-dim hover:text-accent hover:border-accent transition-colors"
             >
               <X size={16} />
@@ -131,7 +130,7 @@ export default function ProjectModal({
               )}
             </div>
 
-            <h3 className="font-serif text-2xl sm:text-3xl tracking-tight mb-1">{project.name}</h3>
+            <h3 className="font-display font-extrabold text-2xl sm:text-3xl tracking-tight mb-1 text-ink">{project.name}</h3>
             <p className="text-sm text-ink-faint mb-7">{project.category}</p>
 
             {project.images.length > 0 && (
@@ -188,8 +187,7 @@ export default function ProjectModal({
                     href={l.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-cursor-hover
-                    className="btn-solid inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium"
+                    className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium"
                   >
                     {l.label}
                     <ExternalLink size={14} />

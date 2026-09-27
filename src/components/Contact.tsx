@@ -1,168 +1,171 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, Loader2 } from "lucide-react";
 import { profile } from "@/lib/data";
-import { GithubIcon, LinkedinIcon } from "./icons/BrandIcons";
-import MagneticButton from "./MagneticButton";
-import KineticHeading from "./KineticHeading";
-
-const quickLinks = [
-  { label: "Email Me", href: `mailto:${profile.email}`, icon: Mail },
-  { label: "LinkedIn", href: profile.linkedin, icon: LinkedinIcon },
-  { label: "GitHub", href: profile.github, icon: GithubIcon },
-];
+import { contactSchema, type ContactInput } from "@/lib/contactSchema";
+import { LinkedinIcon } from "./icons/BrandIcons";
+import SectionHeading from "./SectionHeading";
 
 const badges = [
   { icon: Mail, label: profile.email, href: `mailto:${profile.email}` },
   { icon: MapPin, label: profile.location, href: undefined },
   { icon: Phone, label: profile.whatsappDisplay, href: `https://wa.me/${profile.whatsapp}` },
-  { icon: LinkedinIcon, label: "linkedin.com/in/saadshahidpk", href: profile.linkedin },
+  { icon: LinkedinIcon, label: profile.linkedinDisplay, href: profile.linkedin },
 ];
 
+type Status = "idle" | "success" | "error";
+
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", brief: "" });
-  const [sent, setSent] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactInput>({ resolver: zodResolver(contactSchema) });
+  const [status, setStatus] = useState<Status>("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
-  function update(field: keyof typeof form) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [field]: e.target.value }));
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const subject = encodeURIComponent(form.subject || `Project inquiry from ${form.name}`);
-    const body = encodeURIComponent(`${form.brief}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+  async function onSubmit(data: ContactInput) {
+    setStatus("idle");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setStatus("error");
+        setStatusMessage(json.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+      setStatus("success");
+      setStatusMessage("Thanks — your message is on its way. I'll reply soon.");
+      reset();
+    } catch {
+      setStatus("error");
+      setStatusMessage("Network error — please try again, or email me directly.");
+    }
   }
 
   return (
-    <section id="contact" className="relative py-32 overflow-hidden">
-      <div className="wash wash-amber" />
+    <section id="contact" className="relative py-28 gradient-wash overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
-        <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-accent mb-6">
-          Let&apos;s work together
-        </p>
-
-        <KineticHeading
-          text="Let's build something useful."
-          as="h2"
-          className="font-serif text-[clamp(2.2rem,6vw,4.5rem)] leading-[1.05] tracking-tight mb-6 max-w-2xl"
+        <SectionHeading
+          eyebrow="Get in touch"
+          title="Have an idea? Let's build it."
+          description="Have a software, AI, automation, or product idea? Let's talk."
         />
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-ink-dim max-w-md mb-10"
-        >
-          Have a software, AI, automation, or product idea? Let&apos;s talk.
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-wrap gap-3 mb-16"
+          transition={{ duration: 0.6 }}
+          className="flex flex-wrap gap-3 -mt-6 mb-14"
         >
-          {quickLinks.map((l, i) => (
-            <MagneticButton
-              key={l.label}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-medium ${
-                i === 0 ? "btn-solid" : "btn-outline"
-              }`}
-            >
-              <l.icon size={14} strokeWidth={1.75} />
-              {l.label}
-            </MagneticButton>
-          ))}
+          <a href="#contact-form" className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold">
+            Contact me
+            <span aria-hidden="true">→</span>
+          </a>
+          <a
+            href={`mailto:${profile.email}?subject=Quote request`}
+            className="btn-outline inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold"
+          >
+            Get a quote
+            <span aria-hidden="true">→</span>
+          </a>
         </motion.div>
 
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-start">
           <motion.form
+            id="contact-form"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            onSubmit={handleSubmit}
-            className="panel p-7 sm:p-9 space-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="card p-7 sm:p-9 space-y-6"
           >
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+                <label htmlFor="name" className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
                   Name
                 </label>
                 <input
-                  required
-                  value={form.name}
-                  onChange={update("name")}
-                  className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
+                  id="name"
+                  {...register("name")}
+                  aria-invalid={!!errors.name}
+                  className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
                   placeholder="Your name"
                 />
+                {errors.name && <p className="text-xs text-accent mt-1.5">{errors.name.message}</p>}
               </div>
               <div>
-                <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+                <label htmlFor="email" className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
                   Email
                 </label>
                 <input
-                  required
+                  id="email"
                   type="email"
-                  value={form.email}
-                  onChange={update("email")}
-                  className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
+                  {...register("email")}
+                  aria-invalid={!!errors.email}
+                  className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
                   placeholder="you@example.com"
                 />
+                {errors.email && <p className="text-xs text-accent mt-1.5">{errors.email.message}</p>}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+              <label htmlFor="subject" className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
                 Subject
               </label>
               <input
-                value={form.subject}
-                onChange={update("subject")}
-                className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
+                id="subject"
+                {...register("subject")}
+                className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
                 placeholder="What's this about?"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+              <label htmlFor="brief" className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
                 Project Brief
               </label>
               <textarea
-                required
-                rows={3}
-                value={form.brief}
-                onChange={update("brief")}
-                className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors resize-none"
+                id="brief"
+                rows={4}
+                {...register("brief")}
+                aria-invalid={!!errors.brief}
+                className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors resize-none"
                 placeholder="Tell me a bit about what you're building..."
               />
+              {errors.brief && <p className="text-xs text-accent mt-1.5">{errors.brief.message}</p>}
             </div>
 
-            <MagneticButton
+            <button
               type="submit"
-              className="btn-solid inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold"
+              disabled={isSubmitting}
+              className="btn-primary inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold disabled:opacity-60"
             >
-              <Send size={15} />
-              Send Message
-            </MagneticButton>
+              {isSubmitting ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
+              {isSubmitting ? "Sending…" : "Send Message"}
+            </button>
 
-            {sent && (
+            {status !== "idle" && (
               <motion.p
+                role="status"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-xs text-ink-faint"
+                className={`text-xs ${status === "success" ? "text-teal" : "text-accent"}`}
               >
-                Opening your email client with this message pre-filled — send it over.
+                {statusMessage}
               </motion.p>
             )}
           </motion.form>
@@ -172,7 +175,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="panel p-3"
+            className="card p-3"
           >
             {badges.map((b) => {
               const content = (
@@ -187,14 +190,11 @@ export default function Contact() {
                   href={b.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-cursor-hover
-                  className="block group rounded-xl hover:bg-white/[0.03] transition-colors"
+                  className="block group rounded-xl hover:bg-surface-soft transition-colors"
                 >
                   <div className="flex items-center gap-4 px-4 py-4 group-hover:text-accent transition-colors">
                     <b.icon size={16} strokeWidth={1.75} />
-                    <span className="text-sm text-ink-dim group-hover:text-accent transition-colors">
-                      {b.label}
-                    </span>
+                    <span className="text-sm text-ink-dim group-hover:text-accent transition-colors">{b.label}</span>
                   </div>
                 </a>
               ) : (

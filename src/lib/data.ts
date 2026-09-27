@@ -1,9 +1,13 @@
+// Update NEXT_PUBLIC_SITE_URL (or this fallback) to the site's real production domain.
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://saadshahid.dev";
+
 export const profile = {
   name: "Saad Shahid",
-  firstName: "Saad",
+  firstName: "Muhammad Saad",
   lastName: "Shahid",
-  role: "AI Engineer & Software Engineer",
+  role: "AI Automation & Software Engineer",
   location: "Lahore, Punjab, Pakistan",
+  locationShort: "Lahore, PK",
   email: "saad39587@gmail.com",
   phone: "+92-321-4429267",
   whatsapp: "923214429267",
@@ -11,70 +15,57 @@ export const profile = {
   github: "https://github.com/saad92005",
   linkedin: "https://www.linkedin.com/in/saadshahidpk",
   linkedinDisplay: "linkedin.com/in/saadshahidpk",
-  headline: "Building\nintelligent\nsoftware.",
+  headline: "Building intelligent software.",
   subheadline:
-    "AI Engineer & Software Engineer building practical AI systems, applications, automation workflows, and digital products.",
-  metaLine: ["Lahore, Pakistan", "Python / AI / Software", "Open to opportunities"],
+    "AI Engineer & Software Engineer building practical AI systems, automation workflows, and production applications.",
+  metaLine: ["Lahore, Pakistan", "Open to opportunities", "Python / AI / Automation"],
 };
 
-export const heroBadges = [
-  "NLP & LLMs",
-  "RAG & Agents",
-  "Python & PyTorch",
-  "Generative AI",
-  "Process Automation",
+export const navLinks = [
+  { href: "#work", label: "Work" },
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#contact", label: "Contact" },
 ];
 
-export const stats = [
-  { value: 1.2, decimals: 1, suffix: "+", label: "Years back-office & tech operations experience" },
-  { value: 25, decimals: 0, suffix: "+", label: "Technologies in active use across AI, software & automation" },
-  { value: 100, decimals: 0, suffix: "%", label: "Full-stack AI & app deployments (TechPro, AES Portal)" },
-  { value: 3, decimals: 0, suffix: "+", label: "Enterprise systems & automation tools built" },
+export const heroCorners = {
+  topLeft: "AI ENGINEER",
+  topRight: "DEVELOPER",
+  bottomLeft: "AUTOMATION",
+  bottomRight: "CS STUDENT",
+};
+
+export type MarqueeTool = { name: string; icon: "si" | "lucide"; id: string };
+
+export const marqueeTools: MarqueeTool[] = [
+  { name: "Python", icon: "si", id: "SiPython" },
+  { name: "PyTorch", icon: "si", id: "SiPytorch" },
+  { name: "Next.js", icon: "si", id: "SiNextdotjs" },
+  { name: "React", icon: "si", id: "SiReact" },
+  { name: "TypeScript", icon: "si", id: "SiTypescript" },
+  { name: "Android", icon: "si", id: "SiAndroid" },
+  { name: "n8n", icon: "si", id: "SiN8N" },
+  { name: "Hugging Face", icon: "si", id: "SiHuggingface" },
+  { name: "Groq", icon: "lucide", id: "Zap" },
+  { name: "Tailwind CSS", icon: "si", id: "SiTailwindcss" },
+  { name: "GitHub", icon: "si", id: "SiGithub" },
+  { name: "Figma", icon: "si", id: "SiFigma" },
+  { name: "Vercel", icon: "si", id: "SiVercel" },
+  { name: "Microsoft Excel", icon: "lucide", id: "FileSpreadsheet" },
 ];
 
-export const bio = {
-  lead:
-    "I'm a Computer Science student at UMT, building practical expertise across modern AI systems and software engineering.",
-  paragraphs: [
-    "Alongside that, I have real operational and business experience — working with business data, reporting systems, Excel dashboards, workflow management, process improvement, and client requirements.",
+export const about = {
+  eyebrow: "About me",
+  heading: "I build systems that solve real problems.",
+  body: "I'm Muhammad Saad — computer science student at UMT, Lahore, and an AI Automation & Software Engineer. I turn rough requirements into working software: AI systems, automation workflows, and full-stack products that ship and get used.",
+  photoChip: "CS Student @ UMT",
+  checklist: [
+    "Designing practical AI systems — LLMs, RAG, NLP, and AI agents",
+    "Shipping production apps used daily by real teams (Android, web, PWA)",
+    "Bridging business operations with custom automation and tooling",
   ],
-  keywords: [
-    { label: "AI", tone: "teal" },
-    { label: "Machine Learning", tone: "teal" },
-    { label: "NLP", tone: "teal" },
-    { label: "Generative AI", tone: "teal" },
-    { label: "LLMs", tone: "teal" },
-    { label: "RAG", tone: "teal" },
-    { label: "Prompt Engineering", tone: "teal" },
-    { label: "AI Assistants", tone: "teal" },
-    { label: "Automation", tone: "accent" },
-    { label: "Software Engineering", tone: "violet" },
-  ] as { label: string; tone: "teal" | "accent" | "violet" }[],
+  tags: ["AI", "Machine Learning", "NLP", "LLMs", "RAG", "Automation", "Software Engineering"],
 };
-
-export const philosophy = [
-  {
-    index: "01",
-    title: "Build",
-    description: "Turn real requirements into working software.",
-    tone: "accent",
-    subpoints: ["Architecture", "UI / UX", "Logic"],
-  },
-  {
-    index: "02",
-    title: "Ship",
-    description: "Move beyond prototypes and deploy usable products.",
-    tone: "violet",
-    subpoints: ["CI / CD", "Deployment", "Monitoring"],
-  },
-  {
-    index: "03",
-    title: "Iterate",
-    description: "Debug, improve, measure, and keep learning.",
-    tone: "teal",
-    subpoints: ["Analytics", "Feedback", "Optimization"],
-  },
-];
 
 export const capabilities = [
   {
@@ -96,83 +87,6 @@ export const capabilities = [
   {
     title: "Data & Operations",
     items: ["Dashboards", "Reporting Systems", "Data Management", "Process Improvement"],
-  },
-];
-
-export const stack: { category: string; items: string[] }[] = [
-  {
-    category: "AI / ML",
-    items: [
-      "Python",
-      "Machine Learning",
-      "Generative AI",
-      "LLMs",
-      "NLP",
-      "RAG",
-      "Prompt Engineering",
-      "AI Assistants",
-      "AI Agents",
-    ],
-  },
-  {
-    category: "Software",
-    items: [
-      "Python",
-      "REST APIs",
-      "Databases",
-      "GitHub",
-      "Application Architecture",
-      "Debugging",
-      "Testing",
-      "Deployment",
-    ],
-  },
-  {
-    category: "Web / Mobile",
-    items: ["Web Development", "Responsive Design", "Android Development", "React / React Native"],
-  },
-  {
-    category: "Automation",
-    items: ["Workflow Automation", "AI Automation", "APIs", "Data Workflows", "Microsoft Excel"],
-  },
-];
-
-export const aiLab = [
-  {
-    slug: "llm-systems",
-    title: "LLM Systems",
-    description: "Working with large language models as the reasoning core of an application.",
-    pipeline: ["Input", "Model", "Tools", "Memory / Context", "Output"],
-  },
-  {
-    slug: "rag",
-    title: "RAG",
-    description: "Grounding model output in retrieved, relevant context instead of memory alone.",
-    pipeline: ["Query", "Retrieve", "Rank", "Augment", "Generate"],
-  },
-  {
-    slug: "ai-assistants",
-    title: "AI Assistants",
-    description: "Conversational interfaces that help a user complete a task, not just chat.",
-    pipeline: ["Intent", "Context", "Action", "Response"],
-  },
-  {
-    slug: "ai-agents",
-    title: "AI Agents",
-    description: "Model-driven systems that plan, call tools, and act toward a goal.",
-    pipeline: ["Goal", "Plan", "Tool Call", "Observe", "Act"],
-  },
-  {
-    slug: "automation",
-    title: "Automation",
-    description: "Chaining AI and business logic into workflows that run without manual input.",
-    pipeline: ["Trigger", "AI Step", "Business Logic", "Action"],
-  },
-  {
-    slug: "prompt-engineering",
-    title: "Prompt Engineering",
-    description: "Designing instructions and context that make model output reliable and useful.",
-    pipeline: ["Instruction", "Context", "Constraints", "Output", "Iterate"],
   },
 ];
 

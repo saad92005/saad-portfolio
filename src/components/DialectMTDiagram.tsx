@@ -54,9 +54,9 @@ export default function DialectMTDiagram() {
   return (
     <div
       ref={ref}
-      className="relative w-full aspect-[16/9.2] rounded-2xl border border-line-strong bg-bg-raised overflow-hidden shadow-[0_30px_60px_-25px_rgba(0,0,0,0.6)] flex flex-col justify-center gap-4 px-5 sm:px-7 py-5"
+      className="relative w-full aspect-[16/9.2] rounded-2xl border border-line bg-surface-soft overflow-hidden flex flex-col justify-center gap-4 px-5 sm:px-7 py-5"
     >
-      <div className="absolute inset-0 [background-image:linear-gradient(rgba(245,243,238,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(245,243,238,0.04)_1px,transparent_1px)] [background-size:26px_26px]" />
+      <div className="absolute inset-0 [background-image:linear-gradient(rgba(20,18,26,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(20,18,26,0.04)_1px,transparent_1px)] [background-size:26px_26px]" />
 
       <div className="relative flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-ink-dim">
         <span>Model architecture</span>
@@ -75,10 +75,10 @@ export default function DialectMTDiagram() {
         {DIALECTS.map((d) => (
           <span
             key={d.code}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-bg/60 text-[11px]"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-white/70 text-[11px]"
           >
             <span className="font-mono text-[9.5px] text-accent">{d.code}</span>
-            <span dir="rtl" className="font-serif text-ink">
+            <span dir="rtl" className="text-ink">
               {d.script}
             </span>
           </span>

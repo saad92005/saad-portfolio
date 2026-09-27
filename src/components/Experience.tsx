@@ -6,9 +6,9 @@ import { experience } from "@/lib/data";
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative py-28">
+    <section id="experience" className="relative py-24 sm:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeading eyebrow="Career" title="Where I've worked." tone="rose" />
+        <SectionHeading eyebrow="Career" title="Where I've worked." />
 
         <div className="relative pl-8 sm:pl-10">
           <span className="absolute left-[7px] sm:left-[9px] top-2 bottom-2 w-px bg-gradient-to-b from-accent via-line-strong to-transparent" />
@@ -20,7 +20,7 @@ export default function Experience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative pb-10 last:pb-0"
+              className="group relative pb-8 last:pb-0"
             >
               <motion.span
                 initial={{ scale: 0 }}
@@ -28,14 +28,11 @@ export default function Experience() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 + 0.15 }}
                 className="absolute -left-8 sm:-left-10 top-6 w-[15px] h-[15px] rounded-full border-2 border-accent bg-bg"
-                style={{ boxShadow: "0 0 16px rgba(255,77,35,0.6)" }}
               />
 
-              <div className="panel panel-hover p-7">
-                <p className="font-mono text-xs uppercase tracking-widest text-ink-faint mb-2">
-                  {job.period}
-                </p>
-                <h3 className="font-serif text-2xl group-hover:text-accent transition-colors">
+              <div className="card card-hover p-7">
+                <p className="font-mono text-xs uppercase tracking-widest text-ink-faint mb-2">{job.period}</p>
+                <h3 className="font-display font-extrabold text-xl sm:text-2xl text-ink group-hover:text-accent transition-colors">
                   {job.role}
                 </h3>
                 <p className="text-ink-dim text-sm mt-1 mb-1">{job.org}</p>

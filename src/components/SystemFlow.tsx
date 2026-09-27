@@ -12,15 +12,11 @@ export default function SystemFlow({ stages, dense = false }: { stages: string[]
   return (
     <div
       ref={ref}
-      className={`relative w-full rounded-2xl border border-line-strong bg-bg-raised overflow-hidden shadow-[0_30px_60px_-25px_rgba(0,0,0,0.6)] ${
+      className={`relative w-full rounded-2xl border border-line bg-surface-soft overflow-hidden ${
         dense ? "aspect-[16/9.2]" : ""
       }`}
     >
-      <div className="absolute inset-0 [background-image:linear-gradient(rgba(245,243,238,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(245,243,238,0.04)_1px,transparent_1px)] [background-size:26px_26px]" />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{ background: "linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%)" }}
-      />
+      <div className="absolute inset-0 [background-image:linear-gradient(rgba(20,18,26,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(20,18,26,0.04)_1px,transparent_1px)] [background-size:26px_26px]" />
 
       <div className={`relative flex flex-col ${dense ? "h-full justify-center px-6" : "px-6 py-10"}`}>
         <div className="flex items-center gap-2 mb-3 font-mono text-[11px] uppercase tracking-widest text-ink-dim">

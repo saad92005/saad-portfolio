@@ -32,14 +32,14 @@ export default function OmniraVisual() {
 
   return (
     <div ref={ref} className="relative w-full h-full flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 [background-image:linear-gradient(rgba(245,243,238,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(245,243,238,0.04)_1px,transparent_1px)] [background-size:26px_26px]" />
+      <div className="absolute inset-0 [background-image:linear-gradient(rgba(20,18,26,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(20,18,26,0.04)_1px,transparent_1px)] [background-size:26px_26px]" />
 
-      {/* ambient core glow, echoes the Skill Constellation hub */}
+      {/* ambient core glow */}
       <div
         className="absolute w-[260px] h-[260px] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in srgb, var(--accent) 30%, transparent) 0%, color-mix(in srgb, var(--accent-2) 14%, transparent) 45%, transparent 72%)",
+            "radial-gradient(circle, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--violet) 14%, transparent) 45%, transparent 72%)",
           filter: "blur(36px)",
         }}
       />
@@ -75,7 +75,7 @@ export default function OmniraVisual() {
         <motion.div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full flex items-center justify-center"
           style={{
-            background: "radial-gradient(circle at 35% 30%, var(--accent-2), var(--accent) 60%, var(--bg) 100%)",
+            background: "radial-gradient(circle at 35% 30%, var(--violet), var(--accent) 60%, var(--bg) 100%)",
             boxShadow: "0 0 44px 8px color-mix(in srgb, var(--accent) 45%, transparent)",
           }}
           animate={inView ? { scale: [1, 1.07, 1] } : { scale: 1 }}
@@ -99,7 +99,7 @@ export default function OmniraVisual() {
         {POINTS.map((p) => (
           <div
             key={p.label}
-            className="absolute left-1/2 top-1/2 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line-strong bg-bg-raised/90 backdrop-blur-sm text-[10px] font-mono text-ink-dim whitespace-nowrap"
+            className="absolute left-1/2 top-1/2 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line-strong bg-white/90 backdrop-blur-sm text-[10px] font-mono text-ink-dim whitespace-nowrap"
             style={{ transform: `translate(calc(-50% + ${p.x}px), calc(-50% + ${p.y}px))` }}
           >
             <p.icon size={11} className="text-accent" strokeWidth={1.75} />
