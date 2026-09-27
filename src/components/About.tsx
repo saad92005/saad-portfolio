@@ -1,204 +1,104 @@
 "use client";
 
-import { useRef, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Cpu, Briefcase } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import KineticHeading from "./KineticHeading";
-import { bio } from "@/lib/data";
-
-const toneVar: Record<string, string> = {
-  teal: "var(--teal)",
-  accent: "var(--accent)",
-  violet: "var(--violet)",
-};
-
-function KeywordPill({
-  label,
-  tone,
-  index,
-}: {
-  label: string;
-  tone: "teal" | "accent" | "violet";
-  index: number;
-}) {
-  const color = toneVar[tone];
-  return (
-    <motion.span
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay: 0.35 + index * 0.035, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{
-        y: -3,
-        rotate: index % 2 === 0 ? -2 : 2,
-        scale: 1.05,
-        boxShadow: `0 10px 26px -10px color-mix(in srgb, ${color} 65%, transparent)`,
-      }}
-      className="inline-flex items-center px-3.5 py-1.5 rounded-full text-[12.5px] font-mono tracking-wide backdrop-blur-md border cursor-default select-none"
-      style={{
-        background: `color-mix(in srgb, ${color} 10%, transparent)`,
-        borderColor: `color-mix(in srgb, ${color} 32%, transparent)`,
-        color: `color-mix(in srgb, ${color} 85%, white)`,
-      }}
-    >
-      {label}
-    </motion.span>
-  );
-}
-
-function DualityCard({
-  icon: Icon,
-  tone,
-  title,
-  items,
-  className = "",
-}: {
-  icon: LucideIcon;
-  tone: "teal" | "accent";
-  title: string;
-  items: string[];
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const color = toneVar[tone];
-
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: py * -6, y: px * 8 });
-  }
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-      style={{
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        background: `linear-gradient(160deg, color-mix(in srgb, ${color} 10%, var(--bg-raised)), color-mix(in srgb, var(--bg-raised) 90%, black))`,
-        borderColor: `color-mix(in srgb, ${color} 28%, var(--line))`,
-      }}
-      className={`relative w-full max-w-[280px] rounded-2xl border backdrop-blur-xl p-6 transition-transform duration-200 will-change-transform ${className}`}
-    >
-      <div
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full mb-4"
-        style={{
-          background: `color-mix(in srgb, ${color} 16%, transparent)`,
-          color,
-        }}
-      >
-        <Icon size={18} strokeWidth={1.75} />
-      </div>
-      <h3 className="font-serif text-lg mb-3" style={{ color }}>
-        {title}
-      </h3>
-      <ul className="space-y-1.5">
-        {items.map((item) => (
-          <li key={item} className="text-[13px] text-ink-dim flex items-center gap-2">
-            <span className="w-1 h-1 rounded-full shrink-0" style={{ background: color }} />
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import { CheckCircle2 } from "lucide-react";
+import { aboutChecklist, aboutTags } from "@/lib/data";
 
 export default function About() {
   return (
-    <section id="about" className="relative py-28 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="grid lg:grid-cols-[3fr_2fr] gap-16 lg:gap-10 items-center">
-          {/* left — narrative */}
-          <div className="max-w-2xl">
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5 }}
-              className="font-mono text-[11px] tracking-[0.2em] uppercase mb-4 text-accent"
-            >
-              Who I am
-            </motion.p>
-
-            <KineticHeading
-              text="Engineering with a problem-first mindset."
-              as="h2"
-              gradientTail={2}
-              className="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.02] mb-8"
+    <section id="about" className="relative py-24 sm:py-28 bg-surface-soft">
+      <div className="mx-auto max-w-6xl px-6 grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="relative max-w-sm mx-auto lg:mx-0"
+        >
+          <div className="rounded-[2rem] overflow-hidden shadow-[0_30px_70px_-24px_rgba(20,18,26,0.3)] relative aspect-[4/5]">
+            <Image
+              src="/images/headshot.png"
+              alt="Muhammad Saad, AI Automation & Software Engineer"
+              fill
+              sizes="(min-width: 1024px) 420px, 90vw"
+              className="object-cover object-top"
             />
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="relative"
-            >
-              <span className="absolute -left-6 sm:-left-10 -top-8 font-serif text-[7rem] leading-none text-accent/10 select-none pointer-events-none">
-                &ldquo;
-              </span>
-              <p className="font-serif italic text-2xl sm:text-3xl leading-[1.35] text-ink relative">
-                {bio.lead}
-              </p>
-            </motion.div>
-
-            <div className="mt-7 flex flex-wrap gap-2.5">
-              {bio.keywords.map((k, i) => (
-                <KeywordPill key={k.label} label={k.label} tone={k.tone} index={i} />
-              ))}
-            </div>
-
-            <div className="mt-8 space-y-4 text-ink-dim leading-[1.75] border-t border-line pt-6">
-              {bio.paragraphs.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
           </div>
-
-          {/* right — AI systems / business operations duality widget */}
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative flex flex-col items-center lg:items-end gap-6 py-6"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="card absolute -bottom-5 -right-4 sm:-right-8 px-4 py-3 text-sm font-semibold"
           >
-            <div
-              className="hidden lg:block absolute -z-10 w-[360px] h-[360px] rounded-full"
-              style={{
-                right: "-8%",
-                top: "50%",
-                transform: "translateY(-50%)",
-                background:
-                  "radial-gradient(circle, color-mix(in srgb, var(--teal) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 16%, transparent) 45%, transparent 72%)",
-                filter: "blur(50px)",
-              }}
-            />
-            <div
-              className="hidden lg:block absolute -z-10 w-[250px] h-[250px] rounded-full border border-dashed border-line orbit-spin"
-              style={{ right: "6%", top: "50%", transform: "translateY(-50%)" }}
-            />
+            CS Student @ UMT
+          </motion.div>
+        </motion.div>
 
-            <DualityCard
-              icon={Cpu}
-              tone="teal"
-              title="AI Systems"
-              items={["LLMs & RAG", "NLP & Prompt Engineering", "AI Agents & Assistants"]}
-              className="lg:mr-10"
-            />
-            <DualityCard
-              icon={Briefcase}
-              tone="accent"
-              title="Business Operations"
-              items={["Dashboards & Reporting", "Workflow & Process Improvement", "Client Requirements"]}
-              className="lg:ml-10"
-            />
+        <div>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-sm font-semibold uppercase tracking-[0.15em] accent mb-4"
+          >
+            About me
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="font-black tracking-tight leading-[1.05] text-[clamp(1.9rem,4.5vw,2.75rem)] mb-6"
+          >
+            I build systems that solve real problems.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-ink-dim leading-relaxed mb-8"
+          >
+            I&apos;m Muhammad Saad — computer science student at UMT, Lahore, and an AI Automation &amp; Software
+            Engineer. I turn rough requirements into working software: AI systems, automation workflows, and
+            full-stack products that ship and get used.
+          </motion.p>
+
+          <motion.ul
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+            className="space-y-3 mb-8"
+          >
+            {aboutChecklist.map((item) => (
+              <motion.li
+                key={item}
+                variants={{ hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0 } }}
+                transition={{ duration: 0.5 }}
+                className="flex items-start gap-3 text-ink-dim"
+              >
+                <CheckCircle2 size={19} className="accent shrink-0 mt-0.5" strokeWidth={2} />
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="flex flex-wrap gap-2"
+          >
+            {aboutTags.map((tag) => (
+              <span key={tag} className="chip px-3 py-1.5 text-xs font-medium">
+                {tag}
+              </span>
+            ))}
           </motion.div>
         </div>
       </div>

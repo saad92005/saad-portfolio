@@ -1,169 +1,204 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { contactSchema, type ContactInput } from "@/lib/schema";
 import { profile } from "@/lib/data";
-import { GithubIcon, LinkedinIcon } from "./icons/BrandIcons";
+import { LinkedinIcon } from "./icons/BrandIcons";
 import MagneticButton from "./MagneticButton";
-import KineticHeading from "./KineticHeading";
 
-const quickLinks = [
-  { label: "Email Me", href: `mailto:${profile.email}`, icon: Mail },
-  { label: "LinkedIn", href: profile.linkedin, icon: LinkedinIcon },
-  { label: "GitHub", href: profile.github, icon: GithubIcon },
-];
-
-const badges = [
+const contactDetails = [
   { icon: Mail, label: profile.email, href: `mailto:${profile.email}` },
   { icon: MapPin, label: profile.location, href: undefined },
   { icon: Phone, label: profile.whatsappDisplay, href: `https://wa.me/${profile.whatsapp}` },
-  { icon: LinkedinIcon, label: "linkedin.com/in/saadshahidpk", href: profile.linkedin },
+  { icon: LinkedinIcon, label: profile.linkedinDisplay, href: profile.linkedin },
 ];
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", brief: "" });
-  const [sent, setSent] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    setError,
+  } = useForm<ContactInput>({
+    resolver: zodResolver(contactSchema),
+  });
 
-  function update(field: keyof typeof form) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [field]: e.target.value }));
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const subject = encodeURIComponent(form.subject || `Project inquiry from ${form.name}`);
-    const body = encodeURIComponent(`${form.brief}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+  async function onSubmit(data: ContactInput) {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) {
+        setError("root", { message: json.error ?? "Something went wrong. Please try again." });
+        return;
+      }
+      reset();
+    } catch {
+      setError("root", { message: "Network error — please try again or email me directly." });
+    }
   }
 
   return (
-    <section id="contact" className="relative py-32 overflow-hidden">
-      <div className="wash wash-amber" />
+    <section id="contact" className="relative py-24 sm:py-32 gradient-wash overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
-        <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-accent mb-6">
-          Let&apos;s work together
-        </p>
+        <div className="max-w-2xl mx-auto text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="font-black tracking-tight leading-[1.05] text-[clamp(2rem,5.5vw,3.5rem)] mb-5"
+          >
+            Have an idea? Let&apos;s build it.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-ink-dim max-w-md mx-auto mb-8"
+          >
+            Have a software, AI, automation, or product idea? Let&apos;s talk.
+          </motion.p>
 
-        <KineticHeading
-          text="Let's build something useful."
-          as="h2"
-          className="font-serif text-[clamp(2.2rem,6vw,4.5rem)] leading-[1.05] tracking-tight mb-6 max-w-2xl"
-        />
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-ink-dim max-w-md mb-10"
-        >
-          Have a software, AI, automation, or product idea? Let&apos;s talk.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-wrap gap-3 mb-16"
-        >
-          {quickLinks.map((l, i) => (
-            <MagneticButton
-              key={l.label}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-medium ${
-                i === 0 ? "btn-solid" : "btn-outline"
-              }`}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="flex flex-wrap items-center justify-center gap-3"
+          >
+            <a href="#contact-form" className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold">
+              Contact me
+              <span aria-hidden="true">→</span>
+            </a>
+            <a
+              href={`mailto:${profile.email}?subject=Quote%20request`}
+              className="btn-secondary inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold"
             >
-              <l.icon size={14} strokeWidth={1.75} />
-              {l.label}
-            </MagneticButton>
-          ))}
-        </motion.div>
+              Get a quote
+              <span aria-hidden="true">→</span>
+            </a>
+          </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-start">
           <motion.form
+            id="contact-form"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            onSubmit={handleSubmit}
-            className="panel p-7 sm:p-9 space-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="card p-7 sm:p-9 space-y-6"
           >
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+                <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-widest text-ink-faint mb-2">
                   Name
                 </label>
                 <input
-                  required
-                  value={form.name}
-                  onChange={update("name")}
-                  className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
+                  id="name"
+                  {...register("name")}
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "name-error" : undefined}
+                  className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
                   placeholder="Your name"
                 />
+                {errors.name && (
+                  <p id="name-error" className="text-xs text-pink mt-1.5">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
               <div>
-                <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+                <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-widest text-ink-faint mb-2">
                   Email
                 </label>
                 <input
-                  required
+                  id="email"
                   type="email"
-                  value={form.email}
-                  onChange={update("email")}
-                  className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
+                  {...register("email")}
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? "email-error" : undefined}
+                  className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
                   placeholder="you@example.com"
                 />
+                {errors.email && (
+                  <p id="email-error" className="text-xs text-pink mt-1.5">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+              <label htmlFor="subject" className="block text-xs font-semibold uppercase tracking-widest text-ink-faint mb-2">
                 Subject
               </label>
               <input
-                value={form.subject}
-                onChange={update("subject")}
-                className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
+                id="subject"
+                {...register("subject")}
+                aria-invalid={!!errors.subject}
+                aria-describedby={errors.subject ? "subject-error" : undefined}
+                className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors"
                 placeholder="What's this about?"
               />
+              {errors.subject && (
+                <p id="subject-error" className="text-xs text-pink mt-1.5">
+                  {errors.subject.message}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-widest text-ink-faint mb-2">
+              <label htmlFor="brief" className="block text-xs font-semibold uppercase tracking-widest text-ink-faint mb-2">
                 Project Brief
               </label>
               <textarea
-                required
-                rows={3}
-                value={form.brief}
-                onChange={update("brief")}
-                className="w-full rounded-xl bg-bg border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors resize-none"
+                id="brief"
+                rows={4}
+                {...register("brief")}
+                aria-invalid={!!errors.brief}
+                aria-describedby={errors.brief ? "brief-error" : undefined}
+                className="w-full rounded-xl bg-surface-soft border border-line px-4 py-3 text-sm outline-none focus:border-accent transition-colors resize-none"
                 placeholder="Tell me a bit about what you're building..."
               />
+              {errors.brief && (
+                <p id="brief-error" className="text-xs text-pink mt-1.5">
+                  {errors.brief.message}
+                </p>
+              )}
             </div>
 
             <MagneticButton
               type="submit"
-              className="btn-solid inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold"
+              disabled={isSubmitting}
+              className="btn-primary inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold disabled:opacity-60"
             >
               <Send size={15} />
-              Send Message
+              {isSubmitting ? "Sending…" : "Send Message"}
             </MagneticButton>
 
-            {sent && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-xs text-ink-faint"
-              >
-                Opening your email client with this message pre-filled — send it over.
-              </motion.p>
+            {errors.root && (
+              <p role="alert" className="flex items-center gap-2 text-sm text-pink">
+                <AlertCircle size={16} />
+                {errors.root.message}
+              </p>
+            )}
+            {isSubmitSuccessful && !errors.root && (
+              <p role="status" className="flex items-center gap-2 text-sm accent">
+                <CheckCircle2 size={16} />
+                Message sent — I&apos;ll get back to you soon.
+              </p>
             )}
           </motion.form>
 
@@ -172,9 +207,9 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="panel p-3"
+            className="card p-3"
           >
-            {badges.map((b) => {
+            {contactDetails.map((b) => {
               const content = (
                 <div className="flex items-center gap-4 px-4 py-4">
                   <b.icon size={16} strokeWidth={1.75} />
@@ -187,14 +222,11 @@ export default function Contact() {
                   href={b.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-cursor-hover
-                  className="block group rounded-xl hover:bg-white/[0.03] transition-colors"
+                  className="block group rounded-xl hover:bg-surface-soft transition-colors"
                 >
-                  <div className="flex items-center gap-4 px-4 py-4 group-hover:text-accent transition-colors">
-                    <b.icon size={16} strokeWidth={1.75} />
-                    <span className="text-sm text-ink-dim group-hover:text-accent transition-colors">
-                      {b.label}
-                    </span>
+                  <div className="flex items-center gap-4 px-4 py-4 transition-colors">
+                    <b.icon size={16} strokeWidth={1.75} className="shrink-0" />
+                    <span className="text-sm text-ink-dim group-hover:text-accent transition-colors">{b.label}</span>
                   </div>
                 </a>
               ) : (

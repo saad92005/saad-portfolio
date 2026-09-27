@@ -1,61 +1,56 @@
 import { profile } from "@/lib/data";
 import { GithubIcon, LinkedinIcon } from "./icons/BrandIcons";
-import { Mail } from "lucide-react";
+import { Mail, ArrowUp } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-line py-10">
+    <footer className="border-t border-line py-10 bg-surface">
       <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div>
-          <p className="font-mono text-[13px] tracking-widest">
-            {profile.name.toUpperCase()}
+          <p className="font-black text-lg tracking-tight">
+            saad<span className="accent">.</span>
           </p>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-ink-faint mt-1.5">
-            AI Engineer / Software Engineer — {profile.location.split(",")[0]}, Pakistan
-          </p>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-ink-faint mt-1">
-            Build · Ship · Iterate
+          <p className="text-sm text-ink-faint mt-1.5">
+            AI Engineer / Software Engineer — Lahore, Pakistan · Build · Ship · Iterate
           </p>
         </div>
 
         <div className="flex flex-col items-start sm:items-end gap-3">
-          <div className="flex items-center gap-5 text-ink-dim">
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="hover:text-accent transition-colors"
-            >
-              <LinkedinIcon size={16} />
-            </a>
+          <div className="flex items-center gap-4 text-ink-dim">
             <a
               href={profile.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="hover:text-accent transition-colors"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
             >
-              <GithubIcon size={16} />
+              <GithubIcon size={15} />
+            </a>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
+            >
+              <LinkedinIcon size={15} />
             </a>
             <a
               href={`mailto:${profile.email}`}
               aria-label="Email"
-              className="hover:text-accent transition-colors"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
             >
-              <Mail size={16} strokeWidth={1.75} />
+              <Mail size={15} strokeWidth={1.75} />
             </a>
             <a
               href="#top"
-              data-cursor-hover
-              data-cursor-text="Top"
-              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:border-accent hover:text-accent hover:shadow-[0_0_20px_-4px_var(--accent)] transition-all"
+              className="w-9 h-9 rounded-full border border-line flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
               aria-label="Back to top"
             >
-              ↑
+              <ArrowUp size={15} strokeWidth={1.75} />
             </a>
           </div>
-          <p className="font-mono text-[11px] text-ink-faint">© 2026 {profile.name}</p>
+          <p className="text-xs text-ink-faint">© 2026 {profile.brand}</p>
         </div>
       </div>
     </footer>

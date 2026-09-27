@@ -10,16 +10,15 @@ export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="relative py-28 overflow-hidden">
-      <div className="wash wash-amber" />
+    <section id="work" className="relative py-24 sm:py-28 bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeading
           eyebrow="Selected work"
-          title="Real products. Real problems. Real systems."
-          tone="amber"
+          title="Real products, shipped and in production."
+          description="AI systems, automation, and full-stack apps — not demos."
         />
 
-        <div>
+        <div className="grid sm:grid-cols-2 gap-6">
           {projects.map((p, i) => (
             <ProjectCard key={p.slug} project={p} index={i} onOpen={setSelected} />
           ))}

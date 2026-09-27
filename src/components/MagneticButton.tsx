@@ -9,8 +9,8 @@ export default function MagneticButton({
   href,
   onClick,
   type = "button",
-  dataCursorHover = true,
-  strength = 0.35,
+  disabled,
+  strength = 0.25,
   target,
   rel,
   ariaLabel,
@@ -20,7 +20,7 @@ export default function MagneticButton({
   href?: string;
   onClick?: () => void;
   type?: "button" | "submit";
-  dataCursorHover?: boolean;
+  disabled?: boolean;
   strength?: number;
   target?: string;
   rel?: string;
@@ -55,18 +55,11 @@ export default function MagneticButton({
     style: { x: springX, y: springY },
     className,
     "aria-label": ariaLabel,
-    ...(dataCursorHover ? { "data-cursor-hover": true } : {}),
   };
 
   if (href) {
     return (
-      <motion.a
-        ref={ref as React.RefObject<HTMLAnchorElement>}
-        href={href}
-        target={target}
-        rel={rel}
-        {...props}
-      >
+      <motion.a ref={ref as React.RefObject<HTMLAnchorElement>} href={href} target={target} rel={rel} {...props}>
         {children}
       </motion.a>
     );
@@ -77,6 +70,7 @@ export default function MagneticButton({
       ref={ref as React.RefObject<HTMLButtonElement>}
       type={type}
       onClick={onClick}
+      disabled={disabled}
       {...props}
     >
       {children}
