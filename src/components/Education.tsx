@@ -17,10 +17,15 @@ export default function Education() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="card p-6"
+            className="card card-glow p-6"
           >
-            <GraduationCap size={22} className="accent mb-4" strokeWidth={1.75} />
-            <h3 className="font-black text-lg tracking-tight mb-1.5">{education.degree}</h3>
+            <div
+              className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 text-accent"
+              style={{ background: "var(--accent-soft)" }}
+            >
+              <GraduationCap size={20} strokeWidth={1.75} />
+            </div>
+            <h3 className="font-display font-semibold text-lg tracking-tight mb-1.5">{education.degree}</h3>
             <p className="text-sm text-ink-dim">{education.school}</p>
             <p className="text-xs text-ink-faint mt-2">
               {education.location} · {education.period}
@@ -32,10 +37,15 @@ export default function Education() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="card p-6"
+            className="card card-glow p-6"
           >
-            <Award size={22} className="accent mb-4" strokeWidth={1.75} />
-            <h3 className="font-black text-lg tracking-tight mb-3">Certifications</h3>
+            <div
+              className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 text-accent"
+              style={{ background: "var(--accent-soft)" }}
+            >
+              <Award size={20} strokeWidth={1.75} />
+            </div>
+            <h3 className="font-display font-semibold text-lg tracking-tight mb-3">Certifications</h3>
             <ul className="space-y-3">
               {certifications.map((cert) => (
                 <li key={cert.title} className="text-sm text-ink-dim leading-relaxed">

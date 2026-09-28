@@ -42,8 +42,9 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-10 mt-10 sm:mt-12 max-w-2xl mx-auto text-center">
-        <h1 className="font-black tracking-tight leading-[1.02] text-[clamp(2.25rem,7vw,4.5rem)]">
-          {profile.headline}
+        <h1 className="font-display font-semibold tracking-tight leading-[1.03] text-[clamp(2.25rem,7vw,4.5rem)] text-balance">
+          {profile.headline.split(" ").slice(0, -1).join(" ")}{" "}
+          <em className="italic accent">{profile.headline.split(" ").slice(-1)}</em>
         </h1>
         <p className="mt-5 text-ink-dim text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
           {profile.subheadline}

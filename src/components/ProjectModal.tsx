@@ -6,6 +6,7 @@ import { X, ExternalLink } from "lucide-react";
 import type { Project } from "@/lib/data";
 import { PhoneFrame, BrowserFrame, FrameImage } from "./DeviceFrame";
 import SystemFlow from "./SystemFlow";
+import { OmniraThumbnail, ArabicMtThumbnail } from "./ProjectThumbnails";
 
 function Gallery({ project }: { project: Project }) {
   const [active, setActive] = useState(0);
@@ -119,14 +120,22 @@ export default function ProjectModal({ project, onClose }: { project: Project | 
               </span>
             </div>
 
-            <h3 className="font-black text-2xl sm:text-3xl tracking-tight mb-1">{project.title}</h3>
+            <h3 className="font-display font-semibold text-2xl sm:text-3xl tracking-tight mb-1">{project.title}</h3>
             <p className="text-sm text-ink-faint mb-7">{project.subtitle}</p>
 
-            {project.images.length > 0 && (
+            {project.images.length > 0 ? (
               <div className="mb-7">
                 <Gallery key={project.slug} project={project} />
               </div>
-            )}
+            ) : project.slug === "omnira" ? (
+              <div className="mb-7">
+                <OmniraThumbnail />
+              </div>
+            ) : project.slug === "arabic-mt" ? (
+              <div className="mb-7">
+                <ArabicMtThumbnail />
+              </div>
+            ) : null}
 
             <Field label="Overview">
               <p className="text-ink-dim leading-relaxed">{project.description}</p>

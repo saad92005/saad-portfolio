@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { profile } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
@@ -9,6 +9,14 @@ const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
 });
 
 const title = "Saad Shahid — AI Automation & Software Engineer";
@@ -71,7 +79,7 @@ const personSchema = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-surface text-ink font-sans">
         <script
           type="application/ld+json"
@@ -80,6 +88,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        <div className="grain" aria-hidden="true" />
         <SmoothScroll />
         {children}
       </body>

@@ -34,7 +34,7 @@ export default function SectionHeading({
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6, delay: 0.05 }}
       >
-        <Heading className="font-black tracking-tight leading-[1.05] text-[clamp(1.9rem,4.5vw,3rem)]">
+        <Heading className="font-display font-semibold tracking-tight leading-[1.05] text-[clamp(2rem,4.8vw,3.25rem)] text-balance">
           {title}
         </Heading>
       </motion.div>

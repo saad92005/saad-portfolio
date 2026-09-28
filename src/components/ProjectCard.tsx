@@ -3,6 +3,7 @@
 import type { Project } from "@/lib/data";
 import { PhoneFrame, BrowserFrame, FrameImage } from "./DeviceFrame";
 import SystemFlow from "./SystemFlow";
+import { OmniraThumbnail, ArabicMtThumbnail } from "./ProjectThumbnails";
 import { motion } from "framer-motion";
 
 function Preview({ project }: { project: Project }) {
@@ -22,6 +23,8 @@ function Preview({ project }: { project: Project }) {
       </BrowserFrame>
     );
   }
+  if (project.slug === "omnira") return <OmniraThumbnail />;
+  if (project.slug === "arabic-mt") return <ArabicMtThumbnail />;
   return <SystemFlow stages={project.system} dense />;
 }
 
@@ -42,7 +45,7 @@ export default function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: (index % 2) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="card card-hover group text-left w-full overflow-hidden flex flex-col"
+      className="card card-hover card-glow group text-left w-full overflow-hidden flex flex-col"
       aria-label={`View case study: ${project.title}`}
     >
       <div className="p-5 sm:p-6 pb-0">
@@ -62,7 +65,7 @@ export default function ProjectCard({
           </span>
         </div>
 
-        <h3 className="font-black text-xl sm:text-2xl tracking-tight mb-1">{project.title}</h3>
+        <h3 className="font-display font-semibold text-xl sm:text-2xl tracking-tight mb-1">{project.title}</h3>
         <p className="text-sm text-ink-faint mb-3">{project.subtitle}</p>
         <p className="text-ink-dim text-sm leading-relaxed mb-4">{project.description}</p>
 

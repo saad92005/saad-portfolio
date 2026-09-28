@@ -51,7 +51,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="font-black tracking-tight leading-[1.05] text-[clamp(1.9rem,4.5vw,2.75rem)] mb-6"
+            className="font-display font-semibold tracking-tight leading-[1.05] text-[clamp(1.9rem,4.5vw,2.75rem)] mb-6 text-balance"
           >
             I build systems that solve real problems.
           </motion.h2>

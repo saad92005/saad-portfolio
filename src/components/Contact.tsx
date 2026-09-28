@@ -54,7 +54,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-black tracking-tight leading-[1.05] text-[clamp(2rem,5.5vw,3.5rem)] mb-5"
+            className="font-display font-semibold tracking-tight leading-[1.05] text-[clamp(2rem,5.5vw,3.5rem)] mb-5 text-balance"
           >
             Have an idea? Let&apos;s build it.
           </motion.h2>
