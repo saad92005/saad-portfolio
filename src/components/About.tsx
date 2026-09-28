@@ -53,7 +53,7 @@ function PhotoCard() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="card absolute -bottom-5 -right-4 sm:-right-8 px-4 py-3 text-sm font-semibold"
+        className="hidden lg:block card absolute -bottom-5 -right-4 sm:-right-8 px-4 py-3 text-sm font-semibold"
       >
         CS Student @ UMT
       </motion.div>

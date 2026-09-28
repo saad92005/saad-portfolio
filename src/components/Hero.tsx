@@ -6,17 +6,17 @@ import KineticHeading from "./KineticHeading";
 import { cornerLabels, profile } from "@/lib/data";
 
 const cornerClasses: Record<string, string> = {
-  "top-left": "top-24 left-4 sm:top-28 sm:left-8 text-left",
-  "top-right": "top-24 right-4 sm:top-28 sm:right-8 text-right",
-  "bottom-left": "bottom-6 left-4 sm:bottom-10 sm:left-8 text-left",
-  "bottom-right": "bottom-6 right-4 sm:bottom-10 sm:right-8 text-right",
+  "top-left": "top-20 left-4 sm:top-28 sm:left-8 text-left",
+  "top-right": "top-20 right-4 sm:top-28 sm:right-8 text-right",
+  "bottom-left": "bottom-4 left-4 sm:bottom-10 sm:left-8 text-left",
+  "bottom-right": "bottom-4 right-4 sm:bottom-10 sm:right-8 text-right",
 };
 
 export default function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-[100svh] flex flex-col items-center justify-center gradient-wash overflow-hidden px-4 pt-28 pb-16"
+      className="relative min-h-[100svh] flex flex-col items-center justify-center gradient-wash overflow-hidden px-4 pt-20 pb-8 sm:pt-28 sm:pb-16"
     >
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {cornerLabels.map((c, i) => (
@@ -42,19 +42,19 @@ export default function Hero() {
         <IdBadge />
       </motion.div>
 
-      <div className="relative z-10 mt-10 sm:mt-12 max-w-2xl mx-auto text-center">
+      <div className="relative z-10 mt-4 sm:mt-12 max-w-2xl mx-auto text-center">
         <KineticHeading
           as="h1"
           text={profile.headline}
           delayStart={0.5}
-          className="font-display font-semibold tracking-tight leading-[1.03] text-[clamp(2.25rem,7vw,4.5rem)] text-balance"
+          className="font-display font-semibold tracking-tight leading-[1.03] text-[clamp(1.9rem,7vw,4.5rem)] text-balance"
           lastWordClassName="italic accent"
         />
-        <p className="mt-5 text-ink-dim text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+        <p className="mt-3 sm:mt-5 text-ink-dim text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
           {profile.subheadline}
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-5 sm:mt-8 flex flex-wrap items-center justify-center gap-3">
           <a href="#work" className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 text-sm font-semibold">
             View my work
             <span aria-hidden="true">→</span>
@@ -64,7 +64,7 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm text-ink-faint">
+        <div className="mt-5 sm:mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm text-ink-faint">
           {profile.metaLine.map((item, i) => (
             <span key={item} className="flex items-center gap-3">
               {i > 0 && <span aria-hidden="true">·</span>}

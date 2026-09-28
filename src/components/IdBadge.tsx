@@ -75,8 +75,8 @@ export default function IdBadge() {
   }
 
   return (
-    <div ref={wrapperRef} className="relative mx-auto w-[260px] sm:w-[290px] select-none">
-      <div className="mx-auto w-3 h-3 rounded-full bg-ink/60 relative z-10" aria-hidden="true" />
+    <div ref={wrapperRef} className="relative mx-auto w-[180px] sm:w-[260px] md:w-[290px] select-none">
+      <div className="mx-auto w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-ink/60 relative z-10" aria-hidden="true" />
 
       <motion.div
         style={{ rotate, transformOrigin: "50% 0%" }}
@@ -94,18 +94,18 @@ export default function IdBadge() {
         aria-label={`ID badge for ${profile.name}, ${profile.role}. Draggable.`}
       >
         <div
-          className="mx-auto h-24 sm:h-28 rounded-full"
+          className="mx-auto h-12 sm:h-24 md:h-28 rounded-full"
           style={{ width: 10, background: "linear-gradient(180deg, var(--accent), var(--accent-2))" }}
         />
-        <div className="mx-auto -mt-1 w-9 h-5 rounded-md bg-ink/85 relative z-10" />
+        <div className="mx-auto -mt-1 w-7 h-4 sm:w-9 sm:h-5 rounded-md bg-ink/85 relative z-10" />
 
-        <div className="card mt-1 w-full p-4 sm:p-5 relative">
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 flex gap-6">
-            <span className="w-2 h-2 rounded-full bg-surface border border-line-strong" />
-            <span className="w-2 h-2 rounded-full bg-surface border border-line-strong" />
+        <div className="card mt-1 w-full p-3 sm:p-5 relative">
+          <div className="absolute -top-1.5 sm:-top-2 left-1/2 -translate-x-1/2 flex gap-4 sm:gap-6">
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-surface border border-line-strong" />
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-surface border border-line-strong" />
           </div>
 
-          <div className="rounded-2xl overflow-hidden aspect-[4/5] relative bg-gradient-2/40 mb-4">
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden aspect-[4/5] relative bg-gradient-2/40 mb-2.5 sm:mb-4">
             <Image
               src="/images/headshot.png"
               alt={`Portrait photo of ${profile.name}`}
@@ -116,11 +116,11 @@ export default function IdBadge() {
             />
           </div>
 
-          <p className="font-black text-lg leading-tight tracking-tight">{profile.name}</p>
-          <p className="text-sm accent font-semibold mt-0.5">{profile.role}</p>
-          <p className="text-xs text-ink-faint mt-1">Based in Lahore, PK</p>
+          <p className="font-black text-sm sm:text-lg leading-tight tracking-tight">{profile.name}</p>
+          <p className="text-xs sm:text-sm accent font-semibold mt-0.5">{profile.role}</p>
+          <p className="text-[10px] sm:text-xs text-ink-faint mt-1">Based in Lahore, PK</p>
 
-          <div className="flex gap-[2px] mt-4 h-5" aria-hidden="true">
+          <div className="flex gap-[2px] mt-2.5 sm:mt-4 h-3.5 sm:h-5" aria-hidden="true">
             {Array.from({ length: 28 }).map((_, i) => (
               <span
                 key={i}
