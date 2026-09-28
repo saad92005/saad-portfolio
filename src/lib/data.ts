@@ -247,7 +247,9 @@ export const experience: ExperienceEntry[] = [
   },
 ];
 
-export const capabilities = [
+export type Capability = { title: string; items: string[] };
+
+export const capabilities: Capability[] = [
   {
     title: "AI Engineering",
     items: ["LLMs", "RAG", "AI Assistants", "AI Agents", "Generative AI", "NLP"],
@@ -277,6 +279,12 @@ export const aboutChecklist = [
 ];
 
 export const aboutTags = ["AI", "Machine Learning", "NLP", "LLMs", "RAG", "Automation", "Software Engineering"];
+
+export const aboutStats = [
+  { value: 6, suffix: "+", label: "Projects shipped or in active development" },
+  { value: 3, suffix: "", label: "Production apps live and in daily use" },
+  { value: 100, suffix: "%", label: "Real systems — not portfolio demos" },
+];
 
 export const education = {
   degree: "Bachelor of Computer Science",

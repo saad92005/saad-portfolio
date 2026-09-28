@@ -4,6 +4,7 @@ import type { Project } from "@/lib/data";
 import { PhoneFrame, BrowserFrame, FrameImage } from "./DeviceFrame";
 import SystemFlow from "./SystemFlow";
 import { OmniraThumbnail, ArabicMtThumbnail } from "./ProjectThumbnails";
+import { useTilt } from "@/lib/useTilt";
 import { motion } from "framer-motion";
 
 function Preview({ project }: { project: Project }) {
@@ -37,17 +38,25 @@ export default function ProjectCard({
   index: number;
   onOpen: (p: Project) => void;
 }) {
+  const { ref, tiltStyle, glowStyle, onMouseMove, onMouseLeave } = useTilt(5);
+
   return (
     <motion.button
+      ref={ref as React.RefObject<HTMLButtonElement>}
       type="button"
       onClick={() => onOpen(project)}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: (index % 2) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="card card-hover card-glow group text-left w-full overflow-hidden flex flex-col"
+      style={{ ...tiltStyle, transformStyle: "preserve-3d" }}
+      className="card card-glow group relative text-left w-full overflow-hidden flex flex-col"
       aria-label={`View case study: ${project.title}`}
     >
+      <motion.div className="absolute inset-0 pointer-events-none z-10" style={glowStyle} aria-hidden="true" />
+
       <div className="p-5 sm:p-6 pb-0">
         <div className="rounded-xl overflow-hidden bg-surface-soft p-5 flex items-center justify-center min-h-[220px]">
           <div className="w-full transition-transform duration-500 group-hover:scale-[1.03]">

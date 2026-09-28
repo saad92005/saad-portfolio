@@ -95,7 +95,7 @@ export default function IdBadge() {
       >
         <div
           className="mx-auto h-24 sm:h-28 rounded-full"
-          style={{ width: 10, background: "linear-gradient(180deg, var(--accent), #7c4aa8)" }}
+          style={{ width: 10, background: "linear-gradient(180deg, var(--accent), var(--accent-2))" }}
         />
         <div className="mx-auto -mt-1 w-9 h-5 rounded-md bg-ink/85 relative z-10" />
 

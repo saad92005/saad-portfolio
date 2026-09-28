@@ -114,7 +114,7 @@ export default function Contact() {
                   placeholder="Your name"
                 />
                 {errors.name && (
-                  <p id="name-error" className="text-xs text-pink mt-1.5">
+                  <p id="name-error" className="text-xs text-danger mt-1.5">
                     {errors.name.message}
                   </p>
                 )}
@@ -133,7 +133,7 @@ export default function Contact() {
                   placeholder="you@example.com"
                 />
                 {errors.email && (
-                  <p id="email-error" className="text-xs text-pink mt-1.5">
+                  <p id="email-error" className="text-xs text-danger mt-1.5">
                     {errors.email.message}
                   </p>
                 )}
@@ -153,7 +153,7 @@ export default function Contact() {
                 placeholder="What's this about?"
               />
               {errors.subject && (
-                <p id="subject-error" className="text-xs text-pink mt-1.5">
+                <p id="subject-error" className="text-xs text-danger mt-1.5">
                   {errors.subject.message}
                 </p>
               )}
@@ -173,7 +173,7 @@ export default function Contact() {
                 placeholder="Tell me a bit about what you're building..."
               />
               {errors.brief && (
-                <p id="brief-error" className="text-xs text-pink mt-1.5">
+                <p id="brief-error" className="text-xs text-danger mt-1.5">
                   {errors.brief.message}
                 </p>
               )}
@@ -189,7 +189,7 @@ export default function Contact() {
             </MagneticButton>
 
             {errors.root && (
-              <p role="alert" className="flex items-center gap-2 text-sm text-pink">
+              <p role="alert" className="flex items-center gap-2 text-sm text-danger">
                 <AlertCircle size={16} />
                 {errors.root.message}
               </p>

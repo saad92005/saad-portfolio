@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import IdBadge from "./IdBadge";
+import KineticHeading from "./KineticHeading";
 import { cornerLabels, profile } from "@/lib/data";
 
 const cornerClasses: Record<string, string> = {
@@ -42,10 +43,13 @@ export default function Hero() {
       </motion.div>
 
       <div className="relative z-10 mt-10 sm:mt-12 max-w-2xl mx-auto text-center">
-        <h1 className="font-display font-semibold tracking-tight leading-[1.03] text-[clamp(2.25rem,7vw,4.5rem)] text-balance">
-          {profile.headline.split(" ").slice(0, -1).join(" ")}{" "}
-          <em className="italic accent">{profile.headline.split(" ").slice(-1)}</em>
-        </h1>
+        <KineticHeading
+          as="h1"
+          text={profile.headline}
+          delayStart={0.5}
+          className="font-display font-semibold tracking-tight leading-[1.03] text-[clamp(2.25rem,7vw,4.5rem)] text-balance"
+          lastWordClassName="italic accent"
+        />
         <p className="mt-5 text-ink-dim text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
           {profile.subheadline}
         </p>

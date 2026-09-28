@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --gradient-1: #f6d9e8;
-  --gradient-2: #d9ccf2;
-  --gradient-3: #f7f3ee;
-  --ink: #14121a;
-  --ink-dim: #555063;
-  --ink-faint: #6b6580;
-  --line: rgba(20, 18, 26, 0.1);
-  --line-strong: rgba(20, 18, 26, 0.18);
-  --accent: #5b2a86;
-  --accent-soft: rgba(91, 42, 134, 0.1);
+  --gradient-1: #e3ebfb;
+  --gradient-2: #d8e0f0;
+  --gradient-3: #f4f4f2;
+  --ink: #12131a;
+  --ink-dim: #52586a;
+  --ink-faint: #7b8195;
+  --line: rgba(18, 19, 26, 0.1);
+  --line-strong: rgba(18, 19, 26, 0.18);
+  --accent: #2554eb;
+  --accent-2: #1a3fc4;
+  --accent-soft: rgba(37, 84, 235, 0.1);
   --accent-ink: #ffffff;
-  --pink: #c2124f;
+  --danger: #dc2626;
   --surface: #ffffff;
-  --surface-soft: #fbf9fd;
+  --surface-soft: #f6f7fa;
   --radius-lg: 1.5rem;
   --radius-md: 1rem;
 }
@@ -29,9 +30,10 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
   --color-accent-soft: var(--accent-soft);
   --color-accent-ink: var(--accent-ink);
-  --color-pink: var(--pink);
+  --color-danger: var(--danger);
   --color-surface: var(--surface);
   --color-surface-soft: var(--surface-soft);
   --font-sans: var(--font-body);
