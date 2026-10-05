@@ -148,7 +148,6 @@ export const projects: Project[] = [
       { src: "/images/projects/aes-attendance-app.png", alt: "AES Attendance check-in screen" },
       { src: "/images/projects/aes-attendance-checkedin.png", alt: "AES Attendance checked-in state with location log" },
     ],
-    links: [{ label: "View on GitHub", href: "https://github.com/saad92005/attendtrack" }],
     frame: "phone",
   },
   {
