@@ -1,6 +1,6 @@
 # Saad Shahid — Portfolio
 
-**Live:** [saadshahid-omega.vercel.app](https://saadshahid-omega.vercel.app)
+**Live:** [saadshahid-portfolio.vercel.app](https://saadshahid-portfolio.vercel.app)
 
 Personal portfolio site for Muhammad Saad (Saad Shahid), an AI Engineer and full-stack developer. Built with Next.js (App Router), TypeScript, Tailwind CSS and Framer Motion. It includes a working contact form (Resend), SEO metadata, Open Graph tags, a sitemap and robots.txt, and responsive project case studies.
 
