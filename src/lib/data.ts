@@ -59,6 +59,51 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "sirat-path",
+    status: "Live — installable PWA",
+    category: "PWA / AI Companion",
+    title: "Sirat Path",
+    subtitle: "Islamic Companion PWA",
+    description:
+      "A free, offline-first Islamic companion: Quran, Salah times, Duas & Azkar, Hadith, Qibla, Ramadan, Zakat and Hajj guides, with an AI assistant and cross-device sync.",
+    highlights: [
+      "Offline-first installable PWA",
+      "Groq-powered AI assistant",
+      "Supabase auth with cross-device sync",
+      "Admin panel with content reports",
+    ],
+    stack: ["Next.js", "TypeScript", "Supabase", "Groq API", "PWA", "Vercel"],
+    system: ["Open app (offline)", "Local-first data", "Supabase sync", "AI assistant (Groq)"],
+    result: "Live and installable, with cross-device sync verified on real devices.",
+    images: [{ src: "/images/projects/sirat-path.png", alt: "Sirat Path home screen" }],
+    links: [
+      { label: "Live app", href: "https://siratpath.vercel.app" },
+      { label: "View on GitHub", href: "https://github.com/saad92005/sirat-path" },
+    ],
+    frame: "browser",
+  },
+  {
+    slug: "learnwise",
+    status: "Live — web + Android",
+    category: "EdTech / AI Tutor",
+    title: "LearnWise",
+    subtitle: "AI Tutor in English, Urdu & Arabic",
+    description:
+      "An AI tutor that teaches step by step in English, Urdu and Arabic, with voice, lessons, courses, human teachers and an installable Flutter app.",
+    highlights: [
+      "Step-by-step AI tutoring in 3 languages",
+      "Voice input and lessons",
+      "Courses with human teachers",
+      "Web app plus Flutter Android app",
+    ],
+    stack: ["Next.js", "Supabase", "Flutter", "Groq API", "Vercel"],
+    system: ["Student asks", "AI tutor explains step by step", "Lessons & courses", "Progress saved"],
+    result: "Live on the web with a downloadable Android app.",
+    images: [{ src: "/images/projects/learnwise.png", alt: "LearnWise landing page" }],
+    links: [{ label: "Live app", href: "https://learnwise-app.vercel.app" }],
+    frame: "browser",
+  },
+  {
     slug: "thinkdesk",
     status: "Live — real billing & deployed",
     category: "Full-Stack AI SaaS",
@@ -183,7 +228,7 @@ export const projects: Project[] = [
     stack: ["TypeScript", "Tauri", "React", "Fastify", "Prisma", "Groq API"],
     system: ["Voice / chat input", "Desktop shell (Tauri)", "API (Fastify)", "LLM provider interface", "Permissioned system actions"],
     result: "Verified end-to-end on Windows — built, installed, and launched as a real desktop app; currently in active development.",
-    images: [],
+    images: [{ src: "/images/projects/omnira-ai.jpeg", alt: "Omnira AI desktop assistant" }],
     links: [{ label: "View on GitHub", href: "https://github.com/saad92005/omnira" }],
   },
   {
@@ -202,7 +247,8 @@ export const projects: Project[] = [
     ],
     stack: ["Python", "PyTorch", "Hugging Face Transformers", "AraBERT"],
     system: ["Arabic dialect input", "AraBERT tokenizer", "AraBERT encoder", "GRU decoder", "English output"],
-    result: "Completed as a course project, with a full baseline-vs-transfer-learning comparison and an IEEE-format paper.",
+    result:
+      "On a held-out Tatoeba benchmark, the fine-tuned Marian model reaches BLEU 29.0 vs 13.0 zero-shot, written up as an IEEE-format paper.",
     images: [],
     links: [{ label: "View on GitHub", href: "https://github.com/saad92005/arabic-dialect-mt-nlp" }],
   },
@@ -280,8 +326,8 @@ export const aboutChecklist = [
 export const aboutTags = ["AI", "Machine Learning", "NLP", "LLMs", "RAG", "Automation", "Software Engineering"];
 
 export const aboutStats = [
-  { value: 6, suffix: "+", label: "Projects shipped or in active development" },
-  { value: 3, suffix: "", label: "Production apps live and in daily use" },
+  { value: 8, suffix: "+", label: "Projects shipped or in active development" },
+  { value: 5, suffix: "", label: "Apps live in production" },
   { value: 100, suffix: "%", label: "Real systems — not portfolio demos" },
 ];
 

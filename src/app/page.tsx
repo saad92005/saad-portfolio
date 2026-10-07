@@ -1,29 +1,30 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
-import Projects from "@/components/Projects";
-import About from "@/components/About";
-import Experience from "@/components/Experience";
-import Skills from "@/components/Skills";
-import Education from "@/components/Education";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import Loader from "@/components/v2/Loader";
+import Chrome from "@/components/v2/Chrome";
+import Hero from "@/components/v2/Hero";
+import About from "@/components/v2/About";
+import Career from "@/components/v2/Career";
+import Work from "@/components/v2/Work";
+import GithubRepos from "@/components/v2/GithubRepos";
+import Stack from "@/components/v2/Stack";
+import Contact from "@/components/v2/Contact";
+
+// Re-fetch the GitHub repo list at most once an hour.
+export const revalidate = 3600;
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Loader />
+      <Chrome />
       <main id="main">
         <Hero />
-        <Marquee />
-        <Projects />
         <About />
-        <Experience />
-        <Skills />
-        <Education />
+        <Career />
+        <Work />
+        <GithubRepos />
+        <Stack />
         <Contact />
       </main>
-      <Footer />
     </>
   );
 }

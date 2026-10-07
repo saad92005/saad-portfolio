@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { profile } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
@@ -11,15 +11,13 @@ const inter = Inter({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const fraunces = Fraunces({
+const grotesk = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
-  axes: ["opsz", "SOFT"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const title = "Saad Shahid — AI Automation & Software Engineer";
+const title = "Saad Shahid — AI Engineer & Full-Stack Developer";
 const description =
   "AI Engineer & Software Engineer building practical AI systems, automation workflows, and production applications.";
 
@@ -65,7 +63,7 @@ const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
-  jobTitle: "AI Automation & Software Engineer",
+  jobTitle: "AI Engineer & Full-Stack Developer",
   url: siteUrl,
   email: `mailto:${profile.email}`,
   address: {
@@ -79,8 +77,8 @@ const personSchema = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-surface text-ink font-sans">
+    <html lang="en" className={`${inter.variable} ${grotesk.variable} h-full antialiased`}>
+      <body className="min-h-full bg-bg text-ink font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
@@ -88,7 +86,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <div className="grain" aria-hidden="true" />
         <SmoothScroll />
         {children}
       </body>
