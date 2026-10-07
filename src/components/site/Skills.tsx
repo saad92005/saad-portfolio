@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import type { IconType } from "react-icons";
 import {
   SiAndroid,
@@ -32,7 +31,7 @@ import {
 } from "react-icons/si";
 import { Bot, Brain, Workflow, Database } from "lucide-react";
 import { capabilities } from "@/lib/data";
-import SectionTitle from "./SectionTitle";
+import { Fade, SectionHead } from "./Reveal";
 
 const icons: { name: string; Icon: IconType | typeof Bot; color: string }[] = [
   { name: "Python", Icon: SiPython, color: "#4B8BBE" },
@@ -120,8 +119,8 @@ function Sphere() {
 
   return (
     <div ref={box} className="relative w-full max-w-[520px] aspect-square mx-auto">
-      <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.35),rgba(34,211,238,0.1)_50%,transparent_70%)] blur-2xl" />
-      <div className="absolute inset-[10%] rounded-full border border-white/5" />
+      <div className="absolute inset-[10%] rounded-full border border-line" />
+      <div className="absolute inset-[30%] rounded-full border border-line" />
       {icons.map(({ name, Icon, color }, i) => (
         <div
           key={name}
@@ -130,9 +129,10 @@ function Sphere() {
           }}
           className="absolute left-1/2 top-1/2 group"
           title={name}
+          style={{ ["--brand" as string]: color }}
         >
-          <div className="glass w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center gap-1">
-            <Icon size={24} style={{ color }} />
+          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-bg-3 border border-line flex flex-col items-center justify-center gap-1 text-ink group-hover:text-[var(--brand)] group-hover:border-[var(--brand)] transition-colors">
+            <Icon size={22} />
             <span className="text-[8px] sm:text-[9px] text-ink-dim whitespace-nowrap">{name}</span>
           </div>
         </div>
@@ -144,31 +144,25 @@ function Sphere() {
 export default function Skills() {
   return (
     <section id="skills" className="relative py-24 sm:py-32 overflow-hidden">
-      <div className="blob w-[600px] h-[600px] bg-violet/20 left-1/2 top-1/3 -translate-x-1/2" aria-hidden="true" />
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-10 grid lg:grid-cols-2 gap-14 items-center">
-        <div>
-          <SectionTitle kicker="Toolbox" title="Skills &" accent="tech stack" />
-          <p className="mt-6 text-ink-dim max-w-lg leading-relaxed">
-            From model fine-tuning to production deploys — the tools I reach for to take an idea all the way to a
-            live product. Move your cursor over the sphere to spin it.
-          </p>
-          <div className="mt-10 grid sm:grid-cols-2 gap-4">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10">
+        <SectionHead index="02" label="Capabilities" title={["What I work", <em key="w">with</em>]} />
+        <div className="mt-16 grid lg:grid-cols-2 gap-14 items-center">
+          <div className="border-t border-line">
             {capabilities.map((c, i) => (
-              <motion.div
-                key={c.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.6 }}
-                className="glass ring-aurora rounded-2xl p-5"
-              >
-                <h3 className="font-display font-bold">{c.title}</h3>
-                <p className="mt-2 text-xs text-ink-dim leading-relaxed">{c.items.join(" · ")}</p>
-              </motion.div>
+              <Fade key={c.title} delay={i * 0.06} className="grid grid-cols-[48px_1fr] gap-4 py-6 border-b border-line">
+                <span className="label pt-2">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className="serif text-3xl">{c.title}</h3>
+                  <p className="mt-2 text-sm text-ink-dim">{c.items.join(", ")}</p>
+                </div>
+              </Fade>
             ))}
           </div>
+          <div>
+            <Sphere />
+            <p className="label text-center mt-4">Drag your cursor across to spin</p>
+          </div>
         </div>
-        <Sphere />
       </div>
     </section>
   );

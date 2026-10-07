@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Check } from "lucide-react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { projects, type Project } from "@/lib/data";
 import { Browser, Phone, Tilt } from "./Devices";
-import SectionTitle from "./SectionTitle";
+import { Fade, SectionHead } from "./Reveal";
 
 type Visual = {
-  accent: string;
+  plate: string;
   url?: string;
   desktop?: string[];
   phones?: string[];
@@ -18,7 +18,7 @@ type Visual = {
 // How each featured project is staged. Images are real screenshots of the shipped apps.
 const featured: Record<string, Visual> = {
   thinkdesk: {
-    accent: "#8b5cf6",
+    plate: "#d8d3f0",
     url: "thinkdesk-three.vercel.app",
     desktop: [
       "/images/projects/thinkdesk-hero.jpg",
@@ -28,249 +28,195 @@ const featured: Record<string, Visual> = {
     ],
   },
   "sirat-path": {
-    accent: "#10b981",
+    plate: "#cfdcc9",
     url: "siratpath.vercel.app",
     desktop: ["/images/projects/sirat-path.png"],
     phones: ["/images/projects/sirat-path-mobile.jpg"],
   },
   learnwise: {
-    accent: "#3b82f6",
+    plate: "#cdd9ea",
     url: "learnwise-app.vercel.app",
     desktop: ["/images/projects/learnwise.png"],
     phones: ["/images/projects/learnwise-mobile.jpg"],
   },
   "aes-portal": {
-    accent: "#f59e0b",
+    plate: "#ead9bd",
     phones: [
-      "/images/projects/aes-portal-dashboard.jpeg",
       "/images/projects/aes-portal-workorders.jpeg",
+      "/images/projects/aes-portal-dashboard.jpeg",
       "/images/projects/aes-portal-reports.jpeg",
     ],
   },
   "techpro-uae": {
-    accent: "#f97316",
+    plate: "#e9cfc2",
     url: "techprouae.com",
     desktop: ["/images/projects/techpro-hero.jpg"],
   },
 };
 
-function Stage({ p, v }: { p: Project; v: Visual }) {
+const order = ["thinkdesk", "sirat-path", "learnwise", "aes-portal", "techpro-uae"];
+
+function Plate({ p, v }: { p: Project; v: Visual }) {
   const [shot, setShot] = useState(0);
   const desktop = v.desktop ?? [];
   const phones = v.phones ?? [];
 
-  if (!desktop.length) {
-    // phone-only app: fan three phones out in 3D
-    return (
-      <Tilt className="relative h-[460px] sm:h-[540px] flex items-center justify-center" max={8}>
-        <div className="absolute inset-0 flex items-center justify-center" style={{ transformStyle: "preserve-3d" }}>
-          {phones.map((src, i) => {
-            const offset = i - (phones.length - 1) / 2;
-            return (
-              <div
-                key={src}
-                className="absolute w-[150px] sm:w-[200px]"
-                style={{
-                  transform: `translateX(${offset * 62}%) translateZ(${-Math.abs(offset) * 80}px) rotateY(${-offset * 18}deg)`,
-                  zIndex: 10 - Math.abs(offset),
-                }}
-              >
-                <Phone src={src} alt={`${p.title} screen ${i + 1}`} />
-              </div>
-            );
-          })}
-        </div>
-      </Tilt>
-    );
-  }
-
   return (
-    <div>
-      <Tilt className="relative" max={7}>
-        <div style={{ transform: "translateZ(0px)" }}>
-          <Browser src={desktop[shot]} alt={`${p.title} screenshot`} url={v.url} />
-        </div>
-        {phones[0] && (
-          <div
-            className="absolute -bottom-8 -right-3 sm:-right-8 w-[110px] sm:w-[170px]"
-            style={{ transform: "translateZ(80px)" }}
-          >
-            <Phone src={phones[0]} alt={`${p.title} on mobile`} />
-          </div>
-        )}
-      </Tilt>
-      {desktop.length > 1 && (
-        <div className="mt-6 flex gap-2">
-          {desktop.map((src, i) => (
-            <button
+    <div className="relative h-full min-h-[340px] sm:min-h-[460px] flex flex-col items-center justify-center p-6 sm:p-12 overflow-hidden" style={{ background: v.plate }}>
+      {desktop.length === 0 ? (
+        // phone-only app: a flat, staggered row of screens
+        <div className="w-full flex items-center justify-center gap-3 sm:gap-6">
+          {phones.map((src, i) => (
+            <motion.div
               key={src}
-              onClick={() => setShot(i)}
-              aria-label={`Show screenshot ${i + 1}`}
-              className={`relative w-20 aspect-[16/10] rounded-lg overflow-hidden border transition-all ${
-                shot === i ? "border-cyan scale-105" : "border-white/10 opacity-50 hover:opacity-90"
-              }`}
+              initial={{ y: 80, opacity: 0 }}
+              whileInView={{ y: i === 1 ? -28 : 12, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 * i, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className={i === 1 ? "w-[34%] max-w-[210px]" : "w-[29%] max-w-[180px]"}
             >
-              <Image src={src} alt="" fill sizes="80px" className="object-cover object-top" />
-            </button>
+              <Phone src={src} alt={`${p.title} screen ${i + 1}`} />
+            </motion.div>
           ))}
         </div>
+      ) : (
+        <>
+          <Tilt className="relative w-full max-w-[640px]" max={5}>
+            <Browser src={desktop[shot]} alt={`${p.title} screenshot`} url={v.url} />
+            {phones[0] && (
+              <div className="absolute -bottom-6 right-2 sm:-right-6 w-[26%] max-w-[150px]" style={{ transform: "translateZ(60px)" }}>
+                <Phone src={phones[0]} alt={`${p.title} on mobile`} />
+              </div>
+            )}
+          </Tilt>
+          {desktop.length > 1 && (
+            <div className="mt-8 flex gap-2">
+              {desktop.map((src, i) => (
+                <button
+                  key={src}
+                  onClick={() => setShot(i)}
+                  aria-label={`Show screenshot ${i + 1}`}
+                  className={`h-1.5 transition-all ${shot === i ? "w-10 bg-[#1b1a17]" : "w-5 bg-[#1b1a17]/25 hover:bg-[#1b1a17]/50"}`}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 }
 
-function Feature({ p, v, i }: { p: Project; v: Visual; i: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const rotateX = useTransform(scrollYProgress, [0, 0.35], [22, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.35], [0.88, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const flip = i % 2 === 1;
+function Card({ p, v, i, n, progress }: { p: Project; v: Visual; i: number; n: number; progress: MotionValue<number> }) {
+  // earlier cards shrink and dim as later ones slide over them
+  const scale = useTransform(progress, [i / n, 1], [1, 1 - (n - i) * 0.035]);
+  const dim = useTransform(progress, [i / n, (i + 1) / n], [0, 0.45]);
 
   return (
-    <div ref={ref} className="relative grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center py-16 sm:py-24">
-      <div
-        aria-hidden="true"
-        className="blob w-[420px] h-[420px] opacity-25"
-        style={{ background: v.accent, top: "10%", [flip ? "right" : "left"]: "-10%" }}
-      />
-      <motion.div
-        style={{ rotateX, scale, transformPerspective: 1400 }}
-        className={`relative ${flip ? "lg:order-2" : ""}`}
+    <div className="lg:h-screen lg:sticky lg:top-0 flex items-center py-4 lg:py-0">
+      <motion.article
+        style={{ scale }}
+        className="relative w-full lg:h-[82vh] grid lg:grid-cols-[1.25fr_1fr] bg-bg-2 border border-line origin-top overflow-hidden"
       >
-        <Stage p={p} v={v} />
-      </motion.div>
+        <Plate p={p} v={v} />
 
-      <motion.div style={{ y }} className="relative">
-        <div className="flex items-center gap-3 mb-5">
-          <span className="font-display text-sm text-ink-faint">{String(i + 1).padStart(2, "0")}</span>
-          <span className="h-px w-10 bg-line-strong" />
-          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: v.accent }}>
-            {p.category}
-          </span>
+        <div className="flex flex-col p-6 sm:p-10">
+          <div className="flex items-center justify-between label">
+            <span>{String(i + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}</span>
+            <span>{p.category}</span>
+          </div>
+
+          <h3 className="serif mt-8 text-5xl sm:text-6xl leading-[0.95]">{p.title}</h3>
+          <p className="mt-3 text-ink-dim">{p.subtitle}</p>
+          <p className="mt-6 text-sm text-ink-dim leading-relaxed">{p.description}</p>
+
+          <ul className="mt-6 text-sm divide-y divide-line border-y border-line">
+            {p.highlights.slice(0, 3).map((h) => (
+              <li key={h} className="py-2.5 flex gap-3">
+                <span className="text-accent">—</span>
+                {h}
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-6 text-xs text-ink-faint leading-relaxed">{p.stack.slice(0, 7).join("  ·  ")}</p>
+
+          <div className="mt-auto pt-8 flex flex-wrap items-center gap-6">
+            {p.links?.map((l) => (
+              <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="link-line inline-flex items-center gap-1.5 text-sm font-medium">
+                {l.label} <ArrowUpRight size={15} />
+              </a>
+            ))}
+            <span className="ml-auto text-xs text-ink-faint">{p.status}</span>
+          </div>
         </div>
-        <h3 className="font-display text-4xl sm:text-5xl font-bold tracking-tight">{p.title}</h3>
-        <p className="mt-2 text-ink-dim">{p.subtitle}</p>
-        <p className="mt-6 text-ink-dim leading-relaxed">{p.description}</p>
 
-        <ul className="mt-6 space-y-2.5">
-          {p.highlights.slice(0, 4).map((h) => (
-            <li key={h} className="flex gap-3 text-sm text-ink/90">
-              <Check size={17} className="shrink-0 mt-0.5" style={{ color: v.accent }} />
-              {h}
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-6 flex flex-wrap gap-2">
-          {p.stack.slice(0, 7).map((s) => (
-            <span key={s} className="chip">
-              {s}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          {p.links?.map((l, k) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noreferrer"
-              className={k === 0 ? "btn-primary" : "btn-ghost"}
-            >
-              {l.label} <ArrowUpRight size={16} />
-            </a>
-          ))}
-          <span className="flex items-center gap-2 text-xs text-ink-faint">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> {p.status}
-          </span>
-        </div>
-      </motion.div>
+        <motion.div aria-hidden="true" style={{ opacity: dim }} className="pointer-events-none absolute inset-0 bg-bg hidden lg:block" />
+      </motion.article>
     </div>
   );
 }
 
-function MiniCard({ p, i }: { p: Project; i: number }) {
+function Row({ p, i }: { p: Project; i: number }) {
   const img = p.images[0];
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, rotateX: 15 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      style={{ transformPerspective: 1000 }}
-    >
-      <Tilt className="h-full" max={9}>
-        <div className="glass ring-aurora rounded-3xl overflow-hidden h-full flex flex-col">
-          <div className="relative aspect-[16/10] bg-bg-2 overflow-hidden">
-            {img ? (
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                sizes="(min-width: 1024px) 400px, 100vw"
-                className={p.frame === "phone" ? "object-contain p-4" : "object-cover object-top"}
-              />
-            ) : (
-              <div className="absolute inset-0 p-6 font-mono text-[11px] leading-relaxed text-cyan/70 bg-[radial-gradient(circle_at_70%_30%,rgba(139,92,246,0.35),transparent_60%)]">
-                <p className="text-ink-faint"># dialect → English</p>
-                <p>model = MarianMT.fine_tune(&quot;ar-en&quot;)</p>
-                <p>bleu(zero_shot) = 13.0</p>
-                <p className="text-pink">bleu(fine_tuned) = 29.0 ▲</p>
-                <p className="text-ink-faint mt-2"># Moroccan · Levantine · Gulf · Tunisian</p>
-              </div>
-            )}
-          </div>
-          <div className="p-6 flex flex-col flex-1">
-            <p className="text-[11px] tracking-widest uppercase text-cyan font-semibold">{p.category}</p>
-            <h3 className="mt-2 font-display text-xl font-bold">{p.title}</h3>
-            <p className="mt-3 text-sm text-ink-dim leading-relaxed line-clamp-3">{p.description}</p>
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {p.stack.slice(0, 4).map((s) => (
-                <span key={s} className="chip">
-                  {s}
-                </span>
-              ))}
-            </div>
-            {p.links?.[0] && (
-              <a
-                href={p.links[0].href}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-semibold hover:text-cyan transition-colors"
-              >
-                {p.links[0].label} <ArrowUpRight size={15} />
-              </a>
-            )}
-          </div>
+    <Fade delay={i * 0.06}>
+      <a
+        href={p.links?.[0]?.href ?? "#"}
+        target="_blank"
+        rel="noreferrer"
+        className="group grid md:grid-cols-[80px_1.2fr_1fr_160px] gap-4 md:gap-8 items-center py-8 border-b border-line"
+      >
+        <span className="label">{String(i + 6).padStart(2, "0")}</span>
+        <div>
+          <h3 className="serif text-3xl sm:text-4xl group-hover:text-accent transition-colors">{p.title}</h3>
+          <p className="text-sm text-ink-faint mt-1">{p.category}</p>
         </div>
-      </Tilt>
-    </motion.div>
+        <p className="text-sm text-ink-dim leading-relaxed line-clamp-3">{p.result}</p>
+        <div className="relative aspect-[4/3] overflow-hidden bg-bg-3 hidden md:block">
+          {img ? (
+            <Image
+              src={img.src}
+              alt={img.alt}
+              fill
+              sizes="160px"
+              className={`transition-transform duration-700 group-hover:scale-110 ${p.frame === "phone" ? "object-contain" : "object-cover object-top"}`}
+            />
+          ) : (
+            <span className="absolute inset-0 flex items-center justify-center serif text-2xl text-ink-dim">
+              29.0 <span className="text-xs ml-1 font-sans">BLEU</span>
+            </span>
+          )}
+        </div>
+      </a>
+    </Fade>
   );
 }
 
 export default function Projects() {
-  const main = projects.filter((p) => featured[p.slug]);
+  const stack = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: stack, offset: ["start start", "end end"] });
+  const main = order.map((s) => projects.find((p) => p.slug === s)).filter((p): p is Project => !!p);
   const rest = projects.filter((p) => !featured[p.slug]);
-  const order = ["thinkdesk", "sirat-path", "learnwise", "aes-portal", "techpro-uae"];
-  main.sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
 
   return (
     <section id="projects" className="relative py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-5 sm:px-10">
-        <SectionTitle kicker="Selected work" title="Products I've" accent="shipped" />
-        {main.map((p, i) => (
-          <Feature key={p.slug} p={p} v={featured[p.slug]} i={i} />
-        ))}
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10">
+        <SectionHead index="01" label="Selected work" title={["Things I've", <em key="b">built & shipped</em>]} />
 
-        <h3 className="mt-16 mb-10 font-display text-2xl sm:text-3xl font-bold">
-          More <span className="text-aurora">builds &amp; research</span>
-        </h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {rest.map((p, i) => (
-            <MiniCard key={p.slug} p={p} i={i} />
+        <div ref={stack} className="mt-16">
+          {main.map((p, i) => (
+            <Card key={p.slug} p={p} v={featured[p.slug]} i={i} n={main.length} progress={scrollYProgress} />
           ))}
+        </div>
+
+        <div className="mt-24">
+          <p className="label mb-4">More builds &amp; research</p>
+          <div className="border-t border-line">
+            {rest.map((p, i) => (
+              <Row key={p.slug} p={p} i={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

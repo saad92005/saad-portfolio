@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Geist, Instrument_Serif } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { profile } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({
+const geist = Geist({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const grotesk = Space_Grotesk({
+const serif = Instrument_Serif({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 const title = "Saad Shahid — AI Engineer & Full-Stack Developer";
@@ -77,7 +77,7 @@ const personSchema = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${grotesk.variable} h-full antialiased`}>
+    <html lang="en" className={`${geist.variable} ${serif.variable} h-full antialiased`}>
       <body className="min-h-full bg-bg text-ink font-sans">
         <script
           type="application/ld+json"
