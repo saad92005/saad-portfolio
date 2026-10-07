@@ -42,14 +42,14 @@ export default function Contact() {
   const field = "input text-sm";
 
   return (
-    <section id="contact" className="relative bg-bg-2 border-t border-line overflow-hidden">
-      <div aria-hidden="true" className="glow w-[600px] h-[600px] -right-72 -top-40 opacity-40" />
-      <div className="relative max-w-6xl mx-auto px-5 sm:px-16 py-24 sm:py-32 grid lg:grid-cols-2 gap-16">
+    <section id="contact" className="relative border-t border-line overflow-hidden">
+      <div aria-hidden="true" className="blob w-[600px] h-[600px] bg-violet/25 -right-60 -top-40" /><div aria-hidden="true" className="blob w-[500px] h-[500px] bg-cyan/15 -left-60 bottom-0" />
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-10 py-24 sm:py-32 grid lg:grid-cols-2 gap-16">
         <div>
-          <h2 className="font-display text-[clamp(2.4rem,5vw,4rem)] font-medium leading-[1.05]">
+          <h2 className="font-display text-[clamp(2.6rem,6vw,4.8rem)] font-bold tracking-tight leading-[1]">
             Have an idea?
             <br />
-            <span className="text-accent">Let&apos;s build it.</span>
+            <span className="text-aurora">Let&apos;s build it.</span>
           </h2>
           <p className="mt-6 text-ink-dim max-w-md leading-relaxed">
             Open to internships, full-time roles and freelance work in AI engineering and full-stack development. I
@@ -78,7 +78,7 @@ export default function Contact() {
                     href={s.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 w-fit border-b border-line-strong pb-0.5 hover:text-accent hover:border-accent transition-colors"
+                    className="flex items-center gap-1 w-fit border-b border-line-strong pb-0.5 hover:text-cyan hover:border-cyan transition-colors"
                   >
                     {s.label} <ArrowUpRight size={13} />
                   </a>
@@ -88,7 +88,7 @@ export default function Contact() {
           </dl>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className="glass ring-aurora rounded-3xl p-6 sm:p-8 space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <input {...register("name")} placeholder="Your name" aria-label="Your name" className={field} />
@@ -122,7 +122,7 @@ export default function Contact() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex items-center gap-2 rounded-lg bg-accent text-[#0b0710] font-semibold px-7 py-3.5 hover:bg-white transition-colors disabled:opacity-60"
+            className="btn-primary disabled:opacity-60"
           >
             {isSubmitting ? "Sending…" : "Send message"} <Send size={16} />
           </button>
@@ -130,10 +130,10 @@ export default function Contact() {
       </div>
 
       <footer className="relative border-t border-line">
-        <div className="max-w-6xl mx-auto px-5 sm:px-16 py-10 flex flex-wrap items-end justify-between gap-6">
-          <p className="font-display text-[clamp(1.8rem,4vw,3rem)] font-medium tracking-tight">SAAD SHAHID</p>
+        <div className="max-w-7xl mx-auto px-5 sm:px-10 py-10 flex flex-wrap items-end justify-between gap-6">
+          <p className="font-display text-[clamp(1.8rem,4vw,3rem)] font-bold tracking-tight text-aurora">SAAD SHAHID</p>
           <p className="text-sm text-ink-dim text-right">
-            Designed and developed by <span className="text-accent">{profile.brand}</span>
+            Designed and developed by <span className="text-aurora">{profile.brand}</span>
             <br />© {new Date().getFullYear()}
           </p>
         </div>
