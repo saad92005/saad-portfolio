@@ -41,8 +41,8 @@ export default function Hero() {
     <section id="top" className="relative min-h-[100svh] overflow-hidden flex flex-col pt-24">
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
         <div className="aurora w-[520px] h-[520px] -left-40 top-10 bg-accent-2/40" />
-        <div className="aurora w-[460px] h-[460px] right-[-120px] top-[30%] bg-accent-3/25 [animation-delay:-6s]" />
-        <div className="aurora w-[380px] h-[380px] left-[35%] bottom-[-160px] bg-accent/20 [animation-delay:-12s]" />
+        <div className="aurora w-[460px] h-[460px] right-[-120px] top-[30%] bg-accent/15 [animation-delay:-6s]" />
+        <div className="aurora w-[380px] h-[380px] left-[35%] bottom-[-160px] bg-accent-2/25 [animation-delay:-12s]" />
       </div>
 
       <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 grid lg:grid-cols-[1.1fr_1fr] items-center gap-2 lg:gap-6">

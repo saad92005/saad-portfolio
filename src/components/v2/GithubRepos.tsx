@@ -13,7 +13,7 @@ const langColor: Record<string, string> = {
   CSS: "#663399",
   "Jupyter Notebook": "#DA5B0B",
 };
-const colorOf = (l: string | null) => (l && langColor[l]) || "#c8ff3d";
+const colorOf = (l: string | null) => (l && langColor[l]) || "#d9b77e";
 
 function ago(iso: string) {
   const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);

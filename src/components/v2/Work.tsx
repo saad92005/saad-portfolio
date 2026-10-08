@@ -13,7 +13,7 @@ type Media = {
   phones?: string[]; // fanned phone screens
   laptop?: string; // desktop screenshot shown on a laptop
   hero?: string; // full-bleed photo for projects without app screens
-  screenBg?: string; // fill behind short screenshots so they aren't cropped
+  aspect?: string; // phone screen ratio when captures are shorter than a modern phone
 };
 
 // Real captures of the shipped apps; Omnira and Arabic MT use free Unsplash photos.
@@ -24,8 +24,8 @@ const media: Record<string, Media> = {
   "aes-portal": { color: "#f59e0b", phones: ["aes-portal-workorders.jpeg", "aes-portal-dashboard.jpeg", "aes-portal-reports.jpeg"] },
   "aes-attendance": {
     color: "#22c55e",
-    phones: ["aes-attendance-app.png", "aes-attendance-checkedin.png"],
-    screenBg: "#1c2b2b",
+    phones: ["aes-att-1.jpg", "aes-att-2.jpg"],
+    aspect: "9/16",
   },
   "techpro-uae": { color: "#f97316", phones: ["techpro-m2.jpg", "techpro-m1.jpg", "techpro-m4.jpg"] },
   omnira: { color: "#06b6d4", hero: "omnira-hero.jpg" },
@@ -52,8 +52,8 @@ function Phone({ src, alt, m, label }: { src: string; alt: string; m: Media; lab
   return (
     <div className="relative" style={keep3d}>
       <div className={`rounded-[1.6rem] p-[5px] bg-[#16161c] ring-1 ring-white/15 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.85)] ${face}`}>
-        <div className="relative rounded-[1.25rem] overflow-hidden aspect-[9/19.5]" style={{ background: m.screenBg ?? "#000" }}>
-          <Image src={src} alt={alt} fill sizes="200px" className={m.screenBg ? "object-contain" : "object-cover object-top"} />
+        <div className="relative rounded-[1.25rem] overflow-hidden bg-black" style={{ aspectRatio: m.aspect ?? "9/19.5" }}>
+          <Image src={src} alt={alt} fill sizes="200px" className="object-cover object-top" />
           <span className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3 rounded-full bg-black" />
         </div>
       </div>

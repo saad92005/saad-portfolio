@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #050507;
-  --bg-2: #0a0a0e;
-  --ink: #f4f4f0;
-  --ink-dim: #a3a3ad;
-  --ink-faint: #6b6b75;
-  --line: rgba(244, 244, 240, 0.09);
-  --line-strong: rgba(244, 244, 240, 0.18);
-  --accent: #c8ff3d;
-  --accent-2: #7c5cff;
-  --accent-3: #2ee6d6;
-  --accent-soft: rgba(200, 255, 61, 0.12);
-  --lavender: #c8ff3d;
+  --bg: #070706;
+  --bg-2: #0d0c0a;
+  --ink: #f3ede2;
+  --ink-dim: #a8a196;
+  --ink-faint: #6e685e;
+  --line: rgba(243, 237, 226, 0.08);
+  --line-strong: rgba(243, 237, 226, 0.16);
+  --accent: #d9b77e;
+  --accent-2: #8a6a3e;
+  --accent-3: #f4e4c1;
+  --accent-soft: rgba(217, 183, 126, 0.12);
+  --lavender: #d9b77e;
   --danger: #f87171;
 }
 
@@ -80,7 +80,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-3) 50%, var(--accent-2) 100%);
+  background: linear-gradient(100deg, var(--accent-3) 0%, var(--accent) 55%, #b08850 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -106,7 +106,7 @@ body {
   position: absolute;
   border-radius: 999px;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(124, 92, 255, 0.5) 0%, rgba(46, 230, 214, 0.18) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(217, 183, 126, 0.35) 0%, rgba(138, 106, 62, 0.15) 40%, transparent 70%);
   filter: blur(40px);
 }
 
@@ -147,7 +147,7 @@ body {
 .stack-tile:hover {
   transform: translateY(-4px);
   border-color: var(--accent);
-  background: rgba(200, 255, 61, 0.1);
+  background: rgba(217, 183, 126, 0.1);
   color: #fff;
 }
 
@@ -193,7 +193,7 @@ body {
   inset: -50%;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.07;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain 8s steps(10) infinite;
 }
@@ -221,7 +221,7 @@ body {
 
 /* animated gradient sweep for headline words */
 .shine {
-  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-3) 30%, var(--accent-2) 55%, var(--accent) 80%);
+  background: linear-gradient(100deg, #b08850 0%, var(--accent) 25%, var(--accent-3) 45%, var(--accent) 65%, #b08850 85%);
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -261,7 +261,7 @@ body {
 
 /* mouse-follow spotlight (set --mx/--my from JS) */
 .spotlight {
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(200, 255, 61, 0.09), transparent 45%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(217, 183, 126, 0.09), transparent 45%);
 }
 
 @keyframes orbit {

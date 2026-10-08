@@ -190,8 +190,8 @@ export const projects: Project[] = [
     system: ["Employee check-in", "Geolocation API", "Verification", "Automation workflow", "Central dashboard"],
     result: "Deployed and in active use for field attendance tracking.",
     images: [
-      { src: "/images/projects/aes-attendance-app.png", alt: "AES Attendance check-in screen" },
-      { src: "/images/projects/aes-attendance-checkedin.png", alt: "AES Attendance checked-in state with location log" },
+      { src: "/images/projects/aes-att-1.jpg", alt: "AES Attendance check-in screen" },
+      { src: "/images/projects/aes-att-2.jpg", alt: "AES Attendance checked-in state with location log" },
     ],
     frame: "phone",
   },

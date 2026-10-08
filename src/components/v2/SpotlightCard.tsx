@@ -3,7 +3,7 @@
 import { useRef, type ReactNode } from "react";
 
 // Card with a soft light that follows the mouse, plus a lit border under it.
-export default function SpotlightCard({ children, className = "", color = "#c8ff3d" }: { children: ReactNode; className?: string; color?: string }) {
+export default function SpotlightCard({ children, className = "", color = "#d9b77e" }: { children: ReactNode; className?: string; color?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   function onMove(e: React.PointerEvent) {

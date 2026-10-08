@@ -59,7 +59,7 @@ export default function Career() {
               transition={{ duration: 0.7 }}
               className="relative grid md:grid-cols-2 gap-4 md:gap-20 pl-10 md:pl-0"
             >
-              <span className="absolute left-3 md:left-1/2 top-2 w-3 h-3 rounded-full bg-accent -translate-x-1/2 shadow-[0_0_20px_4px_rgba(200,255,61,0.6)]" />
+              <span className="absolute left-3 md:left-1/2 top-2 w-3 h-3 rounded-full bg-accent -translate-x-1/2 shadow-[0_0_20px_4px_rgba(217,183,126,0.55)]" />
               <div className="md:flex md:justify-between md:items-start md:pr-12">
                 <div>
                   <h3 className="font-display text-xl sm:text-2xl font-medium">{it.title}</h3>
