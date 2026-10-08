@@ -20,8 +20,8 @@ export default function Chrome() {
     <>
       <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-bg/90 to-transparent">
         <div className="flex items-center justify-between px-5 sm:px-8 py-5 text-xs font-semibold tracking-[0.15em]">
-          <a href="#top" className="font-display text-base tracking-normal" aria-label="Back to top">
-            SS
+          <a href="#top" className="font-display font-extrabold text-lg tracking-normal" aria-label="Back to top">
+            SS<span className="text-accent">.</span>
           </a>
           <a href={`mailto:${profile.email}`} className="hidden md:block link-underline tracking-normal text-ink-dim hover:text-ink">
             {profile.email}

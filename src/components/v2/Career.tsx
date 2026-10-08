@@ -35,10 +35,10 @@ export default function Career() {
   return (
     <section className="relative py-24 sm:py-36 px-5 sm:px-16 overflow-hidden">
       <div aria-hidden="true" className="glow w-[520px] h-[520px] -right-64 top-1/3 opacity-40" />
-      <h2 className="font-display text-center text-[clamp(2.2rem,5vw,4rem)] leading-[1.05] font-medium mb-20">
+      <h2 className="font-display text-center text-[clamp(2.2rem,5vw,4rem)] leading-[1.05] font-bold tracking-[-0.02em] mb-20">
         My career &amp;
         <br />
-        <span className="text-accent">experience</span>
+        <span className="font-serif italic font-normal text-accent">experience</span>
       </h2>
 
       <div ref={ref} className="relative max-w-6xl mx-auto">
@@ -59,7 +59,7 @@ export default function Career() {
               transition={{ duration: 0.7 }}
               className="relative grid md:grid-cols-2 gap-4 md:gap-20 pl-10 md:pl-0"
             >
-              <span className="absolute left-3 md:left-1/2 top-2 w-3 h-3 rounded-full bg-accent -translate-x-1/2 shadow-[0_0_20px_4px_rgba(177,140,255,0.6)]" />
+              <span className="absolute left-3 md:left-1/2 top-2 w-3 h-3 rounded-full bg-accent -translate-x-1/2 shadow-[0_0_20px_4px_rgba(200,255,61,0.6)]" />
               <div className="md:flex md:justify-between md:items-start md:pr-12">
                 <div>
                   <h3 className="font-display text-xl sm:text-2xl font-medium">{it.title}</h3>

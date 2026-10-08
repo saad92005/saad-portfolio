@@ -17,6 +17,7 @@ export default function Home() {
     <>
       <Loader />
       <Cursor />
+      <div aria-hidden="true" className="grain" />
       <Chrome />
       <main id="main">
         <Hero />
