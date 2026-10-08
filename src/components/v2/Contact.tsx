@@ -142,7 +142,7 @@ export default function Contact() {
           </div>
 
           {/* form */}
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="rounded-3xl border border-line bg-white/[0.02] p-6 sm:p-10 space-y-7">
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="rounded-3xl border border-line bg-white/60 p-6 sm:p-10 space-y-7">
             <div className="grid sm:grid-cols-2 gap-7">
               <div>
                 <label className={label} htmlFor="c-name">NAME</label>
@@ -180,10 +180,10 @@ export default function Contact() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group inline-flex items-center gap-3 rounded-full bg-accent text-[#070706] font-semibold pl-7 pr-2 py-2 hover:bg-accent-3 transition-colors disabled:opacity-60"
+              className="group inline-flex items-center gap-3 rounded-full bg-accent text-white font-semibold pl-7 pr-2 py-2 hover:bg-ink transition-colors disabled:opacity-60"
             >
               {isSubmitting ? "Sending…" : "Send message"}
-              <span className="grid place-items-center w-9 h-9 rounded-full bg-[#070706] text-accent transition-transform group-hover:rotate-[-20deg]">
+              <span className="grid place-items-center w-9 h-9 rounded-full bg-white text-accent transition-transform group-hover:rotate-[-20deg]">
                 <Send size={14} />
               </span>
             </button>
@@ -215,7 +215,7 @@ export default function Contact() {
                 <I size={15} />
               </a>
             ))}
-            <a href="#top" aria-label="Back to top" className="grid place-items-center w-10 h-10 rounded-full bg-accent text-[#070706] hover:-translate-y-1 transition-transform">
+            <a href="#top" aria-label="Back to top" className="grid place-items-center w-10 h-10 rounded-full bg-accent text-white hover:-translate-y-1 transition-transform">
               <ArrowUp size={15} />
             </a>
           </div>

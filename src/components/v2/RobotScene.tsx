@@ -53,7 +53,7 @@ function Robot() {
 
   const shell = { color: "#ece8f5", roughness: 0.3, metalness: 0.1 };
   const dark = { color: "#16121f", roughness: 0.2, metalness: 0.4 };
-  const glow = { color: "#ffe9c2", emissive: "#e0b46a", emissiveIntensity: 2.4, toneMapped: false };
+  const glow = { color: "#e7ddff", emissive: "#9b82ff", emissiveIntensity: 2.4, toneMapped: false };
 
   return (
     <group ref={root} position={[0, -0.35, 0]}>
@@ -130,15 +130,15 @@ export default function RobotScene() {
     <Canvas camera={{ position: [0, 0.4, 5.4], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 4, 5]} intensity={1.4} />
-      <pointLight position={[-3, 1, 2]} intensity={25} color="#d9a35c" />
-      <pointLight position={[3, -1, 2]} intensity={15} color="#f4e4c1" />
+      <pointLight position={[-3, 1, 2]} intensity={25} color="#c9b8ff" />
+      <pointLight position={[3, -1, 2]} intensity={15} color="#ffc2da" />
       {/* local light rig, no HDR download */}
       <Environment resolution={256}>
         <Lightformer intensity={2} color="#ffffff" position={[2, 3, 3]} scale={[4, 4, 1]} />
         <Lightformer intensity={2.5} color="#a66bff" position={[-4, 0, 1]} scale={[3, 6, 1]} />
       </Environment>
       <Robot />
-      <ContactShadows position={[0, -1.3, 0]} opacity={0.6} scale={6} blur={2.4} far={3} color="#1a1208" />
+      <ContactShadows position={[0, -1.3, 0]} opacity={0.6} scale={6} blur={2.4} far={3} color="#7c62e0" />
     </Canvas>
   );
 }

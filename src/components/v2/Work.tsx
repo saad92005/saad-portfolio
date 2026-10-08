@@ -86,7 +86,7 @@ function HeroCard({ p, m }: { p: Project; m: Media }) {
       <div className={`absolute inset-0 rounded-2xl overflow-hidden ring-1 ring-white/15 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] ${face}`}>
         <Image src={P + m.hero} alt={`${p.title} cover`} fill sizes="440px" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-        <div className="absolute left-4 right-4 bottom-4">
+        <div className="absolute left-4 right-4 bottom-4 text-white">
           <p className="font-display font-bold text-lg sm:text-xl">{p.title}</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {chips.map((c) => (
@@ -129,6 +129,7 @@ function Stage({ p }: { p: Project }) {
   }
 
   const phones = m.phones ?? [];
+  const pair = phones.length === 2;
   const label = p.title.split(" ")[0];
   const spring = { type: "spring", stiffness: 160, damping: 18 } as const;
 
@@ -150,7 +151,7 @@ function Stage({ p }: { p: Project }) {
       className="relative h-[300px] sm:h-[340px] rounded-2xl overflow-hidden"
       style={{
         perspective: 1100,
-        background: `radial-gradient(120% 90% at 50% 100%, ${m.color}55, transparent 60%), linear-gradient(180deg, #101015, #08080b)`,
+        background: `radial-gradient(120% 90% at 50% 100%, ${m.color}55, transparent 60%), linear-gradient(180deg, #ffffff, #f4eff9)`,
       }}
     >
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${m.color}, transparent)` }} />
@@ -193,10 +194,11 @@ function Stage({ p }: { p: Project }) {
                   key={src}
                   className="absolute w-[30%] max-w-[150px]"
                   animate={{
-                    x: `${o * (hover ? 78 : 58)}%`,
-                    z: o === 0 ? 60 : -40,
-                    rotateY: o * (hover ? -22 : -14),
-                    y: o === 0 ? (hover ? -14 : 0) : hover ? 6 : 14,
+                    // two screens sit side by side; three fan out around the middle one
+                    x: `${o * (pair ? (hover ? 122 : 112) : hover ? 78 : 58)}%`,
+                    z: pair ? (hover ? 40 : 0) : o === 0 ? 60 : -40,
+                    rotateY: o * (pair ? -10 : hover ? -22 : -14),
+                    y: pair ? (hover ? -8 : 0) : o === 0 ? (hover ? -14 : 0) : hover ? 6 : 14,
                   }}
                   transition={spring}
                   style={{ zIndex: 10 - Math.abs(o), ...keep3d }}
@@ -217,7 +219,7 @@ function Body({ p, i }: { p: Project; i: number }) {
   return (
     <>
       <div className="flex justify-between items-start gap-4">
-        <span className="font-display text-5xl font-bold" style={{ WebkitTextStroke: "1px rgba(244,244,240,0.35)", color: "transparent" }}>
+        <span className="font-display text-5xl font-bold" style={{ WebkitTextStroke: "1px rgba(30,27,46,0.28)", color: "transparent" }}>
           {String(i + 1).padStart(2, "0")}
         </span>
         <div className="text-right">
@@ -253,7 +255,7 @@ function Links({ p }: { p: Project }) {
           rel="noreferrer"
           className={`inline-flex items-center gap-1 text-sm font-semibold rounded-full px-4 py-2 transition-all ${
             k === 0
-              ? "bg-accent text-[#050507] hover:shadow-[0_0_30px_-6px_var(--accent)]"
+              ? "bg-accent text-white hover:shadow-[0_0_30px_-6px_var(--accent)]"
               : "border border-line-strong hover:border-accent hover:text-accent"
           }`}
         >
@@ -289,7 +291,7 @@ function FlowCard({ p, i, x }: { p: Project; i: number; x: MotionValue<number> }
     <motion.article
       ref={ref}
       style={{ rotateY, scale, opacity, transformPerspective: 1400 }}
-      className="shrink-0 w-[460px] xl:w-[500px] h-full flex flex-col rounded-3xl border border-line bg-gradient-to-b from-white/[0.05] to-white/[0.01] backdrop-blur-sm p-6"
+      className="shrink-0 w-[460px] xl:w-[500px] h-full flex flex-col rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm p-6"
     >
       <Stage p={p} />
       <div className="pt-6 flex flex-col flex-1">
@@ -351,7 +353,7 @@ export default function Work() {
             <div className="shrink-0 w-[380px] flex flex-col items-center justify-center text-center">
               <p className="font-display text-3xl font-bold">Want to see more?</p>
               <p className="text-ink-dim mt-3 text-sm">Every public repo, pulled live from GitHub.</p>
-              <a href="#github" className="mt-6 rounded-full bg-accent text-[#050507] font-semibold px-6 py-3 hover:shadow-[0_0_30px_-6px_var(--accent)] transition-shadow">
+              <a href="#github" className="mt-6 rounded-full bg-accent text-white font-semibold px-6 py-3 hover:shadow-[0_0_30px_-6px_var(--accent)] transition-shadow">
                 See all repos →
               </a>
             </div>
@@ -371,7 +373,7 @@ export default function Work() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformPerspective: 1000 }}
-              className="rounded-3xl border border-line bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-5 sm:p-6 overflow-hidden"
+              className="rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 p-5 sm:p-6 overflow-hidden"
             >
               <Stage p={p} />
               <div className="pt-6">

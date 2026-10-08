@@ -13,7 +13,7 @@ const langColor: Record<string, string> = {
   CSS: "#663399",
   "Jupyter Notebook": "#DA5B0B",
 };
-const colorOf = (l: string | null) => (l && langColor[l]) || "#d9b77e";
+const colorOf = (l: string | null) => (l && langColor[l]) || "#7c62e0";
 
 function ago(iso: string) {
   const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
@@ -35,7 +35,7 @@ export default async function GithubRepos() {
 
   return (
     <section id="github" className="relative py-24 sm:py-36 px-5 sm:px-16 overflow-hidden">
-      <div aria-hidden="true" className="aurora w-[520px] h-[520px] -left-60 top-40 bg-accent-3/15" />
+      <div aria-hidden="true" className="aurora w-[520px] h-[520px] -left-60 top-40 bg-accent-3/50" />
       <div className="relative max-w-6xl mx-auto">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
           <div>
@@ -54,10 +54,10 @@ export default async function GithubRepos() {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full border border-line-strong bg-white/[0.03] pl-4 pr-1.5 py-1.5 text-sm font-semibold hover:border-accent transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full border border-line-strong bg-white/60 pl-4 pr-1.5 py-1.5 text-sm font-semibold hover:border-accent transition-colors"
           >
             <GithubIcon size={16} /> @{profile.github.split("/").pop()}
-            <span className="grid place-items-center w-8 h-8 rounded-full bg-accent text-[#050507] transition-transform group-hover:rotate-45">
+            <span className="grid place-items-center w-8 h-8 rounded-full bg-accent text-white transition-transform group-hover:rotate-45">
               <ArrowUpRight size={14} />
             </span>
           </a>
@@ -74,7 +74,7 @@ export default async function GithubRepos() {
         ) : (
           <>
             {/* summary strip */}
-            <div className="rounded-2xl border border-line bg-white/[0.02] p-5 sm:p-6 mb-4">
+            <div className="rounded-2xl border border-line bg-white/60 p-5 sm:p-6 mb-4">
               <div className="flex flex-wrap gap-x-10 gap-y-3 mb-5">
                 {[
                   [repos.length, "public repos"],
@@ -108,10 +108,10 @@ export default async function GithubRepos() {
                   <div className="relative flex flex-col h-full p-6">
                     <span aria-hidden="true" className="absolute top-0 left-6 right-6 h-px opacity-60" style={{ background: `linear-gradient(90deg, transparent, ${colorOf(r.language)}, transparent)` }} />
                     <div className="flex items-start justify-between gap-3">
-                      <span className="grid place-items-center w-10 h-10 rounded-xl border border-line bg-white/[0.03] text-ink-dim group-hover:text-[var(--c)] transition-colors">
+                      <span className="grid place-items-center w-10 h-10 rounded-xl border border-line bg-white/60 text-ink-dim group-hover:text-[var(--c)] transition-colors">
                         <FolderGit2 size={18} />
                       </span>
-                      <span className="grid place-items-center w-9 h-9 rounded-full border border-line text-ink-faint transition-all duration-300 group-hover:rotate-45 group-hover:bg-accent group-hover:text-[#050507] group-hover:border-accent">
+                      <span className="grid place-items-center w-9 h-9 rounded-full border border-line text-ink-faint transition-all duration-300 group-hover:rotate-45 group-hover:bg-accent group-hover:text-white group-hover:border-accent">
                         <ArrowUpRight size={16} />
                       </span>
                     </div>
@@ -142,7 +142,7 @@ export default async function GithubRepos() {
                           href={r.homepage}
                           target="_blank"
                           rel="noreferrer"
-                          className="relative z-10 ml-auto rounded-full bg-accent/10 text-accent px-2.5 py-1 font-semibold hover:bg-accent hover:text-[#050507] transition-colors"
+                          className="relative z-10 ml-auto rounded-full bg-accent/10 text-accent px-2.5 py-1 font-semibold hover:bg-accent hover:text-white transition-colors"
                         >
                           Live ↗
                         </a>

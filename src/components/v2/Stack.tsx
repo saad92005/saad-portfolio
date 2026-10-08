@@ -38,12 +38,12 @@ const stack: Tool[] = [
   { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
   { name: "Dart", icon: SiDart, color: "#0175C2", url: "https://dart.dev" },
   { name: "React", icon: SiReact, color: "#61DAFB", url: "https://react.dev" },
-  { name: "Next.js", icon: SiNextdotjs, color: "#FFFFFF", url: "https://nextjs.org" },
+  { name: "Next.js", icon: SiNextdotjs, color: "#000000", url: "https://nextjs.org" },
   { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", url: "https://tailwindcss.com" },
   { name: "Framer Motion", icon: SiFramer, color: "#BB4BFF", url: "https://motion.dev" },
   { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", url: "https://nodejs.org" },
   { name: "FastAPI", icon: SiFastapi, color: "#009688", url: "https://fastapi.tiangolo.com" },
-  { name: "Fastify", icon: SiFastify, color: "#FFFFFF", url: "https://fastify.dev" },
+  { name: "Fastify", icon: SiFastify, color: "#000000", url: "https://fastify.dev" },
   { name: "PyTorch", icon: SiPytorch, color: "#EE4C2C", url: "https://pytorch.org" },
   { name: "Hugging Face", icon: SiHuggingface, color: "#FFD21E", url: "https://huggingface.co" },
   { name: "LLMs & RAG", icon: Brain, color: "#C084FC", url: "https://en.wikipedia.org/wiki/Retrieval-augmented_generation" },
@@ -59,8 +59,8 @@ const stack: Tool[] = [
   { name: "n8n", icon: SiN8N, color: "#EA4B71", url: "https://n8n.io" },
   { name: "Automation", icon: Workflow, color: "#F472B6", url: "https://n8n.io/workflows" },
   { name: "Git", icon: SiGit, color: "#F05032", url: "https://git-scm.com" },
-  { name: "GitHub", icon: SiGithub, color: "#FFFFFF", url: "https://github.com" },
-  { name: "Vercel", icon: SiVercel, color: "#FFFFFF", url: "https://vercel.com" },
+  { name: "GitHub", icon: SiGithub, color: "#181717", url: "https://github.com" },
+  { name: "Vercel", icon: SiVercel, color: "#000000", url: "https://vercel.com" },
   { name: "Figma", icon: SiFigma, color: "#F24E1E", url: "https://www.figma.com" },
   { name: "Excel", icon: FileSpreadsheet, color: "#217346", url: "https://www.microsoft.com/microsoft-365/excel" },
 ];
@@ -82,7 +82,7 @@ function Tile({ t, size }: { t: Tool; size: string }) {
       aria-label={`${t.name} — official website`}
       title={t.name}
       style={{ ["--brand" as string]: t.color }}
-      className={`group/t stack-tile grid place-items-center ${size} rounded-2xl border border-line bg-[#0c0c11]/90 backdrop-blur text-ink-dim hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_16%,#0c0c11)] hover:shadow-[0_0_30px_-4px_var(--brand)]`}
+      className={`group/t stack-tile grid place-items-center ${size} rounded-2xl border border-line bg-white/80 backdrop-blur text-ink-dim hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,white)] hover:shadow-[0_0_30px_-4px_var(--brand)]`}
     >
       <Icon className="w-[45%] h-[45%] transition-all duration-300 group-hover/t:scale-110 group-hover/t:text-[var(--brand)] group-hover/t:drop-shadow-[0_0_10px_var(--brand)]" />
     </a>
@@ -108,10 +108,10 @@ function Row({ items, reverse }: { items: Tool[]; reverse?: boolean }) {
                   rel="noreferrer"
                   tabIndex={k === 1 ? -1 : undefined}
                   style={{ ["--brand" as string]: t.color }}
-                  className="group/t stack-tile flex items-center gap-2.5 rounded-full border border-line bg-white/[0.03] pl-3 pr-4 py-2 text-sm text-ink-dim whitespace-nowrap hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,transparent)] hover:shadow-[0_0_24px_-6px_var(--brand)]"
+                  className="group/t stack-tile flex items-center gap-2.5 rounded-full border border-line bg-white/60 pl-3 pr-4 py-2 text-sm text-ink-dim whitespace-nowrap hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,transparent)] hover:shadow-[0_0_24px_-6px_var(--brand)]"
                 >
                   <Icon className="w-4 h-4 group-hover/t:text-[var(--brand)] transition-colors" />
-                  <span className="group-hover/t:text-white transition-colors">{t.name}</span>
+                  <span className="group-hover/t:text-ink transition-colors">{t.name}</span>
                 </a>
               );
             })}
@@ -138,8 +138,8 @@ export default function Stack() {
 
       {/* orbit system; hovering anywhere pauses it so icons are easy to click */}
       <div className="group/o relative mx-auto mt-10 sm:mt-14 w-[min(640px,94vw)] aspect-square">
-        <div aria-hidden="true" className="absolute inset-[38%] rounded-full bg-gradient-to-br from-accent via-accent-3 to-accent-2 blur-2xl opacity-40 animate-pulse" />
-        <div className="absolute inset-[40%] rounded-full border border-line-strong bg-[#08080c] grid place-items-center shadow-[0_0_60px_-10px_var(--accent)]">
+        <div aria-hidden="true" className="absolute inset-[38%] rounded-full bg-gradient-to-br from-[#c9b8ff] via-[#ffc2da] to-[#b5ead4] blur-2xl opacity-40 animate-pulse" />
+        <div className="absolute inset-[40%] rounded-full border border-line-strong bg-white grid place-items-center shadow-[0_0_60px_-10px_var(--accent)]">
           <span className="font-display font-extrabold text-[clamp(1.1rem,3.4vw,1.9rem)] shine">AI+</span>
         </div>
         {rings.map((ring, ri) => (

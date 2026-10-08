@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #070706;
-  --bg-2: #0d0c0a;
-  --ink: #f3ede2;
-  --ink-dim: #a8a196;
-  --ink-faint: #6e685e;
-  --line: rgba(243, 237, 226, 0.08);
-  --line-strong: rgba(243, 237, 226, 0.16);
-  --accent: #d9b77e;
-  --accent-2: #8a6a3e;
-  --accent-3: #f4e4c1;
-  --accent-soft: rgba(217, 183, 126, 0.12);
-  --lavender: #d9b77e;
-  --danger: #f87171;
+  --bg: #fbf8f4;
+  --bg-2: #f5f0fa;
+  --ink: #1e1b2e;
+  --ink-dim: #5b566d;
+  --ink-faint: #9893a6;
+  --line: rgba(30, 27, 46, 0.09);
+  --line-strong: rgba(30, 27, 46, 0.16);
+  --accent: #7c62e0;
+  --accent-2: #ffc2da;
+  --accent-3: #b5ead4;
+  --accent-soft: rgba(124, 98, 224, 0.1);
+  --lavender: #e7ddff;
+  --danger: #e5484d;
 }
 
 @theme inline {
@@ -36,7 +36,7 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
@@ -53,7 +53,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #050507;
+  color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -80,7 +80,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(100deg, var(--accent-3) 0%, var(--accent) 55%, #b08850 100%);
+  background: linear-gradient(100deg, #7c62e0 0%, #d76ba0 55%, #f0955f 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -92,7 +92,7 @@ body {
   left: 1rem;
   z-index: 200;
   background: var(--accent);
-  color: #050507;
+  color: #fff;
   padding: 0.75rem 1.25rem;
   border-radius: 999px;
   transition: top 0.2s ease;
@@ -106,7 +106,7 @@ body {
   position: absolute;
   border-radius: 999px;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(217, 183, 126, 0.35) 0%, rgba(138, 106, 62, 0.15) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(201, 184, 255, 0.6) 0%, rgba(255, 194, 218, 0.3) 40%, transparent 70%);
   filter: blur(40px);
 }
 
@@ -147,13 +147,13 @@ body {
 .stack-tile:hover {
   transform: translateY(-4px);
   border-color: var(--accent);
-  background: rgba(217, 183, 126, 0.1);
+  background: rgba(124, 98, 224, 0.08);
   color: #fff;
 }
 
 .input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--line-strong);
   border-radius: 0.75rem;
   padding: 0.8rem 1rem;
@@ -193,7 +193,7 @@ body {
   inset: -50%;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain 8s steps(10) infinite;
 }
@@ -221,7 +221,7 @@ body {
 
 /* animated gradient sweep for headline words */
 .shine {
-  background: linear-gradient(100deg, #b08850 0%, var(--accent) 25%, var(--accent-3) 45%, var(--accent) 65%, #b08850 85%);
+  background: linear-gradient(100deg, #7c62e0 0%, #d76ba0 25%, #f0955f 45%, #d76ba0 65%, #7c62e0 85%);
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -261,7 +261,7 @@ body {
 
 /* mouse-follow spotlight (set --mx/--my from JS) */
 .spotlight {
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(217, 183, 126, 0.09), transparent 45%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(124, 98, 224, 0.08), transparent 45%);
 }
 
 @keyframes orbit {

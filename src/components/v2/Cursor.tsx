@@ -47,7 +47,7 @@ export default function Cursor() {
         aria-hidden="true"
         className="fixed left-0 top-0 z-[300] pointer-events-none rounded-full border border-accent mix-blend-difference"
         style={{ x: rx, y: ry, translateX: "-50%", translateY: "-50%" }}
-        animate={{ width: hover ? 64 : 36, height: hover ? 64 : 36, scale: down ? 0.8 : 1, backgroundColor: hover ? "rgba(217,183,126,0.18)" : "rgba(0,0,0,0)" }}
+        animate={{ width: hover ? 64 : 36, height: hover ? 64 : 36, scale: down ? 0.8 : 1, backgroundColor: hover ? "rgba(124,98,224,0.15)" : "rgba(0,0,0,0)" }}
         transition={{ type: "spring", stiffness: 300, damping: 22 }}
       />
       <motion.div

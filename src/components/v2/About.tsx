@@ -47,7 +47,7 @@ export default function About() {
 
   return (
     <section id="about" className="relative py-28 sm:py-40 px-5 sm:px-16 overflow-hidden">
-      <div aria-hidden="true" className="aurora w-[500px] h-[500px] -right-60 top-20 bg-accent-2/20" />
+      <div aria-hidden="true" className="aurora w-[500px] h-[500px] -right-60 top-20 bg-accent-2/50" />
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[180px_1fr] gap-8 lg:gap-12">
         <div className="lg:pt-4">
           <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-dim">
@@ -73,7 +73,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative rounded-2xl border border-line bg-white/[0.02] p-6 overflow-hidden hover:border-accent/40 transition-colors"
+                className="group relative rounded-2xl border border-line bg-white/60 p-6 overflow-hidden hover:border-accent/40 transition-colors"
               >
                 <div aria-hidden="true" className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-accent/10 blur-2xl group-hover:bg-accent/25 transition-colors" />
                 <div className="relative font-display text-5xl sm:text-6xl font-bold text-gradient">

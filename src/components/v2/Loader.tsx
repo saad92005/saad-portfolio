@@ -49,7 +49,7 @@ export default function Loader() {
       {panels.map((p, i) => (
         <motion.div
           key={i}
-          className="absolute inset-0 bg-accent"
+          className="absolute inset-0 bg-lavender"
           style={{ clipPath: p.clip }}
           animate={split ? p.to : { x: 0, y: 0 }}
           transition={{ duration: 0.9, ease, delay: 0.15 }}
@@ -102,7 +102,7 @@ export default function Loader() {
         transition={{ duration: 0.5, ease, delay: split ? 0.35 : 0 }}
       >
         <span className="text-sm font-medium tracking-wide">LOADING</span>
-        <span className="text-sm tabular-nums text-accent w-12 text-right">{progress}%</span>
+        <span className="text-sm tabular-nums text-[#c9b8ff] w-12 text-right">{progress}%</span>
       </motion.div>
     </div>
   );
