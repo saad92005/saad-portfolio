@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { ArrowUpRight, BookOpen } from "lucide-react";
+import CaseStudy from "./CaseStudy";
 import { projects, type Project } from "@/lib/data";
 
 const P = "/images/projects/";
@@ -253,11 +254,17 @@ function Body({ p, i }: { p: Project; i: number }) {
   );
 }
 
-function Links({ p }: { p: Project }) {
-  if (!p.links?.length) return null;
+function Links({ p, onOpen }: { p: Project; onOpen: () => void }) {
   return (
     <div className="mt-auto pt-6 flex flex-wrap gap-3">
-      {p.links.map((l, k) => (
+      <button
+        type="button"
+        onClick={onOpen}
+        className="inline-flex items-center gap-1.5 text-sm font-semibold rounded-full px-4 py-2 bg-ink text-white hover:bg-accent transition-colors"
+      >
+        <BookOpen size={14} /> Case study
+      </button>
+      {(p.links ?? []).map((l, k) => (
         <a
           key={l.href}
           href={l.href}
@@ -265,7 +272,7 @@ function Links({ p }: { p: Project }) {
           rel="noreferrer"
           className={`inline-flex items-center gap-1 text-sm font-semibold rounded-full px-4 py-2 transition-all ${
             k === 0
-              ? "bg-accent text-white hover:shadow-[0_0_30px_-6px_var(--accent)]"
+              ? "bg-accent/10 text-accent hover:bg-accent hover:text-white hover:shadow-[0_0_30px_-6px_var(--accent)]"
               : "border border-line-strong hover:border-accent hover:text-accent"
           }`}
         >
@@ -277,7 +284,7 @@ function Links({ p }: { p: Project }) {
 }
 
 // Desktop card: rotates like a cover-flow depending on where it sits in the viewport.
-function FlowCard({ p, i, x }: { p: Project; i: number; x: MotionValue<number> }) {
+function FlowCard({ p, i, x, onOpen }: { p: Project; i: number; x: MotionValue<number>; onOpen: () => void }) {
   const ref = useRef<HTMLElement>(null);
   const [center, setCenter] = useState(0);
   const [vw, setVw] = useState(1440);
@@ -305,8 +312,10 @@ function FlowCard({ p, i, x }: { p: Project; i: number; x: MotionValue<number> }
     >
       <Stage p={p} i={i} />
       <div className="pt-6 flex flex-col flex-1">
-        <Body p={p} i={i} />
-        <Links p={p} />
+        <button type="button" onClick={onOpen} className="text-left cursor-pointer" aria-label={`Open ${p.title} case study`}>
+          <Body p={p} i={i} />
+        </button>
+        <Links p={p} onOpen={onOpen} />
       </div>
     </motion.article>
   );
@@ -316,6 +325,8 @@ export default function Work() {
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const [distance, setDistance] = useState(0);
+  const [open, setOpen] = useState<number | null>(null);
+  const close = useCallback(() => setOpen(null), []);
 
   useEffect(() => {
     const el = track.current;
@@ -358,7 +369,7 @@ export default function Work() {
           </div>
           <motion.div ref={track} style={{ x }} className="flex flex-1 min-h-0 gap-8 px-16 items-stretch">
             {projects.map((p, i) => (
-              <FlowCard key={p.slug} p={p} i={i} x={x} />
+              <FlowCard key={p.slug} p={p} i={i} x={x} onOpen={() => setOpen(i)} />
             ))}
             <div className="shrink-0 w-[380px] flex flex-col items-center justify-center text-center">
               <p className="font-display text-3xl font-bold">Want to see more?</p>
@@ -386,14 +397,29 @@ export default function Work() {
               className="rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 p-5 sm:p-6 overflow-hidden"
             >
               <Stage p={p} i={i} />
-              <div className="pt-6">
+              <button type="button" onClick={() => setOpen(i)} className="block w-full text-left pt-6" aria-label={`Open ${p.title} case study`}>
                 <Body p={p} i={i} />
-              </div>
-              <Links p={p} />
+              </button>
+              <Links p={p} onOpen={() => setOpen(i)} />
             </motion.article>
           ))}
         </div>
       </section>
+
+      <AnimatePresence>
+        {open !== null && (
+          <CaseStudy key={open} p={projects[open]} index={open} {...caseMedia(projects[open])} onClose={close} />
+        )}
+      </AnimatePresence>
     </div>
   );
+}
+
+// wide screenshots for the gallery, phone captures for the scroller
+function caseMedia(p: Project) {
+  const m = media[p.slug] ?? { color: "#7c62e0" };
+  const wide = [...(m.hero ? [m.hero] : []), ...(m.laptop ? [m.laptop] : [])].map((f) => P + f);
+  for (const im of p.images) if (!wide.includes(im.src) && p.frame === "browser") wide.push(im.src);
+  const tall = (m.phones ?? []).map((f) => P + f);
+  return { color: m.color, shots: wide, tall };
 }
