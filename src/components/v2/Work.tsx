@@ -361,7 +361,6 @@ export default function Work() {
           <div className="flex items-end justify-between px-16 pb-6 text-5xl">
             {heading}
             <div className="flex items-center gap-4 mb-3">
-              <span className="text-xs text-ink-faint tracking-[0.2em]">HOVER A DEVICE</span>
               <div className="w-48 h-[2px] bg-line rounded-full overflow-hidden">
                 <motion.div style={{ width: bar }} className="h-full bg-gradient-to-r from-accent to-accent-3" />
               </div>

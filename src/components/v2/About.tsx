@@ -1,37 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { animate, motion, useInView, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { animate, motion, useInView } from "framer-motion";
 import { MapPin, Sparkles } from "lucide-react";
 import { aboutStats, projects } from "@/lib/data";
 import SpotlightCard from "./SpotlightCard";
-
-// *wrapped* words get the italic serif accent
-const text =
-  "I'm a Computer Science student at UMT Lahore who *ships* *real* *software.* I design AI systems — RAG, LLM apps and *agents* — and the full-stack products around them, from Next.js frontends to FastAPI backends. Several of my apps are *live* and used *daily* by real teams.";
-
-function Word({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
-  const accent = word.startsWith("*");
-  const clean = word.replaceAll("*", "");
-  const opacity = useTransform(progress, range, [0.12, 1]);
-  const y = useTransform(progress, range, [8, 0]);
-  const sweep = useTransform(progress, range, ["0%", "100%"]);
-  return (
-    <motion.span
-      style={{ opacity, y }}
-      className={`relative isolate inline-block mr-[0.25em] ${accent ? "font-serif italic font-normal text-accent tracking-normal" : ""}`}
-    >
-      {accent && (
-        <motion.span
-          aria-hidden="true"
-          style={{ width: sweep }}
-          className="absolute left-[-0.08em] bottom-[0.12em] h-[0.38em] -z-10 rounded-sm bg-gradient-to-r from-lavender via-accent-2/70 to-accent-3/70"
-        />
-      )}
-      {clean}
-    </motion.span>
-  );
-}
+import AboutIntro from "./AboutIntro";
 
 function Count({ to, suffix }: { to: number; suffix: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -51,32 +25,13 @@ function Count({ to, suffix }: { to: number; suffix: string }) {
 }
 
 export default function About() {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.45"] });
-  const words = text.split(" ");
-
   return (
     <section id="about" className="relative py-28 sm:py-40 px-5 sm:px-16 overflow-hidden">
       <div aria-hidden="true" className="aurora w-[500px] h-[500px] -right-60 top-20 bg-accent-2/50" />
-      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[180px_1fr] gap-8 lg:gap-12">
-        <div className="lg:pt-4">
-          <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-dim">
-            <span className="w-8 h-px bg-accent" /> ABOUT ME
-          </p>
-        </div>
-
-        <div>
-          <p
-            ref={ref}
-            className="font-display font-semibold tracking-[-0.02em] text-[clamp(1.6rem,3.6vw,3.1rem)] leading-[1.18]"
-          >
-            {words.map((w, i) => (
-              <Word key={i} word={w} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} />
-            ))}
-          </p>
-
-          <Bento />
-        </div>
+      <div aria-hidden="true" className="aurora w-[420px] h-[420px] -left-52 top-1/3 bg-lavender" />
+      <div className="relative max-w-6xl mx-auto">
+        <AboutIntro />
+        <Bento />
       </div>
     </section>
   );
