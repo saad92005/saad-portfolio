@@ -104,7 +104,17 @@ function HeroCard({ p, m }: { p: Project; m: Media }) {
 
 // 3D stage: tilts with the pointer, and the device group makes a full 360° turn
 // on hover (mouse) or each time it scrolls into view / is tapped (touch).
-function Stage({ p }: { p: Project }) {
+// each project gets its own turn so the section doesn't repeat one trick
+const spins: ((t: number) => Record<string, number>)[] = [
+  (t) => ({ rotateY: t * 360 }), // classic 360° turn
+  (t) => ({ rotateX: t * 360 }), // forward flip
+  (t) => ({ rotateZ: t * 360 }), // flat cartwheel
+  (t) => ({ rotateX: t * 360, rotateY: t * 360 }), // diagonal tumble
+  (t) => ({ rotateY: t * -720 }), // double reverse twist
+  (t) => ({ rotateZ: t * -360, rotateY: t * 360 }), // corkscrew
+];
+
+function Stage({ p, i }: { p: Project; i: number }) {
   const m = media[p.slug] ?? { color: "#7c5cff" };
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.6 });
@@ -158,7 +168,7 @@ function Stage({ p }: { p: Project }) {
       <div aria-hidden="true" className="absolute left-1/2 bottom-6 -translate-x-1/2 w-2/3 h-8 rounded-[50%] blur-xl" style={{ background: `${m.color}55` }} />
       <motion.div style={{ rotateX: rx, rotateY: ry, ...keep3d }} className="absolute inset-0">
         <motion.div
-          animate={{ rotateY: turns * 360 }}
+          animate={spins[i % spins.length](turns)}
           transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
           style={keep3d}
           className="absolute inset-0 flex items-center justify-center"
@@ -293,7 +303,7 @@ function FlowCard({ p, i, x }: { p: Project; i: number; x: MotionValue<number> }
       style={{ rotateY, scale, opacity, transformPerspective: 1400 }}
       className="shrink-0 w-[460px] xl:w-[500px] h-full flex flex-col rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm p-6"
     >
-      <Stage p={p} />
+      <Stage p={p} i={i} />
       <div className="pt-6 flex flex-col flex-1">
         <Body p={p} i={i} />
         <Links p={p} />
@@ -375,7 +385,7 @@ export default function Work() {
               style={{ transformPerspective: 1000 }}
               className="rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 p-5 sm:p-6 overflow-hidden"
             >
-              <Stage p={p} />
+              <Stage p={p} i={i} />
               <div className="pt-6">
                 <Body p={p} i={i} />
               </div>
