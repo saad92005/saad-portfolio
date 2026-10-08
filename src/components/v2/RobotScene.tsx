@@ -127,7 +127,7 @@ function Robot() {
 
 export default function RobotScene() {
   return (
-    <Canvas camera={{ position: [0, 0.4, 5.4], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }}>
+    <Canvas resize={{ offsetSize: true }} eventSource={document.body} eventPrefix="client" camera={{ position: [0, 0.4, 6.2], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 4, 5]} intensity={1.4} />
       <pointLight position={[-3, 1, 2]} intensity={25} color="#c9b8ff" />

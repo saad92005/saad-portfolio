@@ -154,9 +154,12 @@ export default function Hero() {
             </div>
             <div className="absolute w-[44%] aspect-square rounded-full bg-accent-2/25 blur-3xl" />
           </div>
-          <SceneBoundary>
-            <RobotScene />
-          </SceneBoundary>
+          {/* canvas is wider than the column so the turning head never clips */}
+          <div className="absolute inset-y-0 -inset-x-[30%] sm:-inset-x-[25%] pointer-events-none">
+            <SceneBoundary>
+              <RobotScene />
+            </SceneBoundary>
+          </div>
         </motion.div>
       </div>
 
