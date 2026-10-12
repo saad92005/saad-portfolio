@@ -145,6 +145,36 @@ export const projects: Project[] = [
     frame: "browser",
   },
   {
+    slug: "devpulse",
+    status: "Live — installable GitHub App",
+    category: "AI Developer Tool",
+    title: "DevPulse",
+    subtitle: "AI Code Reviewer for GitHub",
+    description:
+      "A GitHub App that reviews every pull request in seconds and posts inline comments. A reviewer LLM proposes issues, deterministic guard rails and a second verifier LLM throw out the noise, and only verified bugs reach the PR. It can also audit a whole repository from the dashboard.",
+    highlights: [
+      "Two-model pipeline (reviewer → guard rails → verifier) built for precision, not comment spam",
+      "Benchmark on seeded-bug diffs: 8/9 bugs caught, 0 false positives on clean code",
+      "HMAC-verified webhooks, @devpulse review ChatOps, per-repo .devpulse.yml config",
+      "Multi-tenant dashboard with GitHub OAuth, repository scans and a fully auditable list of filtered findings",
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "GitHub App / Octokit", "Groq LLM API", "Neon Postgres", "Tailwind CSS", "Vitest", "Vercel"],
+    system: ["PR opened", "Signed webhook", "Reviewer LLM", "Guard rails", "Verifier LLM", "Inline review + health score"],
+    result:
+      "Live and installable: reviewed a real pull request end-to-end, catching an off-by-one bug, SQL injection and an unchecked query result in 4 seconds, all posted inline on GitHub.",
+    images: [
+      { src: "/images/projects/devpulse-github-review.png", alt: "DevPulse inline review comments on a real GitHub pull request" },
+      { src: "/images/projects/devpulse-landing.png", alt: "DevPulse landing page" },
+      { src: "/images/projects/devpulse-scan.png", alt: "DevPulse repository scan with verified findings" },
+      { src: "/images/projects/devpulse-dashboard.png", alt: "DevPulse dashboard with review stats" },
+    ],
+    links: [
+      { label: "Live demo", href: "https://devpulse-ruby.vercel.app" },
+      { label: "View on GitHub", href: "https://github.com/saad92005/devpulse" },
+    ],
+    frame: "browser",
+  },
+  {
     slug: "aes-portal",
     status: "Shipped — live on Google Play",
     category: "Android App / Enterprise",
@@ -326,8 +356,8 @@ export const aboutChecklist = [
 export const aboutTags = ["AI", "Machine Learning", "NLP", "LLMs", "RAG", "Automation", "Software Engineering"];
 
 export const aboutStats = [
-  { value: 8, suffix: "+", label: "Projects shipped or in active development" },
-  { value: 5, suffix: "", label: "Apps live in production" },
+  { value: 9, suffix: "+", label: "Projects shipped or in active development" },
+  { value: 6, suffix: "", label: "Apps live in production" },
   { value: 100, suffix: "%", label: "Real systems — not portfolio demos" },
 ];
 

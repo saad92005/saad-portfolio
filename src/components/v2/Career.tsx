@@ -11,7 +11,7 @@ const items: Item[] = [
     title: "Building AI Products",
     org: "Independent",
     year: "NOW",
-    text: "Shipping AI SaaS, PWAs and agents: ThinkDesk, Sirat Path, LearnWise and Omnira — RAG, LLM tooling and full-stack delivery.",
+    text: "Shipping AI SaaS, PWAs and agents: ThinkDesk, DevPulse, Sirat Path, LearnWise and Omnira — RAG, LLM tooling and full-stack delivery.",
   },
   ...experience.map((e) => ({
     title: e.role,

@@ -22,6 +22,7 @@ const media: Record<string, Media> = {
   "sirat-path": { color: "#10b981", phones: ["sirat-m3.jpg", "sirat-m1.jpg", "sirat-m5.jpg"] },
   learnwise: { color: "#3b82f6", phones: ["learnwise-m2.jpg", "learnwise-m1.jpg", "learnwise-m4.jpg"] },
   thinkdesk: { color: "#8b5cf6", laptop: "thinkdesk-chat.png", phones: ["thinkdesk-m1.jpg"] },
+  devpulse: { color: "#6366f1", laptop: "devpulse-scan.png", phones: ["devpulse-m1.jpg"] },
   "aes-portal": { color: "#f59e0b", phones: ["aes-portal-workorders.jpeg", "aes-portal-dashboard.jpeg", "aes-portal-reports.jpeg"] },
   "aes-attendance": {
     color: "#22c55e",
