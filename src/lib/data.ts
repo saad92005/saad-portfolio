@@ -145,6 +145,36 @@ export const projects: Project[] = [
     frame: "browser",
   },
   {
+    slug: "paperly",
+    status: "Open source — web app live, CI green",
+    category: "AI / RAG Research Tool",
+    title: "Paperly",
+    subtitle: "AI Research-Paper Copilot with Sentence-Level Citations",
+    description:
+      "An open-source reading assistant for research papers. Ask a question and every claim in the answer links to the exact sentence in the PDF: click a citation and the reader scrolls there and highlights it. When the paper doesn't say, Paperly answers \"not found\" instead of guessing. It also builds cited summaries, comparison matrices, flashcards and literature-review drafts, and runs at $0.",
+    highlights: [
+      "Custom PDF parser: column detection, header/footer and hidden prompt-injection text removal, sentence boxes",
+      "Hybrid retrieval (pgvector + full-text, RRF) with reranking, an abstain gate, support check and number guard",
+      "Measured: recall@8 0.90 and abstention accuracy 1.00 on a 45-question golden set; eval gate in CI",
+      "pdf.js reader with citation highlights, notes, explain/translate on selection, comparison matrix, SM-2 flashcards",
+    ],
+    stack: ["Next.js 16", "TypeScript", "FastAPI", "Python", "Neon Postgres + pgvector", "pdf.js", "fastembed", "FlashRank", "Groq / Gemini", "Playwright", "Vercel"],
+    system: ["PDF / arXiv import", "Parse + chunk", "Embed + index", "Hybrid search + rerank", "Cited LLM answer", "Highlight in PDF"],
+    result:
+      "Clicking a citation lands on the exact table row in the paper (e.g. \"Transformer (big) 28.4 BLEU\"). Built across 10 phases with an eval harness, Playwright + accessibility tests and green CI.",
+    images: [
+      { src: "/images/projects/paperly-reader.png", alt: "Paperly reader: cited answer with the source sentence highlighted in the PDF" },
+      { src: "/images/projects/paperly-landing.png", alt: "Paperly landing page" },
+      { src: "/images/projects/paperly-summary.png", alt: "Paperly cited structured summary" },
+      { src: "/images/projects/paperly-library.png", alt: "Paperly library" },
+    ],
+    links: [
+      { label: "Live app", href: "https://paperly-beryl-ten.vercel.app" },
+      { label: "View on GitHub", href: "https://github.com/saad92005/paperly" },
+    ],
+    frame: "browser",
+  },
+  {
     slug: "devpulse",
     status: "Live — installable GitHub App",
     category: "AI Developer Tool",
