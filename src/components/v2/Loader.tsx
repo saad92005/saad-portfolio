@@ -49,7 +49,7 @@ export default function Loader() {
       {panels.map((p, i) => (
         <motion.div
           key={i}
-          className="absolute inset-0 bg-lavender"
+          className="absolute inset-0 bg-bg-2"
           style={{ clipPath: p.clip }}
           animate={split ? p.to : { x: 0, y: 0 }}
           transition={{ duration: 0.9, ease, delay: 0.15 }}
@@ -62,15 +62,15 @@ export default function Loader() {
             key="content"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 flex flex-col text-[#050507]"
+            className="absolute inset-0 flex flex-col text-ink/[0.07]"
           >
             <div className="flex items-center justify-between px-6 sm:px-8 py-6 text-sm font-semibold">
-              <span className="font-display font-bold">SaadShahid</span>
+              <span className="font-display font-bold text-ink">SaadShahid</span>
               <span className="flex gap-1.5 items-end h-6">
                 {[0, 1, 2, 3].map((i) => (
                   <motion.span
                     key={i}
-                    className="w-[2px] bg-[#050507]"
+                    className="w-[2px] bg-accent-2"
                     animate={{ height: ["40%", "100%", "40%"] }}
                     transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.12 }}
                   />
@@ -96,13 +96,13 @@ export default function Loader() {
 
       {/* the pill sits on top; the panels open out from behind it */}
       <motion.div
-        className="absolute left-1/2 top-1/2 z-10 flex items-center gap-8 rounded-full bg-[#050507] text-white px-10 py-5 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.6)]"
+        className="absolute left-1/2 top-1/2 z-10 flex items-center gap-8 rounded-full border border-line bg-[#080b12] text-white px-10 py-5 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.6)]"
         style={{ x: "-50%", y: "-50%" }}
         animate={split ? { scale: 0.6, opacity: 0 } : { scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease, delay: split ? 0.35 : 0 }}
       >
         <span className="text-sm font-medium tracking-wide">LOADING</span>
-        <span className="text-sm tabular-nums text-[#c9b8ff] w-12 text-right">{progress}%</span>
+        <span className="text-sm tabular-nums text-accent-2 w-12 text-right">{progress}%</span>
       </motion.div>
     </div>
   );

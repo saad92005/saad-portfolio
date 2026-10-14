@@ -13,7 +13,7 @@ const langColor: Record<string, string> = {
   CSS: "#663399",
   "Jupyter Notebook": "#DA5B0B",
 };
-const colorOf = (l: string | null) => (l && langColor[l]) || "#7c62e0";
+const colorOf = (l: string | null) => (l && langColor[l]) || "#4169e1";
 
 function ago(iso: string) {
   const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
@@ -35,11 +35,11 @@ export default async function GithubRepos() {
 
   return (
     <section id="github" className="relative py-24 sm:py-36 px-5 sm:px-16 overflow-hidden">
-      <div aria-hidden="true" className="aurora w-[520px] h-[520px] -left-60 top-40 bg-accent-3/50" />
+      <div aria-hidden="true" className="aurora w-[520px] h-[520px] -left-60 top-40 bg-accent/10" />
       <div className="relative max-w-6xl mx-auto">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
           <div>
-            <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-dim mb-5">
+            <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-faint mb-5">
               <span className="relative flex w-2 h-2">
                 <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-70" />
                 <span className="relative w-2 h-2 rounded-full bg-accent" />
@@ -47,14 +47,14 @@ export default async function GithubRepos() {
               LIVE FROM GITHUB
             </p>
             <h2 className="font-display font-bold tracking-[-0.02em] text-[clamp(2.2rem,5vw,4rem)] leading-[1.02]">
-              Open-source <span className="font-serif italic font-normal text-accent">repos</span>
+              Open-source <span className="font-serif italic font-normal text-accent-2">repos</span>
             </h2>
           </div>
           <a
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full border border-line-strong bg-white/60 pl-4 pr-1.5 py-1.5 text-sm font-semibold hover:border-accent transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface/60 pl-4 pr-1.5 py-1.5 text-sm font-semibold hover:border-accent transition-colors"
           >
             <GithubIcon size={16} /> @{profile.github.split("/").pop()}
             <span className="grid place-items-center w-8 h-8 rounded-full bg-accent text-white transition-transform group-hover:rotate-45">
@@ -74,7 +74,7 @@ export default async function GithubRepos() {
         ) : (
           <>
             {/* summary strip */}
-            <div className="rounded-2xl border border-line bg-white/60 p-5 sm:p-6 mb-4">
+            <div className="rounded-2xl border border-line bg-gradient-to-br from-surface/80 via-bg-2/80 to-surface/40 p-5 sm:p-7 mb-4 shadow-[0_30px_60px_-30px_rgba(65,105,225,0.4)]">
               <div className="flex flex-wrap gap-x-10 gap-y-3 mb-5">
                 {[
                   [repos.length, "public repos"],
@@ -102,13 +102,13 @@ export default async function GithubRepos() {
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 [perspective:1400px]">
               {repos.map((r, i) => (
-                <SpotlightCard key={r.name} color={colorOf(r.language)} className={i === 0 ? "lg:col-span-2" : ""}>
+                <SpotlightCard key={r.name} color={colorOf(r.language)} className={`hover:[transform:translateY(-6px)_rotateX(4deg)] ${i === 0 ? "lg:col-span-2 bg-gradient-to-br from-accent/15 via-surface/60 to-bg-2/60" : ""}`}>
                   <div className="relative flex flex-col h-full p-6">
                     <span aria-hidden="true" className="absolute top-0 left-6 right-6 h-px opacity-60" style={{ background: `linear-gradient(90deg, transparent, ${colorOf(r.language)}, transparent)` }} />
                     <div className="flex items-start justify-between gap-3">
-                      <span className="grid place-items-center w-10 h-10 rounded-xl border border-line bg-white/60 text-ink-dim group-hover:text-[var(--c)] transition-colors">
+                      <span className="grid place-items-center w-10 h-10 rounded-xl border border-line bg-surface/60 text-ink-dim group-hover:text-[var(--c)] transition-colors">
                         <FolderGit2 size={18} />
                       </span>
                       <span className="grid place-items-center w-9 h-9 rounded-full border border-line text-ink-faint transition-all duration-300 group-hover:rotate-45 group-hover:bg-accent group-hover:text-white group-hover:border-accent">

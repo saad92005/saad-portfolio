@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { AnimatePresence, motion, useInView, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import CaseStudy from "./CaseStudy";
 import { projects, type Project } from "@/lib/data";
@@ -117,8 +117,8 @@ const spins: ((t: number) => Record<string, number>)[] = [
   (t) => ({ rotateZ: t * -360, rotateY: t * 360 }), // corkscrew
 ];
 
-function Stage({ p, i }: { p: Project; i: number }) {
-  const m = media[p.slug] ?? { color: "#7c5cff" };
+function Stage({ p, i, compact }: { p: Project; i: number; compact?: boolean }) {
+  const m = media[p.slug] ?? { color: "#4169e1" };
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.6 });
   const [turns, setTurns] = useState(0);
@@ -161,10 +161,10 @@ function Stage({ p, i }: { p: Project; i: number }) {
         py.set(0);
       }}
       onClick={() => setTurns((t) => t + 1)}
-      className="relative h-[300px] sm:h-[340px] rounded-2xl overflow-hidden"
+      className={`relative shrink-0 rounded-2xl overflow-hidden ${compact ? "h-[clamp(170px,30svh,290px)]" : "h-[300px] sm:h-[340px]"}`}
       style={{
         perspective: 1100,
-        background: `radial-gradient(120% 90% at 50% 100%, ${m.color}55, transparent 60%), linear-gradient(180deg, #ffffff, #f4eff9)`,
+        background: `radial-gradient(120% 90% at 50% 100%, ${m.color}55, transparent 60%), linear-gradient(180deg, #111d35, #0d1424)`,
       }}
     >
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${m.color}, transparent)` }} />
@@ -232,7 +232,7 @@ function Body({ p, i }: { p: Project; i: number }) {
   return (
     <>
       <div className="flex justify-between items-start gap-4">
-        <span className="font-display text-5xl font-bold" style={{ WebkitTextStroke: "1px rgba(30,27,46,0.28)", color: "transparent" }}>
+        <span className="font-display text-4xl sm:text-5xl font-bold" style={{ WebkitTextStroke: "1px rgba(143,184,255,0.3)", color: "transparent" }}>
           {String(i + 1).padStart(2, "0")}
         </span>
         <div className="text-right">
@@ -240,13 +240,13 @@ function Body({ p, i }: { p: Project; i: number }) {
           <p className="text-xs text-ink-faint mt-1">{p.category}</p>
         </div>
       </div>
-      <p className="mt-6 inline-flex items-center gap-2 text-[11px] tracking-[0.18em] font-semibold" style={{ color }}>
+      <p className="mt-4 inline-flex items-center gap-2 text-[11px] tracking-[0.18em] font-semibold" style={{ color }}>
         <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
         {p.status.toUpperCase()}
       </p>
-      <p className="mt-3 text-sm text-ink-dim leading-relaxed line-clamp-3">{p.description}</p>
+      <p className="mt-3 text-sm text-ink-dim leading-relaxed line-clamp-2 sm:line-clamp-3">{p.description}</p>
       <div className="mt-4 flex flex-wrap gap-1.5">
-        {p.stack.slice(0, 5).map((s) => (
+        {p.stack.slice(0, 4).map((s) => (
           <span key={s} className="text-[11px] px-2.5 py-1 rounded-full border border-line text-ink-dim">
             {s}
           </span>
@@ -256,13 +256,14 @@ function Body({ p, i }: { p: Project; i: number }) {
   );
 }
 
-function Links({ p, onOpen }: { p: Project; onOpen: () => void }) {
+function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: number }) {
   return (
-    <div className="mt-auto pt-6 flex flex-wrap gap-3">
+    <div className="mt-auto pt-4 flex flex-wrap gap-2 sm:gap-3">
       <button
         type="button"
+        tabIndex={tab}
         onClick={onOpen}
-        className="inline-flex items-center gap-1.5 text-sm font-semibold rounded-full px-4 py-2 bg-ink text-white hover:bg-accent transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm font-semibold rounded-full px-4 py-2 bg-accent text-white hover:bg-[#5a7ff0] hover:shadow-[0_0_30px_-6px_var(--accent)] transition-colors"
       >
         <BookOpen size={14} /> Case study
       </button>
@@ -272,10 +273,11 @@ function Links({ p, onOpen }: { p: Project; onOpen: () => void }) {
           href={l.href}
           target="_blank"
           rel="noreferrer"
+          tabIndex={tab}
           className={`inline-flex items-center gap-1 text-sm font-semibold rounded-full px-4 py-2 transition-all ${
             k === 0
               ? "bg-accent/10 text-accent hover:bg-accent hover:text-white hover:shadow-[0_0_30px_-6px_var(--accent)]"
-              : "border border-line-strong hover:border-accent hover:text-accent"
+              : "border border-line-strong hover:border-accent hover:text-accent-2"
           }`}
         >
           {l.label} <ArrowUpRight size={14} />
@@ -285,39 +287,34 @@ function Links({ p, onOpen }: { p: Project; onOpen: () => void }) {
   );
 }
 
-// Desktop card: rotates like a cover-flow depending on where it sits in the viewport.
-function FlowCard({ p, i, x, onOpen }: { p: Project; i: number; x: MotionValue<number>; onOpen: () => void }) {
-  const ref = useRef<HTMLElement>(null);
-  const [center, setCenter] = useState(0);
-  const [vw, setVw] = useState(1440);
-
-  useEffect(() => {
-    const measure = () => {
-      if (ref.current) setCenter(ref.current.offsetLeft + ref.current.offsetWidth / 2);
-      setVw(window.innerWidth);
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  const d = useTransform(x, (v) => (center + v - vw / 2) / vw);
-  const rotateY = useTransform(d, [-0.9, 0, 0.9], [28, 0, -28]);
-  const scale = useTransform(d, [-0.9, 0, 0.9], [0.86, 1, 0.86]);
-  const opacity = useTransform(d, [-1, -0.6, 0, 0.6, 1], [0.35, 0.8, 1, 0.8, 0.35]);
+// One card on the revolving ring. Its angle comes from the shared ring rotation.
+function RingCard({ p, i, step, rot, active, onOpen }: { p: Project; i: number; step: number; rot: MotionValue<number>; active: boolean; onOpen: () => void }) {
+  const rel = useTransform(rot, (v) => ((((i * step + v) % 360) + 540) % 360) - 180);
+  const dist = useTransform(rel, (a) => Math.abs(a));
+  const opacity = useTransform(dist, [0, step, step * 2, step * 2.6], [1, 0.55, 0.18, 0]);
+  const transform = useTransform(rot, (v) => `rotateY(${i * step + v}deg) translateZ(var(--R))`);
+  const glow = useTransform(dist, [0, step * 0.6], [1, 0]);
 
   return (
     <motion.article
-      ref={ref}
-      style={{ rotateY, scale, opacity, transformPerspective: 1400 }}
-      className="shrink-0 w-[460px] xl:w-[500px] h-full flex flex-col rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm p-6"
+      style={{ transform, opacity, pointerEvents: active ? "auto" : "none" }}
+      aria-hidden={!active}
+      className="absolute left-1/2 top-0 h-full w-[var(--W)] -ml-[calc(var(--W)/2)] [backface-visibility:hidden]"
     >
-      <Stage p={p} i={i} />
-      <div className="pt-6 flex flex-col flex-1">
-        <button type="button" onClick={onOpen} className="text-left cursor-pointer" aria-label={`Open ${p.title} case study`}>
-          <Body p={p} i={i} />
-        </button>
-        <Links p={p} onOpen={onOpen} />
+      <div className="relative h-full flex flex-col rounded-[2rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-4 sm:p-6 overflow-hidden">
+        {/* lit edge on the card facing the viewer */}
+        <motion.span
+          aria-hidden="true"
+          style={{ opacity: glow }}
+          className="pointer-events-none absolute inset-0 rounded-[2rem] border border-accent/50 shadow-[0_0_60px_-12px_rgba(65,105,225,0.6),inset_0_1px_0_rgba(143,184,255,0.25)]"
+        />
+        <Stage p={p} i={i} compact />
+        <div className="pt-5 flex flex-col flex-1 min-h-0">
+          <button type="button" onClick={onOpen} tabIndex={active ? 0 : -1} className="text-left cursor-pointer" aria-label={`Open ${p.title} case study`}>
+            <Body p={p} i={i} />
+          </button>
+          <Links p={p} onOpen={onOpen} tab={active ? 0 : -1} />
+        </div>
       </div>
     </motion.article>
   );
@@ -325,85 +322,97 @@ function FlowCard({ p, i, x, onOpen }: { p: Project; i: number; x: MotionValue<n
 
 export default function Work() {
   const section = useRef<HTMLElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-  const [distance, setDistance] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
+  const [active, setActive] = useState(0);
+  const [dims, setDims] = useState({ w: 440, r: 760, persp: 2200 });
   const close = useCallback(() => setOpen(null), []);
+  const n = projects.length;
+  const step = 360 / n;
 
+  // ring radius follows card width so neighbours sit edge to edge on the curve
   useEffect(() => {
-    const el = track.current;
-    if (!el) return;
-    const measure = () => setDistance(Math.max(0, el.scrollWidth - window.innerWidth));
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
+    const measure = () => {
+      const vw = window.innerWidth;
+      const w = vw < 640 ? Math.min(vw * 0.84, 380) : vw < 1024 ? 420 : 460;
+      const r = Math.round(((w + (vw < 640 ? 18 : 40)) * n) / (2 * Math.PI));
+      setDims({ w: Math.round(w), r, persp: vw < 640 ? 1300 : 2200 });
     };
-  }, []);
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [n]);
 
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
-  const rawX = useTransform(scrollYProgress, [0, 1], [0, -distance]);
-  const x = useSpring(rawX, { stiffness: 120, damping: 30, mass: 0.4 });
+  const rawRot = useTransform(scrollYProgress, [0, 1], [0, -(n - 1) * step]);
+  const rot = useSpring(rawRot, { stiffness: 90, damping: 24, mass: 0.6 });
   const bar = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const tilt = useTransform(scrollYProgress, [0, 0.5, 1], [8, 0, -8]);
 
-  const heading = (
-    <h2 className="font-display font-bold tracking-[-0.02em]">
-      Selected <span className="font-serif italic font-normal text-accent">work</span>
-    </h2>
-  );
+  useMotionValueEvent(rot, "change", (v) => {
+    const k = Math.min(n - 1, Math.max(0, Math.round(-v / step)));
+    setActive((a) => (a === k ? a : k));
+  });
+
+  function goTo(k: number) {
+    const el = section.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: top + (k / (n - 1)) * (el.offsetHeight - window.innerHeight), behavior: "smooth" });
+  }
 
   return (
     <div id="work">
-      {/* desktop: vertical scroll drives a horizontal cover-flow track */}
-      <section ref={section} className="hidden lg:block relative" style={{ height: `calc(100vh + ${distance}px)` }}>
-        <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-20 pb-8">
-          <div className="flex items-end justify-between px-16 pb-6 text-5xl">
-            {heading}
-            <div className="flex items-center gap-4 mb-3">
-              <div className="w-48 h-[2px] bg-line rounded-full overflow-hidden">
-                <motion.div style={{ width: bar }} className="h-full bg-gradient-to-r from-accent to-accent-3" />
+      <section ref={section} className="relative" style={{ height: `calc(100svh + ${(n - 1) * 60}svh)` }}>
+        <div className="sticky top-0 h-[100svh] flex flex-col overflow-hidden pt-20 pb-6">
+          <div aria-hidden="true" className="glow w-[700px] h-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" />
+          <div className="relative flex items-end justify-between gap-4 px-5 sm:px-10 lg:px-16 pb-4 sm:pb-6">
+            <div>
+              <p className="hidden sm:flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-faint mb-3">
+                <span className="w-8 h-px bg-accent" /> PROJECTS
+              </p>
+              <h2 className="font-display font-bold tracking-[-0.02em] text-4xl lg:text-5xl">
+                Selected <span className="font-serif italic font-normal text-accent-2">work</span>
+              </h2>
+            </div>
+            <div className="flex flex-col items-end gap-2 mb-1">
+              <p className="font-mono text-sm text-ink-dim tabular-nums">
+                <span className="text-ink text-lg">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
+              </p>
+              <div className="w-28 sm:w-48 h-[2px] bg-line rounded-full overflow-hidden">
+                <motion.div style={{ width: bar }} className="h-full bg-gradient-to-r from-accent to-accent-2" />
               </div>
             </div>
           </div>
-          <motion.div ref={track} style={{ x }} className="flex flex-1 min-h-0 gap-8 px-16 items-stretch">
-            {projects.map((p, i) => (
-              <FlowCard key={p.slug} p={p} i={i} x={x} onOpen={() => setOpen(i)} />
-            ))}
-            <div className="shrink-0 w-[380px] flex flex-col items-center justify-center text-center">
-              <p className="font-display text-3xl font-bold">Want to see more?</p>
-              <p className="text-ink-dim mt-3 text-sm">Every public repo, pulled live from GitHub.</p>
-              <a href="#github" className="mt-6 rounded-full bg-accent text-white font-semibold px-6 py-3 hover:shadow-[0_0_30px_-6px_var(--accent)] transition-shadow">
-                See all repos →
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* mobile + tablet: stacked cards; devices spin as each card scrolls in */}
-      <section className="lg:hidden pt-20 px-5 sm:px-10">
-        <div className="text-4xl pb-8">{heading}</div>
-        <div className="space-y-6">
-          {projects.map((p, i) => (
-            <motion.article
-              key={p.slug}
-              initial={{ opacity: 0, y: 50, rotateX: 18 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              style={{ transformPerspective: 1000 }}
-              className="rounded-3xl border border-line bg-gradient-to-b from-white/80 to-white/40 p-5 sm:p-6 overflow-hidden"
+          {/* the revolving ring */}
+          <div
+            className="relative flex-1 min-h-0"
+            style={{ perspective: dims.persp, ["--W" as string]: `${dims.w}px`, ["--R" as string]: `${dims.r}px` }}
+          >
+            <motion.div
+              className="absolute inset-0 [transform-style:preserve-3d]"
+              style={{ z: -dims.r, rotateX: tilt }}
             >
-              <Stage p={p} i={i} />
-              <button type="button" onClick={() => setOpen(i)} className="block w-full text-left pt-6" aria-label={`Open ${p.title} case study`}>
-                <Body p={p} i={i} />
-              </button>
-              <Links p={p} onOpen={() => setOpen(i)} />
-            </motion.article>
-          ))}
+              {projects.map((p, i) => (
+                <RingCard key={p.slug} p={p} i={i} step={step} rot={rot} active={i === active} onOpen={() => setOpen(i)} />
+              ))}
+            </motion.div>
+          </div>
+
+          <div className="relative flex items-center justify-center gap-2 pt-4">
+            {projects.map((p, k) => (
+              <button
+                key={p.slug}
+                type="button"
+                onClick={() => goTo(k)}
+                aria-label={`Show ${p.title}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${k === active ? "w-7 bg-accent shadow-[0_0_12px_var(--accent)]" : "w-1.5 bg-line-strong hover:bg-accent-2"}`}
+              />
+            ))}
+            <a href="#github" className="hidden sm:inline ml-4 text-xs font-semibold text-ink-dim hover:text-accent-2 transition-colors">
+              All repos →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -418,7 +427,7 @@ export default function Work() {
 
 // wide screenshots for the gallery, phone captures for the scroller
 function caseMedia(p: Project) {
-  const m = media[p.slug] ?? { color: "#7c62e0" };
+  const m = media[p.slug] ?? { color: "#4169e1" };
   const wide = [...(m.hero ? [m.hero] : []), ...(m.laptop ? [m.laptop] : [])].map((f) => P + f);
   for (const im of p.images) if (!wide.includes(im.src) && p.frame === "browser") wide.push(im.src);
   const tall = (m.phones ?? []).map((f) => P + f);

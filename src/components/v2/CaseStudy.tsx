@@ -78,7 +78,7 @@ export default function CaseStudy({
           <button
             onClick={onClose}
             aria-label="Close case study"
-            className="grid place-items-center w-10 h-10 rounded-full border border-line-strong hover:bg-ink hover:text-white transition-colors"
+            className="grid place-items-center w-10 h-10 rounded-full border border-line-strong hover:bg-accent hover:text-white transition-colors"
           >
             <X size={16} />
           </button>
@@ -87,7 +87,7 @@ export default function CaseStudy({
         {/* hero */}
         <header className="relative px-5 sm:px-10 pt-10 sm:pt-14 pb-10 overflow-hidden">
           <div aria-hidden="true" className="absolute -top-24 -right-24 w-96 h-96 rounded-full blur-3xl opacity-40" style={{ background: color }} />
-          <motion.p {...fade(0)} className="relative inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3 py-1 text-[11px] tracking-[0.15em] font-semibold" style={{ color }}>
+          <motion.p {...fade(0)} className="relative inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1 text-[11px] tracking-[0.15em] font-semibold" style={{ color }}>
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
             {p.status.toUpperCase()}
           </motion.p>
@@ -103,7 +103,7 @@ export default function CaseStudy({
               ["Role", "Solo — design, build & ship"],
               ["Stack", p.stack.slice(0, 3).join(", ")],
             ].map(([k, v]) => (
-              <div key={k} className="bg-white/80 p-4 last:col-span-2 sm:last:col-span-1">
+              <div key={k} className="bg-surface/80 p-4 last:col-span-2 sm:last:col-span-1">
                 <dt className="text-[10px] tracking-[0.2em] text-ink-faint">{k.toUpperCase()}</dt>
                 <dd className="mt-1 text-sm font-semibold">{v}</dd>
               </div>
@@ -114,7 +114,7 @@ export default function CaseStudy({
         {/* cover */}
         {shots[0] && (
           <motion.div {...fade(4)} className="px-5 sm:px-10">
-            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-line bg-white">
+            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-line bg-surface">
               <Image src={shots[0]} alt={`${p.title} cover`} fill sizes="(max-width: 980px) 100vw, 900px" className="object-cover object-top" />
             </div>
           </motion.div>
@@ -135,7 +135,7 @@ export default function CaseStudy({
             <Label n="02">WHAT I BUILT</Label>
             <ul className="grid sm:grid-cols-2 gap-3">
               {p.highlights.map((h) => (
-                <li key={h} className="flex gap-3 rounded-2xl border border-line bg-white/70 p-4 text-sm leading-relaxed">
+                <li key={h} className="flex gap-3 rounded-2xl border border-line bg-surface/70 p-4 text-sm leading-relaxed">
                   <span className="grid place-items-center shrink-0 w-6 h-6 rounded-full text-white" style={{ background: color }}>
                     <Check size={13} />
                   </span>
@@ -151,7 +151,7 @@ export default function CaseStudy({
             <ol className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:items-center">
               {p.system.map((s, i) => (
                 <li key={s} className="flex flex-col sm:flex-row sm:items-center gap-2">
-                  <span className="flex items-center gap-3 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold">
+                  <span className="flex items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold">
                     <span className="font-display text-xs" style={{ color }}>{String(i + 1).padStart(2, "0")}</span>
                     {s}
                   </span>
@@ -166,7 +166,7 @@ export default function CaseStudy({
             <Label n="04">TECH STACK</Label>
             <div className="flex flex-wrap gap-2">
               {p.stack.map((s) => (
-                <span key={s} className="rounded-full px-3.5 py-1.5 text-sm border border-line bg-white/70">
+                <span key={s} className="rounded-full px-3.5 py-1.5 text-sm border border-line bg-surface/70">
                   {s}
                 </span>
               ))}
@@ -180,7 +180,7 @@ export default function CaseStudy({
               {shots.length > 1 && (
                 <div className="grid sm:grid-cols-2 gap-3">
                   {shots.slice(1).map((s) => (
-                    <div key={s} className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-line bg-white">
+                    <div key={s} className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-line bg-surface">
                       <Image src={s} alt={`${p.title} screen`} fill sizes="(max-width: 640px) 100vw, 450px" className="object-cover object-top" />
                     </div>
                   ))}
@@ -199,7 +199,7 @@ export default function CaseStudy({
           )}
 
           {/* outcome */}
-          <section className="relative rounded-3xl p-7 sm:p-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${color}22, #ffc2da33 60%, #b5ead433)` }}>
+          <section className="relative rounded-3xl p-7 sm:p-10 overflow-hidden" style={{ background: `linear-gradient(135deg, ${color}22, #0d142400 60%, #8fb8ff14)` }}>
             <Label n="06">OUTCOME</Label>
             <p className="font-display text-xl sm:text-2xl font-semibold leading-snug">{p.result}</p>
             {!!p.links?.length && (
@@ -211,7 +211,7 @@ export default function CaseStudy({
                     target="_blank"
                     rel="noreferrer"
                     className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
-                      k === 0 ? "bg-ink text-white hover:bg-accent" : "border border-ink/20 bg-white/60 hover:border-accent hover:text-accent"
+                      k === 0 ? "bg-accent text-white hover:bg-[#5a7ff0] hover:shadow-[0_0_30px_-6px_var(--accent)]" : "border border-ink/20 bg-surface/60 hover:border-accent hover:text-accent-2"
                     }`}
                   >
                     {l.label} <ArrowUpRight size={14} />

@@ -3,7 +3,7 @@
 import { useRef, type ReactNode } from "react";
 
 // Card with a soft light that follows the mouse, plus a lit border under it.
-export default function SpotlightCard({ children, className = "", color = "#7c62e0" }: { children: ReactNode; className?: string; color?: string }) {
+export default function SpotlightCard({ children, className = "", color = "#4169e1" }: { children: ReactNode; className?: string; color?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   function onMove(e: React.PointerEvent) {
@@ -17,7 +17,7 @@ export default function SpotlightCard({ children, className = "", color = "#7c62
       ref={ref}
       onPointerMove={onMove}
       style={{ ["--c" as string]: color }}
-      className={`group relative rounded-2xl border border-line bg-white/60 overflow-hidden transition-[transform,border-color] duration-500 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--c)_45%,transparent)] ${className}`}
+      className={`group relative rounded-2xl border border-line bg-surface/50 overflow-hidden transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(65,105,225,0.45)] hover:border-[color-mix(in_srgb,var(--c)_45%,transparent)] ${className}`}
     >
       <div
         aria-hidden="true"

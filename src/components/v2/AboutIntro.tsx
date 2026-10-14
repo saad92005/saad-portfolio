@@ -43,8 +43,8 @@ function Portrait() {
       className="relative mx-auto w-[78%] sm:w-full max-w-[360px]"
     >
       <motion.div style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }} className="relative">
-        <div className="relative aspect-[4/5] rounded-t-[999px] rounded-b-[2rem] bg-gradient-to-br from-[#c9b8ff] via-accent-2 to-accent-3 p-[6px] shadow-[0_40px_80px_-30px_rgba(124,98,224,0.55)]">
-          <div className="relative w-full h-full rounded-t-[999px] rounded-b-[1.7rem] overflow-hidden bg-[#fdfcf6]">
+        <div className="relative aspect-[4/5] rounded-t-[999px] rounded-b-[2rem] bg-gradient-to-br from-accent via-accent-2 to-accent-3 p-[6px] shadow-[0_40px_80px_-30px_rgba(65,105,225,0.55)]">
+          <div className="relative w-full h-full rounded-t-[999px] rounded-b-[1.7rem] overflow-hidden bg-bg-2">
             <Image src="/images/headshot.png" alt="Saad Shahid" fill sizes="360px" className="object-cover object-[center_30%] scale-[1.15] origin-[50%_70%]" />
           </div>
         </div>
@@ -52,7 +52,7 @@ function Portrait() {
         <motion.span
           {...float(-8, 4)}
           style={{ translateZ: 60 }}
-          className="absolute -left-6 sm:-left-12 top-[40%] flex items-center gap-2 rounded-full bg-white/90 backdrop-blur border border-line shadow-lg px-4 py-2 text-xs font-semibold whitespace-nowrap"
+          className="absolute -left-6 sm:-left-12 top-[40%] flex items-center gap-2 rounded-full bg-surface/90 backdrop-blur border border-line shadow-lg px-4 py-2 text-xs font-semibold whitespace-nowrap"
         >
           <span className="relative flex w-2 h-2">
             <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-70" />
@@ -63,15 +63,15 @@ function Portrait() {
         <motion.span
           {...float(8, 5)}
           style={{ translateZ: 80 }}
-          className="absolute -right-6 sm:-right-10 top-[12%] rounded-2xl bg-ink text-white shadow-lg px-4 py-2.5 text-xs whitespace-nowrap"
+          className="absolute -right-6 sm:-right-10 top-[12%] rounded-2xl bg-surface text-ink border border-line shadow-lg px-4 py-2.5 text-xs whitespace-nowrap"
         >
-          <span className="block text-[10px] tracking-[0.2em] text-white/60">STUDYING</span>
+          <span className="block text-[10px] tracking-[0.2em] text-ink-faint">STUDYING</span>
           <span className="font-semibold">BS CS · UMT</span>
         </motion.span>
         <motion.span
           {...float(-6, 4.5)}
           style={{ translateZ: 70 }}
-          className="absolute -right-4 sm:-right-8 bottom-[10%] flex items-center gap-2 rounded-full bg-white/90 backdrop-blur border border-line shadow-lg px-4 py-2 text-xs font-semibold whitespace-nowrap"
+          className="absolute -right-4 sm:-right-8 bottom-[10%] flex items-center gap-2 rounded-full bg-surface/90 backdrop-blur border border-line shadow-lg px-4 py-2 text-xs font-semibold whitespace-nowrap"
         >
           <Sparkles size={13} className="text-accent" /> AI Engineer
         </motion.span>
@@ -128,7 +128,7 @@ export default function AboutIntro() {
           systems, LLM apps and agents — and the full-stack products around them, from Next.js frontends to FastAPI backends.
         </motion.p>
 
-        <ul className="mt-10 rounded-2xl overflow-hidden border border-line divide-y divide-line bg-white/50">
+        <ul className="mt-10 rounded-2xl overflow-hidden border border-line divide-y divide-line bg-surface/50">
           {principles.map(([t, d], i) => (
             <motion.li
               key={t}
@@ -136,11 +136,11 @@ export default function AboutIntro() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.35 + i * 0.1, duration: 0.7, ease }}
-              className="group flex gap-5 hover:bg-white p-5 transition-colors"
+              className="group flex gap-5 hover:bg-surface p-5 transition-colors"
             >
               <span className="font-display text-sm font-bold text-accent pt-0.5">0{i + 1}</span>
               <span>
-                <span className="block font-display font-semibold group-hover:text-accent transition-colors">{t}</span>
+                <span className="block font-display font-semibold group-hover:text-accent-2 transition-colors">{t}</span>
                 <span className="block mt-1 text-sm text-ink-dim">{d}</span>
               </span>
             </motion.li>

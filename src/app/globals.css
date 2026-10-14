@@ -1,24 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #fbf8f4;
-  --bg-2: #f5f0fa;
-  --ink: #1e1b2e;
-  --ink-dim: #5b566d;
-  --ink-faint: #9893a6;
-  --line: rgba(30, 27, 46, 0.09);
-  --line-strong: rgba(30, 27, 46, 0.16);
-  --accent: #7c62e0;
-  --accent-2: #ffc2da;
-  --accent-3: #b5ead4;
-  --accent-soft: rgba(124, 98, 224, 0.1);
-  --lavender: #e7ddff;
-  --danger: #e5484d;
+  /* Obsidian Blue */
+  --bg: #080b12; /* obsidian black */
+  --bg-2: #0d1424; /* deep navy */
+  --surface: #111d35; /* midnight blue */
+  --ink: #f4f6fc; /* platinum white */
+  --ink-dim: #a7b0c2; /* cool silver */
+  --ink-faint: #68748a; /* muted slate */
+  --line: rgba(143, 184, 255, 0.14);
+  --line-strong: rgba(143, 184, 255, 0.26);
+  --accent: #4169e1; /* electric blue */
+  --accent-2: #8fb8ff; /* ice blue */
+  --accent-3: #6d8fe8;
+  --accent-soft: rgba(65, 105, 225, 0.14);
+  --lavender: #111d35;
+  --danger: #ff6b6b;
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-ink-dim: var(--ink-dim);
   --color-ink-faint: var(--ink-faint);
@@ -36,7 +39,7 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
   scroll-behavior: smooth;
 }
 
@@ -80,7 +83,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(100deg, #7c62e0 0%, #d76ba0 55%, #f0955f 100%);
+  background: linear-gradient(100deg, #f4f6fc 0%, #8fb8ff 50%, #4169e1 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -106,8 +109,7 @@ body {
   position: absolute;
   border-radius: 999px;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(201, 184, 255, 0.6) 0%, rgba(255, 194, 218, 0.3) 40%, transparent 70%);
-  filter: blur(40px);
+  background: radial-gradient(circle closest-side, rgba(65, 105, 225, 0.3) 0%, rgba(143, 184, 255, 0.08) 45%, transparent 100%);
 }
 
 .link-underline {
@@ -147,13 +149,13 @@ body {
 .stack-tile:hover {
   transform: translateY(-4px);
   border-color: var(--accent);
-  background: rgba(124, 98, 224, 0.08);
-  color: #fff;
+  background: rgba(65, 105, 225, 0.12);
+  color: var(--ink);
 }
 
 .input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(13, 20, 36, 0.8);
   border: 1px solid var(--line-strong);
   border-radius: 0.75rem;
   padding: 0.8rem 1rem;
@@ -193,7 +195,7 @@ body {
   inset: -50%;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain 8s steps(10) infinite;
 }
@@ -209,8 +211,10 @@ body {
 .aurora {
   position: absolute;
   border-radius: 999px;
-  filter: blur(80px);
   pointer-events: none;
+  /* soft edge via mask instead of a big blur filter: cheaper on phones, no tiling seams */
+  -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
   animation: drift 18s ease-in-out infinite alternate;
 }
 @keyframes drift {
@@ -221,7 +225,7 @@ body {
 
 /* animated gradient sweep for headline words */
 .shine {
-  background: linear-gradient(100deg, #7c62e0 0%, #d76ba0 25%, #f0955f 45%, #d76ba0 65%, #7c62e0 85%);
+  background: linear-gradient(100deg, #4169e1 0%, #8fb8ff 25%, #f4f6fc 45%, #8fb8ff 65%, #4169e1 85%);
   background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -261,7 +265,7 @@ body {
 
 /* mouse-follow spotlight (set --mx/--my from JS) */
 .spotlight {
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(124, 98, 224, 0.08), transparent 45%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(65, 105, 225, 0.12), transparent 45%);
 }
 
 @keyframes orbit {
@@ -273,4 +277,25 @@ body {
 @keyframes marquee-right {
   from { transform: translateX(-50%); }
   to { transform: translateX(0); }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(65, 105, 225, 0.12), transparent 60%),
+    radial-gradient(900px 500px at -10% 40%, rgba(143, 184, 255, 0.05), transparent 60%);
+}
+
+/* tilted 3D tech orbit */
+@keyframes sway {
+  0% { transform: rotateX(62deg) rotateY(-5deg); }
+  100% { transform: rotateX(56deg) rotateY(5deg); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }

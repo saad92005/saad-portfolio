@@ -38,12 +38,12 @@ const stack: Tool[] = [
   { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
   { name: "Dart", icon: SiDart, color: "#0175C2", url: "https://dart.dev" },
   { name: "React", icon: SiReact, color: "#61DAFB", url: "https://react.dev" },
-  { name: "Next.js", icon: SiNextdotjs, color: "#000000", url: "https://nextjs.org" },
+  { name: "Next.js", icon: SiNextdotjs, color: "#F4F6FC", url: "https://nextjs.org" },
   { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", url: "https://tailwindcss.com" },
   { name: "Framer Motion", icon: SiFramer, color: "#BB4BFF", url: "https://motion.dev" },
   { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", url: "https://nodejs.org" },
   { name: "FastAPI", icon: SiFastapi, color: "#009688", url: "https://fastapi.tiangolo.com" },
-  { name: "Fastify", icon: SiFastify, color: "#000000", url: "https://fastify.dev" },
+  { name: "Fastify", icon: SiFastify, color: "#F4F6FC", url: "https://fastify.dev" },
   { name: "PyTorch", icon: SiPytorch, color: "#EE4C2C", url: "https://pytorch.org" },
   { name: "Hugging Face", icon: SiHuggingface, color: "#FFD21E", url: "https://huggingface.co" },
   { name: "LLMs & RAG", icon: Brain, color: "#C084FC", url: "https://en.wikipedia.org/wiki/Retrieval-augmented_generation" },
@@ -59,8 +59,8 @@ const stack: Tool[] = [
   { name: "n8n", icon: SiN8N, color: "#EA4B71", url: "https://n8n.io" },
   { name: "Automation", icon: Workflow, color: "#F472B6", url: "https://n8n.io/workflows" },
   { name: "Git", icon: SiGit, color: "#F05032", url: "https://git-scm.com" },
-  { name: "GitHub", icon: SiGithub, color: "#181717", url: "https://github.com" },
-  { name: "Vercel", icon: SiVercel, color: "#000000", url: "https://vercel.com" },
+  { name: "GitHub", icon: SiGithub, color: "#F4F6FC", url: "https://github.com" },
+  { name: "Vercel", icon: SiVercel, color: "#F4F6FC", url: "https://vercel.com" },
   { name: "Figma", icon: SiFigma, color: "#F24E1E", url: "https://www.figma.com" },
   { name: "Excel", icon: FileSpreadsheet, color: "#217346", url: "https://www.microsoft.com/microsoft-365/excel" },
 ];
@@ -82,7 +82,7 @@ function Tile({ t, size }: { t: Tool; size: string }) {
       aria-label={`${t.name} — official website`}
       title={t.name}
       style={{ ["--brand" as string]: t.color }}
-      className={`group/t stack-tile grid place-items-center ${size} rounded-2xl border border-line bg-white/80 backdrop-blur text-ink-dim hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,white)] hover:shadow-[0_0_30px_-4px_var(--brand)]`}
+      className={`group/t stack-tile grid place-items-center ${size} rounded-2xl border border-line bg-gradient-to-b from-surface to-bg-2 text-ink-dim shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(143,184,255,0.15)] hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_16%,var(--surface))] hover:shadow-[0_0_30px_-4px_var(--brand)]`}
     >
       <Icon className="w-[45%] h-[45%] transition-all duration-300 group-hover/t:scale-110 group-hover/t:text-[var(--brand)] group-hover/t:drop-shadow-[0_0_10px_var(--brand)]" />
     </a>
@@ -108,7 +108,7 @@ function Row({ items, reverse }: { items: Tool[]; reverse?: boolean }) {
                   rel="noreferrer"
                   tabIndex={k === 1 ? -1 : undefined}
                   style={{ ["--brand" as string]: t.color }}
-                  className="group/t stack-tile flex items-center gap-2.5 rounded-full border border-line bg-white/60 pl-3 pr-4 py-2 text-sm text-ink-dim whitespace-nowrap hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,transparent)] hover:shadow-[0_0_24px_-6px_var(--brand)]"
+                  className="group/t stack-tile flex items-center gap-2.5 rounded-full border border-line bg-surface/50 pl-3 pr-4 py-2 text-sm text-ink-dim whitespace-nowrap hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,transparent)] hover:shadow-[0_0_24px_-6px_var(--brand)]"
                 >
                   <Icon className="w-4 h-4 group-hover/t:text-[var(--brand)] transition-colors" />
                   <span className="group-hover/t:text-ink transition-colors">{t.name}</span>
@@ -125,51 +125,64 @@ function Row({ items, reverse }: { items: Tool[]; reverse?: boolean }) {
 export default function Stack() {
   return (
     <section className="relative py-24 sm:py-36 overflow-hidden">
-      <div aria-hidden="true" className="aurora w-[700px] h-[700px] left-1/2 top-1/3 -translate-x-1/2 bg-accent-2/20" />
+      <div aria-hidden="true" className="aurora w-[700px] h-[700px] left-1/2 top-1/3 -translate-x-1/2 bg-accent/15" />
       <div className="relative text-center px-5">
-        <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-dim mb-5">
+        <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-faint mb-5">
           <span className="w-8 h-px bg-accent" /> TECH STACK <span className="w-8 h-px bg-accent" />
         </p>
         <h2 className="font-display font-bold tracking-[-0.02em] text-[clamp(2.2rem,5vw,4rem)] leading-[1.02]">
-          Tools I <span className="font-serif italic font-normal text-accent">build</span> with
+          Tools I <span className="font-serif italic font-normal text-accent-2">build</span> with
         </h2>
         <p className="mt-4 text-sm text-ink-faint">Hover to light up · click to visit · {stack.length} tools</p>
       </div>
 
-      {/* orbit system; hovering anywhere pauses it so icons are easy to click */}
-      <div className="group/o relative mx-auto mt-10 sm:mt-14 w-[min(640px,94vw)] aspect-square">
-        <div aria-hidden="true" className="absolute inset-[38%] rounded-full bg-gradient-to-br from-[#c9b8ff] via-[#ffc2da] to-[#b5ead4] blur-2xl opacity-40 animate-pulse" />
-        <div className="absolute inset-[40%] rounded-full border border-line-strong bg-white grid place-items-center shadow-[0_0_60px_-10px_var(--accent)]">
-          <span className="font-display font-extrabold text-[clamp(1.1rem,3.4vw,1.9rem)] shine">AI+</span>
-        </div>
-        {rings.map((ring, ri) => (
-          <div key={ri}>
-            <div aria-hidden="true" className="absolute rounded-full border border-line" style={{ inset: `${50 - ring.r}%` }} />
-            <div
-              className="absolute inset-0 group-hover/o:[animation-play-state:paused]"
-              style={{ animation: `orbit ${ring.dur}s linear infinite ${ri % 2 ? "reverse" : ""}` }}
-            >
-              {ring.items.map((t, i) => {
-                const a = (i / ring.items.length) * Math.PI * 2 + ri * 0.4;
-                return (
-                  <div
-                    key={t.name}
-                    className="absolute -translate-x-1/2 -translate-y-1/2"
-                    style={{ left: `${50 + ring.r * Math.cos(a)}%`, top: `${50 + ring.r * Math.sin(a)}%` }}
-                  >
-                    {/* counter-rotate so icons stay upright */}
-                    <div
-                      className="group-hover/o:[animation-play-state:paused]"
-                      style={{ animation: `counter-orbit ${ring.dur}s linear infinite ${ri % 2 ? "reverse" : ""}` }}
-                    >
-                      <Tile t={t} size="w-10 h-10 sm:w-14 sm:h-14" />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+      {/* 3D orbit system: rings lie on a tilted plane, icons counter-rotate to face you; hover pauses it */}
+      <div className="group/o relative mx-auto mt-6 sm:mt-10 w-[min(760px,100vw)] aspect-[4/3] sm:aspect-[16/11] [perspective:1100px]">
+        {/* glowing core */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[22%] aspect-square">
+          <div aria-hidden="true" className="absolute -inset-1/2 rounded-full bg-accent/30 blur-3xl animate-pulse" />
+          <div className="relative w-full h-full rounded-full grid place-items-center border border-accent-2/30 bg-[radial-gradient(circle_at_30%_25%,#2a4fbf,#111d35_55%,#080b12)] shadow-[0_0_80px_-10px_var(--accent),inset_0_0_30px_rgba(143,184,255,0.25)] animate-[float-y_6s_ease-in-out_infinite]">
+            <span className="font-display font-extrabold text-[clamp(1.1rem,3.4vw,2rem)] shine">AI+</span>
           </div>
-        ))}
+        </div>
+        <div className="absolute left-1/2 top-1/2 w-[92%] aspect-square -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d]">
+          <div className="absolute inset-0 [transform-style:preserve-3d] animate-[sway_14s_ease-in-out_infinite_alternate] group-hover/o:[animation-play-state:paused]" style={{ transform: "rotateX(60deg)" }}>
+            {rings.map((ring, ri) => (
+              <div key={ri} className="absolute inset-0 [transform-style:preserve-3d]">
+                <div
+                  aria-hidden="true"
+                  className="absolute rounded-full border border-accent-2/20 shadow-[0_0_30px_-8px_rgba(65,105,225,0.5)]"
+                  style={{ inset: `${50 - ring.r}%` }}
+                />
+                <div
+                  className="absolute inset-0 [transform-style:preserve-3d] group-hover/o:[animation-play-state:paused]"
+                  style={{ animation: `orbit ${ring.dur}s linear infinite ${ri % 2 ? "reverse" : ""}` }}
+                >
+                  {ring.items.map((t, i) => {
+                    const a = (i / ring.items.length) * Math.PI * 2 + ri * 0.4;
+                    return (
+                      <div
+                        key={t.name}
+                        className="absolute [transform-style:preserve-3d]"
+                        style={{ left: `${50 + ring.r * Math.cos(a)}%`, top: `${50 + ring.r * Math.sin(a)}%` }}
+                      >
+                        {/* undo the orbit spin, then stand the tile back up off the tilted plane */}
+                        <div
+                          className="[transform-style:preserve-3d] group-hover/o:[animation-play-state:paused]"
+                          style={{ animation: `counter-orbit ${ring.dur}s linear infinite ${ri % 2 ? "reverse" : ""}` }}
+                        >
+                          <div className="-translate-x-1/2 -translate-y-full" style={{ transform: "rotateX(-60deg)", transformOrigin: "50% 100%" }}>
+                            <Tile t={t} size="w-9 h-9 sm:w-14 sm:h-14" />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="mt-12 sm:mt-16 space-y-3">

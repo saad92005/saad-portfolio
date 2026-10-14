@@ -109,11 +109,11 @@ export default function Contact() {
             >
               <span>
                 <span className={label}>EMAIL</span>
-                <span className="font-display font-semibold text-lg sm:text-2xl break-all group-hover:text-accent transition-colors">{profile.email}</span>
+                <span className="font-display font-semibold text-lg sm:text-2xl break-all group-hover:text-accent-2 transition-colors">{profile.email}</span>
               </span>
               <span className="flex items-center gap-2 text-xs text-ink-dim shrink-0">
                 {copied ? "Copied" : "Copy"}
-                <span className="grid place-items-center w-9 h-9 rounded-full border border-line-strong group-hover:border-accent group-hover:text-accent transition-colors">
+                <span className="grid place-items-center w-9 h-9 rounded-full border border-line-strong group-hover:border-accent group-hover:text-accent-2 transition-colors">
                   {copied ? <Check size={14} /> : <Copy size={14} />}
                 </span>
               </span>
@@ -130,7 +130,7 @@ export default function Contact() {
                   <span className="w-24 text-[11px] tracking-[0.18em] text-ink-faint">{c.label.toUpperCase()}</span>
                   <span className="text-ink-dim group-hover:text-ink transition-colors">{c.value}</span>
                 </span>
-                <ArrowUpRight size={18} className="text-ink-faint transition-all duration-300 group-hover:text-accent group-hover:rotate-45" />
+                <ArrowUpRight size={18} className="text-ink-faint transition-all duration-300 group-hover:text-accent-2 group-hover:rotate-45" />
               </a>
             ))}
             <div className="flex items-baseline gap-6 py-5">
@@ -142,7 +142,7 @@ export default function Contact() {
           </div>
 
           {/* form */}
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="rounded-3xl border border-line bg-white/60 p-6 sm:p-10 space-y-7">
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="rounded-3xl border border-line bg-surface/60 p-6 sm:p-10 space-y-7">
             <div className="grid sm:grid-cols-2 gap-7">
               <div>
                 <label className={label} htmlFor="c-name">NAME</label>
@@ -180,10 +180,10 @@ export default function Contact() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group inline-flex items-center gap-3 rounded-full bg-accent text-white font-semibold pl-7 pr-2 py-2 hover:bg-ink transition-colors disabled:opacity-60"
+              className="group inline-flex items-center gap-3 rounded-full bg-accent text-white font-semibold pl-7 pr-2 py-2 hover:bg-[#5a7ff0] transition-colors disabled:opacity-60"
             >
               {isSubmitting ? "Sending…" : "Send message"}
-              <span className="grid place-items-center w-9 h-9 rounded-full bg-white text-accent transition-transform group-hover:rotate-[-20deg]">
+              <span className="grid place-items-center w-9 h-9 rounded-full bg-surface text-accent transition-transform group-hover:rotate-[-20deg]">
                 <Send size={14} />
               </span>
             </button>
@@ -211,7 +211,7 @@ export default function Contact() {
               { l: "GitHub", h: profile.github, I: GithubIcon },
               { l: "LinkedIn", h: profile.linkedin, I: LinkedinIcon },
             ].map(({ l, h, I }) => (
-              <a key={l} href={h} target="_blank" rel="noreferrer" aria-label={l} className="grid place-items-center w-10 h-10 rounded-full border border-line text-ink-dim hover:text-accent hover:border-accent transition-colors">
+              <a key={l} href={h} target="_blank" rel="noreferrer" aria-label={l} className="grid place-items-center w-10 h-10 rounded-full border border-line text-ink-dim hover:text-accent-2 hover:border-accent transition-colors">
                 <I size={15} />
               </a>
             ))}

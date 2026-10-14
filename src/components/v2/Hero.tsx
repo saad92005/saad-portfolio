@@ -40,7 +40,7 @@ export default function Hero() {
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden flex flex-col pt-24">
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
-        <div className="aurora w-[520px] h-[520px] -left-40 top-10 bg-[#c9b8ff]/50" />
+        <div className="aurora w-[520px] h-[520px] -left-40 top-10 bg-[#4169e1]/50" />
         <div className="aurora w-[460px] h-[460px] right-[-120px] top-[30%] bg-accent-2/60 [animation-delay:-6s]" />
         <div className="aurora w-[380px] h-[380px] left-[35%] bottom-[-160px] bg-accent-3/60 [animation-delay:-12s]" />
       </div>
@@ -51,7 +51,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: D, duration: 0.7, ease }}
-            className="inline-flex items-center gap-2.5 rounded-full border border-line-strong bg-white/60 backdrop-blur px-4 py-1.5 text-xs text-ink-dim"
+            className="inline-flex items-center gap-2.5 rounded-full border border-line-strong bg-surface/60 backdrop-blur px-4 py-1.5 text-xs text-ink-dim"
           >
             <span className="relative flex w-2 h-2">
               <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-70" />
@@ -123,13 +123,13 @@ export default function Hero() {
               className="group inline-flex items-center gap-2 rounded-full bg-accent text-white font-semibold pl-6 pr-2 py-2 hover:shadow-[0_0_40px_-6px_var(--accent)] transition-shadow"
             >
               See my work
-              <span className="grid place-items-center w-9 h-9 rounded-full bg-white text-accent transition-transform group-hover:rotate-45">
+              <span className="grid place-items-center w-9 h-9 rounded-full bg-surface text-accent transition-transform group-hover:rotate-45">
                 <ArrowUpRight size={16} />
               </span>
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center rounded-full border border-line-strong bg-white/60 backdrop-blur px-6 py-3 font-semibold hover:border-accent hover:text-accent transition-colors"
+              className="inline-flex items-center rounded-full border border-line-strong bg-surface/60 backdrop-blur px-6 py-3 font-semibold hover:border-accent hover:text-accent-2 transition-colors"
             >
               Let&apos;s talk
             </a>
@@ -168,7 +168,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: D + 1, duration: 1 }}
-        className="relative z-10 mt-6 border-y border-line bg-white/60 backdrop-blur-sm py-4 -rotate-1 overflow-hidden"
+        className="relative z-10 mt-6 border-y border-line bg-surface/60 backdrop-blur-sm py-4 -rotate-1 overflow-hidden"
       >
         <div className="marquee-track [animation-duration:30s]">
           {[0, 1].map((k) => (
@@ -189,7 +189,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 8, 0] }}
         transition={{ opacity: { delay: D + 1.2 }, y: { repeat: Infinity, duration: 1.8 } }}
-        className="hidden lg:grid absolute right-10 bottom-24 z-10 w-11 h-11 place-items-center rounded-full border border-line-strong text-ink-dim hover:text-accent hover:border-accent"
+        className="hidden lg:grid absolute right-10 bottom-24 z-10 w-11 h-11 place-items-center rounded-full border border-line-strong text-ink-dim hover:text-accent-2 hover:border-accent"
       >
         <ArrowDown size={16} />
       </motion.a>

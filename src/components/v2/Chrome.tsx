@@ -18,7 +18,7 @@ const socials = [
 export default function Chrome() {
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 bg-gradient-to-b from-bg/90 to-transparent">
+      <header className="fixed top-0 inset-x-0 z-50 bg-bg/75 backdrop-blur-md border-b border-line">
         <div className="flex items-center justify-between px-5 sm:px-8 py-5 text-xs font-semibold tracking-[0.15em]">
           <a href="#top" className="font-display font-extrabold text-lg tracking-normal" aria-label="Back to top">
             SS<span className="text-accent">.</span>
@@ -28,7 +28,7 @@ export default function Chrome() {
           </a>
           <nav className="flex gap-5 sm:gap-10">
             {nav.map((n) => (
-              <a key={n.href} href={n.href} className="link-underline text-ink-dim hover:text-ink">
+              <a key={n.href} href={n.href} className="link-underline text-ink-dim hover:text-accent-2 transition-colors">
                 {n.label}
               </a>
             ))}
@@ -44,7 +44,7 @@ export default function Chrome() {
             target={href.startsWith("http") ? "_blank" : undefined}
             rel="noreferrer"
             aria-label={label}
-            className="text-ink-dim hover:text-accent transition-colors"
+            className="text-ink-dim hover:text-accent-2 transition-colors"
           >
             <Icon size={17} />
           </a>
@@ -53,7 +53,7 @@ export default function Chrome() {
 
       <a
         href="#contact"
-        className="hidden md:flex fixed right-8 bottom-8 z-50 items-center gap-1.5 text-xs font-semibold tracking-[0.2em] text-ink-dim hover:text-accent transition-colors"
+        className="hidden md:flex fixed right-8 bottom-8 z-50 items-center gap-1.5 text-xs font-semibold tracking-[0.2em] text-ink-dim hover:text-accent-2 transition-colors"
       >
         HIRE ME <ArrowUpRight size={14} />
       </a>
