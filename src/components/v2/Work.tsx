@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { AnimatePresence, animate, motion, useAnimationFrame, useInView, useMotionValue, useMotionValueEvent, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import CaseStudy from "./CaseStudy";
 import { projects, type Project } from "@/lib/data";
@@ -288,7 +288,7 @@ function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: numbe
 }
 
 // One card on the revolving ring. Its angle comes from the shared ring rotation.
-function RingCard({ p, i, step, rot, active, onOpen }: { p: Project; i: number; step: number; rot: MotionValue<number>; active: boolean; onOpen: () => void }) {
+function RingCard({ p, i, step, rot, active, onOpen, onHoverFront }: { p: Project; i: number; step: number; rot: MotionValue<number>; active: boolean; onOpen: () => void; onHoverFront: (on: boolean) => void }) {
   const rel = useTransform(rot, (v) => ((((i * step + v) % 360) + 540) % 360) - 180);
   const dist = useTransform(rel, (a) => Math.abs(a));
   const opacity = useTransform(dist, [0, step, step * 2, step * 2.6], [1, 0.55, 0.18, 0]);
@@ -299,6 +299,8 @@ function RingCard({ p, i, step, rot, active, onOpen }: { p: Project; i: number; 
     <motion.article
       style={{ transform, opacity, pointerEvents: active ? "auto" : "none" }}
       aria-hidden={!active}
+      onPointerEnter={(e) => active && e.pointerType === "mouse" && onHoverFront(true)}
+      onPointerLeave={(e) => active && e.pointerType === "mouse" && onHoverFront(false)}
       className="absolute left-1/2 top-0 h-full w-[var(--W)] -ml-[calc(var(--W)/2)] [backface-visibility:hidden]"
     >
       <div className="relative h-full flex flex-col rounded-[2rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-4 sm:p-6 overflow-hidden">
@@ -320,14 +322,19 @@ function RingCard({ p, i, step, rot, active, onOpen }: { p: Project; i: number; 
   );
 }
 
+const HOVER_SPEED = 9; // degrees per second while the mouse is over the ring (desktop)
+
 export default function Work() {
-  const section = useRef<HTMLElement>(null);
   const [open, setOpen] = useState<number | null>(null);
   const [active, setActive] = useState(0);
   const [dims, setDims] = useState({ w: 440, r: 760, persp: 2200 });
   const close = useCallback(() => setOpen(null), []);
   const n = projects.length;
   const step = 360 / n;
+  const rot = useMotionValue(0);
+  const drift = useRef(false); // mouse is over the ring but not over the front card
+  const drag = useRef<{ x: number; y: number; start: number; last: number; t: number; v: number; axis: "x" | "y" | null } | null>(null);
+  const anim = useRef<ReturnType<typeof animate> | null>(null);
 
   // ring radius follows card width so neighbours sit edge to edge on the curve
   useEffect(() => {
@@ -342,64 +349,156 @@ export default function Work() {
     return () => window.removeEventListener("resize", measure);
   }, [n]);
 
-  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
-  const rawRot = useTransform(scrollYProgress, [0, 1], [0, -(n - 1) * step]);
-  const rot = useSpring(rawRot, { stiffness: 90, damping: 24, mass: 0.6 });
-  const bar = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const tilt = useTransform(scrollYProgress, [0, 0.5, 1], [8, 0, -8]);
-
   useMotionValueEvent(rot, "change", (v) => {
-    const k = Math.min(n - 1, Math.max(0, Math.round(-v / step)));
+    const k = (((Math.round(-v / step) % n) + n) % n);
     setActive((a) => (a === k ? a : k));
   });
 
+  // slow drift while hovered; respects reduced motion
+  useAnimationFrame((_, dt) => {
+    if (!drift.current || drag.current) return;
+    rot.set(rot.get() - (HOVER_SPEED * dt) / 1000);
+  });
+
+  const snapTo = useCallback(
+    (target: number, velocity = 0) => {
+      anim.current?.stop();
+      anim.current = animate(rot, target, { type: "spring", stiffness: 110, damping: 20, velocity });
+    },
+    [rot],
+  );
+  const snapNearest = (velocity = 0) => {
+    // throw: let the release speed carry it a few cards before snapping
+    const projected = rot.get() + velocity * 0.25;
+    snapTo(Math.round(projected / step) * step, velocity);
+  };
   function goTo(k: number) {
-    const el = section.current;
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: top + (k / (n - 1)) * (el.offsetHeight - window.innerHeight), behavior: "smooth" });
+    const cur = rot.get();
+    const base = -k * step;
+    const m = Math.round((cur - base) / 360);
+    snapTo(base + m * 360);
+  }
+
+  function onEnterRing(e: React.PointerEvent) {
+    if (e.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    anim.current?.stop();
+    drift.current = true;
+  }
+  function onLeaveRing(e: React.PointerEvent) {
+    if (e.pointerType !== "mouse") return;
+    drift.current = false;
+    snapNearest();
+  }
+
+  // swipe (touch) or drag (mouse) to spin
+  function onDown(e: React.PointerEvent) {
+    anim.current?.stop();
+    drag.current = { x: e.clientX, y: e.clientY, start: rot.get(), last: e.clientX, t: performance.now(), v: 0, axis: null };
+  }
+  function onMove(e: React.PointerEvent) {
+    const d = drag.current;
+    if (!d) return;
+    const dx = e.clientX - d.x;
+    const dy = e.clientY - d.y;
+    if (!d.axis) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      d.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      if (d.axis === "x") (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    }
+    if (d.axis !== "x") return;
+    const degPerPx = step / (dims.w * 0.7);
+    rot.set(d.start + dx * degPerPx);
+    const now = performance.now();
+    const dt = Math.max(1, now - d.t);
+    d.v = ((e.clientX - d.last) * degPerPx * 1000) / dt;
+    d.last = e.clientX;
+    d.t = now;
+  }
+  function onUp() {
+    const d = drag.current;
+    drag.current = null;
+    if (d?.axis !== "x") return;
+    const v = Math.max(-400, Math.min(400, d.v));
+    const from = Math.round(d.start / step);
+    let to = Math.round((rot.get() + v * 0.25) / step);
+    // any deliberate swipe moves at least one card
+    if (to === from && Math.abs(rot.get() - d.start) > step * 0.12) to = from + Math.sign(rot.get() - d.start);
+    snapTo(to * step, v);
+  }
+  // a real drag shouldn't also click the card under the finger
+  function onClickCapture(e: React.MouseEvent) {
+    if (Math.abs(rot.get() % step) > 0.5 && !drift.current) e.stopPropagation();
   }
 
   return (
     <div id="work">
-      <section ref={section} className="relative" style={{ height: `calc(100svh + ${(n - 1) * 60}svh)` }}>
-        <div className="sticky top-0 h-[100svh] flex flex-col overflow-hidden pt-20 pb-6">
-          <div aria-hidden="true" className="glow w-[700px] h-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" />
-          <div className="relative flex items-end justify-between gap-4 px-5 sm:px-10 lg:px-16 pb-4 sm:pb-6">
-            <div>
-              <p className="hidden sm:flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-faint mb-3">
-                <span className="w-8 h-px bg-accent" /> PROJECTS
-              </p>
-              <h2 className="font-display font-bold tracking-[-0.02em] text-4xl lg:text-5xl">
-                Selected <span className="font-serif italic font-normal text-accent-2">work</span>
-              </h2>
-            </div>
-            <div className="flex flex-col items-end gap-2 mb-1">
-              <p className="font-mono text-sm text-ink-dim tabular-nums">
-                <span className="text-ink text-lg">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
-              </p>
-              <div className="w-28 sm:w-48 h-[2px] bg-line rounded-full overflow-hidden">
-                <motion.div style={{ width: bar }} className="h-full bg-gradient-to-r from-accent to-accent-2" />
-              </div>
-            </div>
+      <section className="relative h-[100svh] min-h-[640px] flex flex-col overflow-hidden pt-20 pb-6">
+        <div aria-hidden="true" className="glow w-[700px] h-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" />
+        <div className="relative flex items-end justify-between gap-4 px-5 sm:px-10 lg:px-16 pb-4 sm:pb-6">
+          <div>
+            <p className="hidden sm:flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-faint mb-3">
+              <span className="w-8 h-px bg-accent" /> PROJECTS
+            </p>
+            <h2 className="font-display font-bold tracking-[-0.02em] text-4xl lg:text-5xl">
+              Selected <span className="font-serif italic font-normal text-accent-2">work</span>
+            </h2>
           </div>
-
-          {/* the revolving ring */}
-          <div
-            className="relative flex-1 min-h-0"
-            style={{ perspective: dims.persp, ["--W" as string]: `${dims.w}px`, ["--R" as string]: `${dims.r}px` }}
-          >
-            <motion.div
-              className="absolute inset-0 [transform-style:preserve-3d]"
-              style={{ z: -dims.r, rotateX: tilt }}
-            >
-              {projects.map((p, i) => (
-                <RingCard key={p.slug} p={p} i={i} step={step} rot={rot} active={i === active} onOpen={() => setOpen(i)} />
-              ))}
-            </motion.div>
+          <div className="flex flex-col items-end gap-2 mb-1">
+            <p className="font-mono text-sm text-ink-dim tabular-nums">
+              <span className="text-ink text-lg">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
+            </p>
+            <div className="w-28 sm:w-48 h-[2px] bg-line rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-accent to-accent-2 transition-[width] duration-500" style={{ width: `${((active + 1) / n) * 100}%` }} />
+            </div>
+            <p className="text-[11px] text-ink-faint">
+              <span className="hidden lg:inline">Hover to spin · drag to turn</span>
+              <span className="lg:hidden">Swipe to turn</span>
+            </p>
           </div>
+        </div>
 
-          <div className="relative flex items-center justify-center gap-2 pt-4">
+        {/* the revolving ring */}
+        <div
+          className="relative flex-1 min-h-0 cursor-grab active:cursor-grabbing select-none [touch-action:pan-y]"
+          style={{ perspective: dims.persp, ["--W" as string]: `${dims.w}px`, ["--R" as string]: `${dims.r}px` }}
+          onPointerEnter={onEnterRing}
+          onPointerLeave={onLeaveRing}
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={onUp}
+          onClickCapture={onClickCapture}
+        >
+          <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ z: -dims.r, rotateX: 4 }}>
+            {projects.map((p, i) => (
+              <RingCard
+                key={p.slug}
+                p={p}
+                i={i}
+                step={step}
+                rot={rot}
+                active={i === active}
+                onOpen={() => setOpen(i)}
+                onHoverFront={(on) => {
+                  // pause the drift while reading / clicking the front card
+                  if (on) {
+                    drift.current = false;
+                    snapNearest();
+                  } else if (window.matchMedia("(hover: hover)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+                    anim.current?.stop();
+                    drift.current = true;
+                  }
+                }}
+              />
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="relative flex items-center justify-center gap-3 pt-4">
+          <button type="button" onClick={() => goTo((active - 1 + n) % n)} aria-label="Previous project" className="grid place-items-center w-8 h-8 rounded-full border border-line text-ink-dim hover:text-accent-2 hover:border-accent transition-colors">
+            ‹
+          </button>
+          <div className="flex items-center gap-2">
             {projects.map((p, k) => (
               <button
                 key={p.slug}
@@ -409,10 +508,13 @@ export default function Work() {
                 className={`h-1.5 rounded-full transition-all duration-300 ${k === active ? "w-7 bg-accent shadow-[0_0_12px_var(--accent)]" : "w-1.5 bg-line-strong hover:bg-accent-2"}`}
               />
             ))}
-            <a href="#github" className="hidden sm:inline ml-4 text-xs font-semibold text-ink-dim hover:text-accent-2 transition-colors">
-              All repos →
-            </a>
           </div>
+          <button type="button" onClick={() => goTo((active + 1) % n)} aria-label="Next project" className="grid place-items-center w-8 h-8 rounded-full border border-line text-ink-dim hover:text-accent-2 hover:border-accent transition-colors">
+            ›
+          </button>
+          <a href="#github" className="hidden sm:inline ml-2 text-xs font-semibold text-ink-dim hover:text-accent-2 transition-colors">
+            All repos →
+          </a>
         </div>
       </section>
 
