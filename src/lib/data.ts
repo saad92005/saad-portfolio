@@ -175,6 +175,30 @@ export const projects: Project[] = [
     frame: "browser",
   },
   {
+    slug: "aria-whatsapp",
+    status: "Live — running 24/7 on WhatsApp",
+    category: "AI Agent / Conversational AI",
+    title: "Aria",
+    subtitle: "AI WhatsApp Receptionist Agent",
+    description:
+      "An autonomous AI receptionist that lives inside WhatsApp through Meta's new Agent Platform. Aria greets patients, answers questions about services and prices, checks real availability, books, lists and cancels appointments, all by calling tools against a database instead of guessing. It runs serverless around the clock at zero hosting cost.",
+    highlights: [
+      "LLM tool-calling loop: check availability, book, list and cancel appointments against a real D1 database",
+      "Serverless 24/7 on Cloudflare Workers: overlapping cron-driven long polls so no message is ever missed",
+      "Exactly-once replies with message de-duplication, per-user conversation memory and rate-limit handling",
+      "Professional receptionist UX: numbered menu, confirmation cards, 12-hour times, model fallback on rate limits",
+    ],
+    stack: ["JavaScript", "Cloudflare Workers", "Cloudflare D1 (SQLite)", "WhatsApp Agent Platform API", "Groq LLM API", "Tool calling", "Python"],
+    system: ["Patient messages on WhatsApp", "Worker long-polls updates", "LLM decides + calls tools", "Bookings in D1", "Reply on WhatsApp"],
+    result:
+      "Live on WhatsApp and answering 24/7 with the PC switched off, at zero hosting cost — real bookings are stored and retrievable across conversations.",
+    images: [
+      { src: "/images/projects/aria-m1.jpg", alt: "Aria welcome menu and available slots in 12-hour time" },
+      { src: "/images/projects/aria-m2.jpg", alt: "Aria booking confirmation card and confirmed appointment" },
+    ],
+    frame: "phone",
+  },
+  {
     slug: "aes-portal",
     status: "Shipped — live on Google Play",
     category: "Android App / Enterprise",
@@ -356,8 +380,8 @@ export const aboutChecklist = [
 export const aboutTags = ["AI", "Machine Learning", "NLP", "LLMs", "RAG", "Automation", "Software Engineering"];
 
 export const aboutStats = [
-  { value: 9, suffix: "+", label: "Projects shipped or in active development" },
-  { value: 6, suffix: "", label: "Apps live in production" },
+  { value: 10, suffix: "+", label: "Projects shipped or in active development" },
+  { value: 7, suffix: "", label: "Apps live in production" },
   { value: 100, suffix: "%", label: "Real systems — not portfolio demos" },
 ];
 
