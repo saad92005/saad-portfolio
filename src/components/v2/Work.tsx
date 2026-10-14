@@ -22,6 +22,7 @@ const media: Record<string, Media> = {
   "sirat-path": { color: "#10b981", phones: ["sirat-m3.jpg", "sirat-m1.jpg", "sirat-m5.jpg"] },
   learnwise: { color: "#3b82f6", phones: ["learnwise-m2.jpg", "learnwise-m1.jpg", "learnwise-m4.jpg"] },
   thinkdesk: { color: "#8b5cf6", laptop: "thinkdesk-chat.png", phones: ["thinkdesk-m1.jpg"] },
+  paperly: { color: "#4f46e5", laptop: "paperly-reader.png", phones: ["paperly-m1.jpg"] },
   devpulse: { color: "#6366f1", laptop: "devpulse-scan.png", phones: ["devpulse-m1.jpg"] },
   "aria-whatsapp": { color: "#25d366", phones: ["aria-m1.jpg", "aria-m2.jpg"] },
   "aes-portal": { color: "#f59e0b", phones: ["aes-portal-workorders.jpeg", "aes-portal-dashboard.jpeg", "aes-portal-reports.jpeg"] },
@@ -446,13 +447,6 @@ export default function Work() {
           <div className="flex flex-col items-end gap-2 mb-1">
             <p className="font-mono text-sm text-ink-dim tabular-nums">
               <span className="text-ink text-lg">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
-            </p>
-            <div className="w-28 sm:w-48 h-[2px] bg-line rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-accent to-accent-2 transition-[width] duration-500" style={{ width: `${((active + 1) / n) * 100}%` }} />
-            </div>
-            <p className="text-[11px] text-ink-faint">
-              <span className="hidden lg:inline">Hover to spin · drag to turn</span>
-              <span className="lg:hidden">Swipe to turn</span>
             </p>
           </div>
         </div>
