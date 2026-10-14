@@ -146,7 +146,7 @@ export const projects: Project[] = [
   },
   {
     slug: "paperly",
-    status: "Open source — web app live, CI green",
+    status: "Live — free, open source",
     category: "AI / RAG Research Tool",
     title: "Paperly",
     subtitle: "AI Research-Paper Copilot with Sentence-Level Citations",
