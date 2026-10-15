@@ -67,9 +67,9 @@ const stack: Tool[] = [
 
 // three orbits: core languages inside, frameworks in the middle, everything else outside
 const rings = [
-  { items: stack.slice(0, 6), r: 21, dur: 40 },
-  { items: stack.slice(6, 16), r: 33.5, dur: 60 },
-  { items: stack.slice(16), r: 46, dur: 85 },
+  { items: stack.slice(0, 6), r: 19, dur: 40 },
+  { items: stack.slice(6, 16), r: 30.5, dur: 60 },
+  { items: stack.slice(16), r: 42, dur: 85 },
 ];
 
 function Tile({ t, size }: { t: Tool; size: string }) {
@@ -89,42 +89,9 @@ function Tile({ t, size }: { t: Tool; size: string }) {
   );
 }
 
-function Row({ items, reverse }: { items: Tool[]; reverse?: boolean }) {
-  return (
-    <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
-      <div
-        className="flex w-max hover:[animation-play-state:paused]"
-        style={{ animation: `${reverse ? "marquee-right" : "marquee-left"} 45s linear infinite` }}
-      >
-        {[0, 1].map((k) => (
-          <div key={k} className="flex shrink-0 gap-3 pr-3" aria-hidden={k === 1}>
-            {items.map((t) => {
-              const Icon = t.icon;
-              return (
-                <a
-                  key={t.name}
-                  href={t.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  tabIndex={k === 1 ? -1 : undefined}
-                  style={{ ["--brand" as string]: t.color }}
-                  className="group/t stack-tile flex items-center gap-2.5 rounded-full border border-line bg-surface/50 pl-3 pr-4 py-2 text-sm text-ink-dim whitespace-nowrap hover:!border-[var(--brand)] hover:!bg-[color-mix(in_srgb,var(--brand)_14%,transparent)] hover:shadow-[0_0_24px_-6px_var(--brand)]"
-                >
-                  <Icon className="w-4 h-4 group-hover/t:text-[var(--brand)] transition-colors" />
-                  <span className="group-hover/t:text-ink transition-colors">{t.name}</span>
-                </a>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function Stack() {
   return (
-    <section className="relative py-24 sm:py-36 overflow-hidden">
+    <section id="stack" className="relative py-24 sm:py-36 overflow-hidden">
       <div aria-hidden="true" className="aurora w-[700px] h-[700px] left-1/2 top-1/3 -translate-x-1/2 bg-accent/15" />
       <div className="relative text-center px-5">
         <p className="inline-flex items-center gap-3 text-xs tracking-[0.35em] font-semibold text-ink-faint mb-5">
@@ -133,16 +100,18 @@ export default function Stack() {
         <h2 className="font-display font-bold tracking-[-0.02em] text-[clamp(2.2rem,5vw,4rem)] leading-[1.02]">
           Tools I <span className="font-serif italic font-normal text-accent-2">build</span> with
         </h2>
-        <p className="mt-4 text-sm text-ink-faint">Hover to light up · click to visit · {stack.length} tools</p>
+        <p className="mt-4 text-sm text-ink-faint">
+          <span className="hidden md:inline">Hover to light up · </span>Tap to visit · {stack.length} tools
+        </p>
       </div>
 
       {/* 3D orbit system: rings lie on a tilted plane, icons counter-rotate to face you; hover pauses it */}
-      <div className="group/o relative mx-auto mt-6 sm:mt-10 w-[min(760px,100vw)] aspect-[4/3] sm:aspect-[16/11] [perspective:1100px]">
+      <div className="group/o relative mx-auto mt-10 hidden md:block w-[min(760px,calc(100%-4rem))] aspect-[16/11] [perspective:1100px]">
         {/* glowing core */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[22%] aspect-square">
           <div aria-hidden="true" className="absolute -inset-1/2 rounded-full bg-accent/30 blur-3xl animate-pulse" />
           <div className="relative w-full h-full rounded-full grid place-items-center border border-accent-2/30 bg-[radial-gradient(circle_at_30%_25%,#2a4fbf,#111d35_55%,#080b12)] shadow-[0_0_80px_-10px_var(--accent),inset_0_0_30px_rgba(143,184,255,0.25)] animate-[float-y_6s_ease-in-out_infinite]">
-            <span className="font-display font-extrabold text-[clamp(1.1rem,3.4vw,2rem)] shine">AI+</span>
+            <span className="font-display font-extrabold text-[clamp(1.4rem,2.6vw,2rem)] shine">AI+</span>
           </div>
         </div>
         <div className="absolute left-1/2 top-1/2 w-[92%] aspect-square -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d]">
@@ -172,7 +141,7 @@ export default function Stack() {
                           style={{ animation: `counter-orbit ${ring.dur}s linear infinite ${ri % 2 ? "reverse" : ""}` }}
                         >
                           <div className="-translate-x-1/2 -translate-y-full" style={{ transform: "rotateX(-60deg)", transformOrigin: "50% 100%" }}>
-                            <Tile t={t} size="w-9 h-9 sm:w-14 sm:h-14" />
+                            <Tile t={t} size="w-12 h-12 lg:w-14 lg:h-14" />
                           </div>
                         </div>
                       </div>
@@ -185,10 +154,30 @@ export default function Stack() {
         </div>
       </div>
 
-      <div className="mt-12 sm:mt-16 space-y-3">
-        <Row items={stack.slice(0, 15)} />
-        <Row items={stack.slice(15)} reverse />
+      {/* phones: the orbit is too small to read, so show a labelled grid instead */}
+      <div className="md:hidden relative mt-10 px-5">
+        <div className="grid grid-cols-4 min-[420px]:grid-cols-5 gap-x-2 gap-y-5 max-w-md mx-auto">
+          {stack.map((t) => {
+            const Icon = t.icon;
+            return (
+              <a
+                key={t.name}
+                href={t.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{ ["--brand" as string]: t.color }}
+                className="group/t flex flex-col items-center gap-2 text-center"
+              >
+                <span className="grid place-items-center w-14 h-14 rounded-2xl border border-line bg-gradient-to-b from-surface to-bg-2 shadow-[inset_0_1px_0_rgba(143,184,255,0.15)] transition-colors active:border-[var(--brand)]">
+                  <Icon className="w-6 h-6" style={{ color: t.color }} />
+                </span>
+                <span className="text-[10.5px] leading-tight text-ink-dim">{t.name}</span>
+              </a>
+            );
+          })}
+        </div>
       </div>
+
     </section>
   );
 }
