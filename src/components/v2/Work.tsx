@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, animate, motion, useAnimationFrame, useInView, useMotionValue, useMotionValueEvent, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import CaseStudy from "./CaseStudy";
@@ -328,13 +328,106 @@ function RingCard({ p, i, step, rot, active, onOpen, onHoverFront }: { p: Projec
   );
 }
 
+// phones get a native scroll-snap carousel: smooth, swipeable, no 3D ring to fight with
+const MOBILE_Q = "(max-width: 767px)";
+const subscribeMobile = (cb: () => void) => {
+  const mq = window.matchMedia(MOBILE_Q);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+function useIsMobile() {
+  return useSyncExternalStore(subscribeMobile, () => window.matchMedia(MOBILE_Q).matches, () => false);
+}
+
+function MobileWork({ onOpen }: { onOpen: (i: number) => void }) {
+  const track = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const n = projects.length;
+
+  function onScroll() {
+    const el = track.current;
+    if (!el) return;
+    const card = el.firstElementChild as HTMLElement | null;
+    const w = card ? card.offsetWidth + 16 : el.clientWidth;
+    const k = Math.max(0, Math.min(n - 1, Math.round(el.scrollLeft / w)));
+    setActive((a) => (a === k ? a : k));
+  }
+  function goTo(k: number) {
+    const el = track.current;
+    const card = el?.children[k] as HTMLElement | undefined;
+    if (el && card) el.scrollTo({ left: card.offsetLeft - el.offsetLeft - (el.clientWidth - card.offsetWidth) / 2, behavior: "smooth" });
+  }
+
+  return (
+    <section className="relative py-20">
+      <div className="flex items-end justify-between gap-4 px-5 pb-5">
+        <div>
+          <p className="flex items-center gap-3 text-[11px] tracking-[0.35em] font-semibold text-ink-faint mb-2">
+            <span className="w-8 h-px bg-accent" /> PROJECTS
+          </p>
+          <h2 className="font-display font-bold tracking-[-0.02em] text-3xl">
+            Selected <span className="font-serif italic font-normal text-accent-2">work</span>
+          </h2>
+        </div>
+        <p className="font-mono text-sm text-ink-dim tabular-nums mb-1">
+          <span className="text-ink text-lg">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
+        </p>
+      </div>
+
+      <div
+        ref={track}
+        onScroll={onScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory overscroll-x-contain scroll-smooth px-[7.5vw] pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {projects.map((p, i) => (
+          <article key={p.slug} className="snap-center shrink-0 w-[85vw] max-w-[400px] flex flex-col rounded-[1.6rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-3.5">
+            <Stage p={p} i={i} compact />
+            <div className="pt-4 px-1 flex flex-col flex-1">
+              <button type="button" onClick={() => onOpen(i)} className="text-left" aria-label={`Open ${p.title} case study`}>
+                <Body p={p} i={i} />
+              </button>
+              <Links p={p} onOpen={() => onOpen(i)} />
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-center gap-3 pt-5 px-5">
+        <button type="button" onClick={() => goTo(Math.max(0, active - 1))} aria-label="Previous project" className="grid place-items-center w-9 h-9 shrink-0 rounded-full border border-line text-ink-dim active:text-accent-2">
+          ‹
+        </button>
+        <div className="relative h-1 flex-1 max-w-[180px] rounded-full bg-line overflow-hidden">
+          <span className="absolute inset-y-0 left-0 rounded-full bg-accent transition-[width] duration-300" style={{ width: `${((active + 1) / n) * 100}%` }} />
+        </div>
+        <button type="button" onClick={() => goTo(Math.min(n - 1, active + 1))} aria-label="Next project" className="grid place-items-center w-9 h-9 shrink-0 rounded-full border border-line text-ink-dim active:text-accent-2">
+          ›
+        </button>
+      </div>
+    </section>
+  );
+}
+
 const HOVER_SPEED = 9; // degrees per second while the mouse is over the ring (desktop)
 
 export default function Work() {
   const [open, setOpen] = useState<number | null>(null);
+  const close = useCallback(() => setOpen(null), []);
+  const mobile = useIsMobile();
+  return (
+    <div id="work">
+      {mobile ? <MobileWork onOpen={setOpen} /> : <RingWork onOpen={setOpen} />}
+      <AnimatePresence>
+        {open !== null && (
+          <CaseStudy key={open} p={projects[open]} index={open} {...caseMedia(projects[open])} onClose={close} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function RingWork({ onOpen }: { onOpen: (i: number) => void }) {
   const [active, setActive] = useState(0);
   const [dims, setDims] = useState({ w: 440, r: 760, persp: 2200 });
-  const close = useCallback(() => setOpen(null), []);
   const n = projects.length;
   const step = 360 / n;
   const rot = useMotionValue(0);
@@ -437,7 +530,6 @@ export default function Work() {
   }
 
   return (
-    <div id="work">
       <section className="relative h-[100svh] min-h-[640px] flex flex-col overflow-hidden pt-20 pb-6">
         <div aria-hidden="true" className="glow w-[700px] h-[500px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" />
         <div className="relative flex items-end justify-between gap-4 px-5 sm:px-10 lg:px-16 pb-4 sm:pb-6">
@@ -477,7 +569,7 @@ export default function Work() {
                 step={step}
                 rot={rot}
                 active={i === active}
-                onOpen={() => setOpen(i)}
+                onOpen={() => onOpen(i)}
                 onHoverFront={(on) => {
                   // pause the drift while reading / clicking the front card
                   if (on) {
@@ -516,13 +608,6 @@ export default function Work() {
           </a>
         </div>
       </section>
-
-      <AnimatePresence>
-        {open !== null && (
-          <CaseStudy key={open} p={projects[open]} index={open} {...caseMedia(projects[open])} onClose={close} />
-        )}
-      </AnimatePresence>
-    </div>
   );
 }
 

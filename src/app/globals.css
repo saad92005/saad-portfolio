@@ -305,7 +305,7 @@ body::before {
   transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
   will-change: transform, opacity;
 }
-.tech-orbit .orbit-icon svg { filter: grayscale(1) brightness(1.15); transition: filter 0.25s; }
+/* icons are single-colour SVGs tinted by currentColor, so "grayscale" is just the dim ink colour (no costly filter per frame) */
 .tech-orbit .orbit-icon[data-active="true"],
 .tech-orbit .orbit-icon:focus-visible {
   color: var(--brand);

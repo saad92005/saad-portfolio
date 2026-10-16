@@ -14,8 +14,8 @@ export default function Stack() {
           Tools I <span className="font-serif italic font-normal text-accent-2">build</span> with
         </h2>
         <p className="mt-4 text-sm text-ink-faint">
-          <span className="hidden md:inline">Hover</span>
-          <span className="md:hidden">Tap</span> an icon to light it up
+          <span className="hidden md:inline">Hover an icon to light it up, click to visit its site</span>
+          <span className="md:hidden">Tap an icon to light it up, tap again to visit</span>
         </p>
       </div>
       <div className="relative mt-6 sm:mt-10">

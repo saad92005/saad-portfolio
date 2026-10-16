@@ -5,53 +5,74 @@ import type { IconType } from "react-icons";
 import {
   SiAndroid,
   SiClaude,
+  SiCloudflare,
+  SiDart,
+  SiDocker,
   SiFastapi,
+  SiFirebase,
   SiFlutter,
+  SiGit,
   SiGithub,
+  SiGooglegemini,
   SiHuggingface,
   SiJavascript,
+  SiLangchain,
+  SiMongodb,
   SiN8N,
   SiNextdotjs,
   SiNodedotjs,
   SiPostgresql,
   SiPython,
   SiReact,
+  SiSupabase,
   SiTailwindcss,
   SiTypescript,
   SiVercel,
+  SiVite,
 } from "react-icons/si";
 
 /* ============================================================================
- * EDIT YOUR STACK HERE. One array per ring (inner → outer). Add or remove tools freely;
- * the orbit spaces them evenly. `color` is the brand color shown on hover.
+ * EDIT YOUR STACK HERE. One array per ring (inner -> outer). Add or remove tools freely;
+ * the orbit spaces them evenly. `color` is the brand color shown on hover, `url` is the
+ * official site the icon opens.
  * ========================================================================== */
-type Tech = { name: string; icon: IconType; color: string };
+type Tech = { name: string; icon: IconType; color: string; url: string };
 
 const RINGS: Tech[][] = [
   // inner ring: languages & AI
   [
-    { name: "Python", icon: SiPython, color: "#3776AB" },
-    { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-    { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-    { name: "Claude", icon: SiClaude, color: "#D97757" },
-    { name: "Hugging Face", icon: SiHuggingface, color: "#FFD21E" },
+    { name: "Python", icon: SiPython, color: "#3776AB", url: "https://www.python.org" },
+    { name: "TypeScript", icon: SiTypescript, color: "#3178C6", url: "https://www.typescriptlang.org" },
+    { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", url: "https://developer.mozilla.org/docs/Web/JavaScript" },
+    { name: "Claude", icon: SiClaude, color: "#D97757", url: "https://www.anthropic.com/claude" },
+    { name: "Hugging Face", icon: SiHuggingface, color: "#FFD21E", url: "https://huggingface.co" },
+    { name: "Gemini", icon: SiGooglegemini, color: "#8E75B2", url: "https://gemini.google.com" },
   ],
   // middle ring: frameworks (rotates the opposite way)
   [
-    { name: "React", icon: SiReact, color: "#61DAFB" },
-    { name: "Next.js", icon: SiNextdotjs, color: "#F4F6FC" },
-    { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
-    { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E" },
-    { name: "FastAPI", icon: SiFastapi, color: "#009688" },
-    { name: "Flutter", icon: SiFlutter, color: "#54C5F8" },
+    { name: "React", icon: SiReact, color: "#61DAFB", url: "https://react.dev" },
+    { name: "Next.js", icon: SiNextdotjs, color: "#F4F6FC", url: "https://nextjs.org" },
+    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4", url: "https://tailwindcss.com" },
+    { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E", url: "https://nodejs.org" },
+    { name: "FastAPI", icon: SiFastapi, color: "#009688", url: "https://fastapi.tiangolo.com" },
+    { name: "Flutter", icon: SiFlutter, color: "#54C5F8", url: "https://flutter.dev" },
+    { name: "Dart", icon: SiDart, color: "#0175C2", url: "https://dart.dev" },
+    { name: "Vite", icon: SiVite, color: "#A855F7", url: "https://vite.dev" },
   ],
   // outer ring: data, automation, platforms
   [
-    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
-    { name: "n8n", icon: SiN8N, color: "#EA4B71" },
-    { name: "Android", icon: SiAndroid, color: "#3DDC84" },
-    { name: "GitHub", icon: SiGithub, color: "#F4F6FC" },
-    { name: "Vercel", icon: SiVercel, color: "#F4F6FC" },
+    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", url: "https://www.postgresql.org" },
+    { name: "Supabase", icon: SiSupabase, color: "#3ECF8E", url: "https://supabase.com" },
+    { name: "Firebase", icon: SiFirebase, color: "#FFCA28", url: "https://firebase.google.com" },
+    { name: "MongoDB", icon: SiMongodb, color: "#47A248", url: "https://www.mongodb.com" },
+    { name: "n8n", icon: SiN8N, color: "#EA4B71", url: "https://n8n.io" },
+    { name: "LangChain", icon: SiLangchain, color: "#1C9C7C", url: "https://www.langchain.com" },
+    { name: "Docker", icon: SiDocker, color: "#2496ED", url: "https://www.docker.com" },
+    { name: "Android", icon: SiAndroid, color: "#3DDC84", url: "https://developer.android.com" },
+    { name: "Git", icon: SiGit, color: "#F05032", url: "https://git-scm.com" },
+    { name: "GitHub", icon: SiGithub, color: "#F4F6FC", url: "https://github.com" },
+    { name: "Vercel", icon: SiVercel, color: "#F4F6FC", url: "https://vercel.com" },
+    { name: "Cloudflare", icon: SiCloudflare, color: "#F38020", url: "https://www.cloudflare.com" },
   ],
 ];
 
@@ -61,9 +82,9 @@ const CORE_LABEL = "AI+";
 // Per ring: radius (fraction of the scene's half-width), rotation speed (rad/s; negative =
 // opposite direction), and the in-plane tilt of the ellipse in radians.
 const RING_GEOMETRY = [
-  { r: 0.36, speed: 0.22, tilt: -0.16 },
-  { r: 0.62, speed: -0.14, tilt: 0.1 },
-  { r: 0.88, speed: 0.09, tilt: -0.05 },
+  { r: 0.34, speed: 0.2, tilt: -0.16 },
+  { r: 0.61, speed: -0.13, tilt: 0.1 },
+  { r: 0.9, speed: 0.08, tilt: -0.05 },
 ];
 const INTRO_MS = 1800;
 const HOVER_SLOWDOWN = 0.12; // orbit speed multiplier while something is focused
@@ -78,8 +99,9 @@ const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
 export default function TechStackOrbit() {
   const sceneRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
+  const starRef = useRef<HTMLCanvasElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const iconRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const iconRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const tipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -112,7 +134,7 @@ export default function TechStackOrbit() {
     const ringRadii = (ri: number) => {
       const g = RING_GEOMETRY[ri];
       const rx = (w / 2) * g.r * 0.92;
-      const flat = w < 640 ? 0.6 : 0.36; // flatter ellipses on wide screens, rounder on phones
+      const flat = w < 640 ? 0.78 : 0.36; // flatter ellipses on wide screens, rounder on (square) phones
       return { rx, ry: rx * flat, tilt: g.tilt };
     };
 
@@ -144,6 +166,19 @@ export default function TechStackOrbit() {
         r: Math.random() * 1.1 + 0.2,
         p: Math.random() * Math.PI * 2,
       }));
+      // stars are drawn once into an offscreen layer; each frame just blits it
+      const sc = starRef.current ?? (starRef.current = document.createElement("canvas"));
+      sc.width = canvas!.width;
+      sc.height = canvas!.height;
+      const sctx = sc.getContext("2d")!;
+      sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      sctx.fillStyle = accent2;
+      for (const s of stars) {
+        sctx.globalAlpha = 0.2 + 0.35 * ((Math.sin(s.p) + 1) / 2);
+        sctx.beginPath();
+        sctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        sctx.fill();
+      }
       draw(performance.now());
     }
 
@@ -151,14 +186,10 @@ export default function TechStackOrbit() {
       const intro = reduced ? 1 : introStart ? easeOut(Math.min((now - introStart) / INTRO_MS, 1)) : 0;
       ctx!.clearRect(0, 0, w, h);
 
-      // starfield (gentle twinkle)
-      for (const s of stars) {
-        const tw = reduced ? 0.6 : 0.45 + 0.4 * Math.sin(now / 900 + s.p);
-        ctx!.globalAlpha = tw * 0.55;
-        ctx!.fillStyle = accent2;
-        ctx!.beginPath();
-        ctx!.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx!.fill();
+      // starfield: one blit of the prerendered layer, with a slow shared twinkle
+      if (starRef.current) {
+        ctx!.globalAlpha = reduced ? 0.9 : 0.75 + 0.25 * Math.sin(now / 1400);
+        ctx!.drawImage(starRef.current, 0, 0, w, h);
       }
       ctx!.globalAlpha = 1;
 
@@ -191,6 +222,7 @@ export default function TechStackOrbit() {
       ctx!.globalAlpha = 1;
 
       // icons (DOM): position, fake 3D depth, z-order
+      const half = (iconRefs.current[0]?.offsetWidth ?? 0) / 2;
       ITEMS.forEach((it, i) => {
         const el = iconRefs.current[i];
         if (!el) return;
@@ -202,8 +234,8 @@ export default function TechStackOrbit() {
         const isActive = i === active;
         const scale = (0.66 + 0.44 * front) * (isActive ? 1.25 : 1) * (0.4 + 0.6 * intro);
         const dim = active >= 0 && !isActive ? 0.3 : 1;
-        el.style.transform = `translate(-50%, -50%) translate(${p.x}px, ${p.y}px) scale(${scale})`;
-        el.style.opacity = String((0.38 + 0.62 * front) * dim * Math.min(1, intro * 1.4));
+        el.style.transform = `translate3d(${(p.x - half).toFixed(2)}px, ${(p.y - half).toFixed(2)}px, 0) scale(${scale.toFixed(3)})`;
+        el.style.opacity = ((0.4 + 0.6 * front) * dim * Math.min(1, intro * 1.4)).toFixed(3);
         el.style.zIndex = String(isActive ? 60 : p.depth > 0 ? 30 + Math.round(front * 20) : 1 + Math.round(front * 10));
         el.dataset.active = isActive ? "true" : "false";
 
@@ -233,13 +265,13 @@ export default function TechStackOrbit() {
       // mouse parallax: ease toward the target tilt
       tilt.x += (tilt.tx - tilt.x) * 0.06;
       tilt.y += (tilt.ty - tilt.y) * 0.06;
-      tiltEl!.style.transform = `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`;
+      tiltEl!.style.transform = `translate3d(${tilt.y.toFixed(2)}px, ${(-tilt.x).toFixed(2)}px, 0)`;
     }
 
     function frame(now: number) {
       const dt = last ? Math.min(now - last, 50) / 1000 : 0;
       last = now;
-      speedMul += ((active >= 0 ? HOVER_SLOWDOWN : 1) - speedMul) * 0.08;
+      speedMul += ((active >= 0 ? HOVER_SLOWDOWN : 1) - speedMul) * (1 - Math.exp(-dt * 5));
       angle += dt * speedMul;
       draw(now);
       raf = requestAnimationFrame(frame);
@@ -276,8 +308,8 @@ export default function TechStackOrbit() {
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse" || reduced) return;
       const r = scene.getBoundingClientRect();
-      tilt.ty = ((e.clientX - r.left) / r.width - 0.5) * 8;
-      tilt.tx = -((e.clientY - r.top) / r.height - 0.5) * 6;
+      tilt.ty = ((e.clientX - r.left) / r.width - 0.5) * 18;
+      tilt.tx = -((e.clientY - r.top) / r.height - 0.5) * 12;
     };
     const onPointerLeave = () => {
       tilt.tx = 0;
@@ -300,17 +332,22 @@ export default function TechStackOrbit() {
       };
       const enter = (e: PointerEvent) => e.pointerType === "mouse" && on();
       const leave = (e: PointerEvent) => e.pointerType === "mouse" && off();
+      // mouse clicks open the site; on touch the first tap lights it up, the second opens it
+      let lastPointer = "mouse";
+      const down = (e: PointerEvent) => (lastPointer = e.pointerType);
       const tap = (e: MouseEvent) => {
+        if (lastPointer === "mouse" || active === i) return;
         e.preventDefault();
-        if (active === i) off();
-        else on();
+        on();
       };
       el.addEventListener("pointerenter", enter);
       el.addEventListener("pointerleave", leave);
       el.addEventListener("focus", on);
       el.addEventListener("blur", off);
       el.addEventListener("click", tap);
+      el.addEventListener("pointerdown", down);
       cleanups.push(() => {
+        el.removeEventListener("pointerdown", down);
         el.removeEventListener("pointerenter", enter);
         el.removeEventListener("pointerleave", leave);
         el.removeEventListener("focus", on);
@@ -333,13 +370,13 @@ export default function TechStackOrbit() {
   return (
     <div
       ref={sceneRef}
-      className="tech-orbit relative mx-auto w-[min(920px,calc(100%-1.5rem))] aspect-[4/3] sm:aspect-[16/9] [perspective:1200px] touch-pan-y select-none"
+      className="tech-orbit relative mx-auto w-[min(960px,calc(100%-2rem))] aspect-square sm:aspect-[16/10] lg:aspect-[16/9] touch-pan-y select-none"
     >
-      <div ref={tiltRef} className="absolute inset-0 [transform-style:preserve-3d] will-change-transform">
+      <div ref={tiltRef} className="absolute inset-0 will-change-transform">
         <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0" />
 
         {/* glowing core: pulse + spinning ring + ripple (CSS keyframes, disabled for reduced motion) */}
-        <div className="absolute left-1/2 top-1/2 z-[20] -translate-x-1/2 -translate-y-1/2 w-[clamp(56px,14%,128px)] aspect-square pointer-events-none">
+        <div className="absolute left-1/2 top-1/2 z-[20] -translate-x-1/2 -translate-y-1/2 w-[clamp(54px,13%,120px)] aspect-square pointer-events-none">
           <span aria-hidden="true" className="orbit-glow absolute -inset-[90%] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--accent)_45%,transparent)_0%,transparent_65%)]" />
           <span aria-hidden="true" className="orbit-ripple absolute inset-0 rounded-full border border-accent-2/50" />
           <span aria-hidden="true" className="orbit-spin absolute -inset-[10%] rounded-full border-2 border-transparent border-t-accent-2/80 border-r-accent/60" />
@@ -351,18 +388,21 @@ export default function TechStackOrbit() {
         {ITEMS.map((t, i) => {
           const Icon = t.icon;
           return (
-            <button
+            <a
               key={t.name}
+              href={t.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t.name}
               ref={(el) => {
                 iconRefs.current[i] = el;
               }}
-              type="button"
-              aria-label={t.name}
-              style={{ ["--brand" as string]: t.color, transform: "translate(-50%, -50%) translate(50%, 50%)" }}
-              className="orbit-icon absolute left-0 top-0 grid place-items-center w-[clamp(28px,6.4vw,58px)] aspect-square rounded-xl sm:rounded-2xl border border-line bg-gradient-to-b from-surface to-bg-2 text-ink-dim shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(143,184,255,0.15)] opacity-0"
+              aria-label={`${t.name} (opens official site)`}
+              style={{ ["--brand" as string]: t.color }}
+              className="orbit-icon absolute left-0 top-0 grid place-items-center w-[clamp(30px,7.6vw,54px)] aspect-square rounded-xl sm:rounded-2xl border border-line bg-gradient-to-b from-surface to-bg-2 text-ink-dim shadow-[0_8px_20px_-10px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(143,184,255,0.15)] opacity-0 outline-none focus-visible:ring-2 focus-visible:ring-accent-2"
             >
-              <Icon className="w-[48%] h-[48%]" aria-hidden="true" />
-            </button>
+              <Icon className="w-[50%] h-[50%]" aria-hidden="true" />
+            </a>
           );
         })}
 
