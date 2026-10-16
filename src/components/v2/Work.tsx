@@ -328,6 +328,8 @@ function RingCard({ p, i, step, rot, active, onOpen, onHoverFront }: { p: Projec
   );
 }
 
+const RING_ANGLE = 34; // degrees between neighbouring cards on the mobile ring
+
 // phones get a native scroll-snap carousel: smooth, swipeable, no 3D ring to fight with
 const MOBILE_Q = "(max-width: 767px)";
 const subscribeMobile = (cb: () => void) => {
@@ -344,14 +346,43 @@ function MobileWork({ onOpen }: { onOpen: (i: number) => void }) {
   const [active, setActive] = useState(0);
   const n = projects.length;
 
-  function onScroll() {
+  const frame = useRef(0);
+
+  // Native scroll drives the swipe; each card is then bent onto a cylinder so the
+  // row revolves like a ring. Styles are written directly (no re-render per frame).
+  const layout = useCallback(() => {
+    frame.current = 0;
     const el = track.current;
     if (!el) return;
-    const card = el.firstElementChild as HTMLElement | null;
-    const w = card ? card.offsetWidth + 16 : el.clientWidth;
-    const k = Math.max(0, Math.min(n - 1, Math.round(el.scrollLeft / w)));
+    const cards = Array.from(el.children) as HTMLElement[];
+    if (!cards.length) return;
+    const step = cards[0].offsetWidth + 16;
+    const pos = el.scrollLeft / step;
+    const R = step / (2 * Math.tan((RING_ANGLE * Math.PI) / 360));
+    cards.forEach((c, i) => {
+      const d = i - pos;
+      const ad = Math.abs(d);
+      c.style.transform = `translateX(${(-d * step).toFixed(1)}px) translateZ(${-R}px) rotateY(${(d * RING_ANGLE).toFixed(2)}deg) translateZ(${R}px)`;
+      c.style.opacity = String(Math.max(0, 1 - Math.max(0, ad - 0.6) * 0.55).toFixed(3));
+      c.style.zIndex = String(100 - Math.round(ad * 10));
+      c.style.pointerEvents = ad < 0.5 ? "auto" : "none";
+    });
+    const k = Math.max(0, Math.min(n - 1, Math.round(pos)));
     setActive((a) => (a === k ? a : k));
+  }, [n]);
+
+  function onScroll() {
+    if (!frame.current) frame.current = requestAnimationFrame(layout);
   }
+
+  useEffect(() => {
+    layout();
+    window.addEventListener("resize", layout);
+    return () => {
+      window.removeEventListener("resize", layout);
+      cancelAnimationFrame(frame.current);
+    };
+  }, [layout]);
   function goTo(k: number) {
     const el = track.current;
     const card = el?.children[k] as HTMLElement | undefined;
@@ -377,10 +408,11 @@ function MobileWork({ onOpen }: { onOpen: (i: number) => void }) {
       <div
         ref={track}
         onScroll={onScroll}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory overscroll-x-contain scroll-smooth px-[7.5vw] pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory overscroll-x-contain py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ perspective: 1000, perspectiveOrigin: "50% 50%", paddingInline: "calc(50% - min(42.5vw, 200px))" }}
       >
         {projects.map((p, i) => (
-          <article key={p.slug} className="snap-center shrink-0 w-[85vw] max-w-[400px] flex flex-col rounded-[1.6rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-3.5">
+          <article key={p.slug} className="snap-center shrink-0 w-[85vw] max-w-[400px] [backface-visibility:hidden] will-change-transform flex flex-col rounded-[1.6rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-3.5">
             <Stage p={p} i={i} compact />
             <div className="pt-4 px-1 flex flex-col flex-1">
               <button type="button" onClick={() => onOpen(i)} className="text-left" aria-label={`Open ${p.title} case study`}>
