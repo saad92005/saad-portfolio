@@ -167,7 +167,7 @@ function Stage({ p, i, compact }: { p: Project; i: number; compact?: boolean }) 
         py.set(0);
       }}
       onClick={() => setTurns((t) => t + 1)}
-      className={`relative shrink-0 rounded-2xl overflow-hidden ${compact ? "h-[clamp(130px,24svh,290px)] sm:h-[clamp(170px,30svh,290px)]" : "h-[300px] sm:h-[340px]"}`}
+      className={`relative shrink-0 rounded-2xl overflow-hidden ${compact ? "h-[clamp(118px,21svh,290px)] sm:h-[clamp(170px,30svh,290px)]" : "h-[300px] sm:h-[340px]"}`}
       style={{
         perspective: 1100,
         background: `radial-gradient(120% 90% at 50% 100%, ${m.color}55, transparent 60%), linear-gradient(180deg, #111d35, #0d1424)`,
@@ -264,7 +264,7 @@ function Body({ p, i }: { p: Project; i: number }) {
 
 function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: number }) {
   return (
-    <div className="mt-auto pt-3 sm:pt-4 flex flex-nowrap sm:flex-wrap gap-1.5 sm:gap-3 [&>*]:flex-1 [&>*]:min-w-0 [&>*]:justify-center sm:[&>*]:flex-none">
+    <div className="mt-auto pt-3 sm:pt-4 grid grid-cols-2 gap-1.5 sm:flex sm:flex-wrap sm:gap-3 [&>*]:justify-center sm:[&>*]:justify-start [&>*:nth-child(3)]:col-span-2">
       <button
         type="button"
         tabIndex={tab}
@@ -286,15 +286,7 @@ function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: numbe
               : "border border-line-strong hover:border-accent hover:text-accent-2"
           }`}
         >
-          {/* "View on GitHub" -> "GitHub" on phones so all buttons fit one row */}
-          {l.label.startsWith("View on ") ? (
-            <>
-              <span className="hidden sm:inline">View on&nbsp;</span>
-              {l.label.slice(8)}
-            </>
-          ) : (
-            l.label
-          )}{" "}
+          {l.label}{" "}
           <ArrowUpRight size={13} className="shrink-0" />
         </a>
       ))}
@@ -489,7 +481,7 @@ function RingWork({ onOpen }: { onOpen: (i: number) => void }) {
 
         {/* the revolving ring */}
         <div
-          className="relative flex-1 min-h-0 cursor-grab active:cursor-grabbing select-none [touch-action:pan-y]"
+          className="relative flex-1 min-h-0 mt-3 sm:mt-0 cursor-grab active:cursor-grabbing select-none [touch-action:pan-y]"
           style={{ perspective: dims.persp, ["--W" as string]: `${dims.w}px`, ["--R" as string]: `${dims.r}px` }}
           onPointerEnter={onEnterRing}
           onPointerLeave={onLeaveRing}
@@ -499,7 +491,7 @@ function RingWork({ onOpen }: { onOpen: (i: number) => void }) {
           onPointerCancel={onUp}
           onClickCapture={onClickCapture}
         >
-          <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ z: -dims.r, rotateX: 4 }}>
+          <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ z: -dims.r, rotateX: dims.arc ? 0 : 4 }}>
             {projects.map((p, i) => (
               <RingCard
                 key={p.slug}
