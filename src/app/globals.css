@@ -299,3 +299,27 @@ body::before {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
+
+/* ---- Tech stack orbit (TechStackOrbit.tsx) ---- */
+.tech-orbit .orbit-icon {
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+  will-change: transform, opacity;
+}
+.tech-orbit .orbit-icon svg { filter: grayscale(1) brightness(1.15); transition: filter 0.25s; }
+.tech-orbit .orbit-icon[data-active="true"],
+.tech-orbit .orbit-icon:focus-visible {
+  color: var(--brand);
+  border-color: var(--brand);
+  background-color: color-mix(in srgb, var(--brand) 16%, var(--surface));
+  box-shadow: 0 0 34px -4px var(--brand);
+}
+.tech-orbit .orbit-icon[data-active="true"] svg,
+.tech-orbit .orbit-icon:focus-visible svg { filter: none drop-shadow(0 0 10px var(--brand)); }
+.tech-orbit .orbit-glow { animation: orbit-pulse 3.2s ease-in-out infinite; }
+.tech-orbit .orbit-spin { animation: orbit 6s linear infinite; }
+.tech-orbit .orbit-ripple { animation: orbit-ripple 3.2s ease-out infinite; }
+@keyframes orbit-pulse { 0%, 100% { opacity: 0.55; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes orbit-ripple { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.9); } }
+@media (prefers-reduced-motion: reduce) {
+  .tech-orbit .orbit-glow, .tech-orbit .orbit-spin, .tech-orbit .orbit-ripple { animation: none; }
+}

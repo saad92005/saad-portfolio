@@ -25,6 +25,11 @@ const media: Record<string, Media> = {
   paperly: { color: "#4f46e5", laptop: "paperly-reader.png", phones: ["paperly-m1.jpg"] },
   devpulse: { color: "#6366f1", laptop: "devpulse-scan.png", phones: ["devpulse-m1.jpg"] },
   "aria-whatsapp": { color: "#25d366", phones: ["aria-m1.jpg", "aria-m2.jpg"] },
+  "rag-knowledge-agent": { color: "#34d399", laptop: "rag-agent-chat.png", phones: ["rag-agent-m1.png"] },
+  "ai-finance-agent": { color: "#6366f1", laptop: "finance-agent-dashboard.png", phones: ["finance-agent-m1.png"] },
+  "ai-research-agent": { color: "#a78bfa", laptop: "research-agent-report.png", phones: ["research-agent-m1.png"] },
+  "ai-job-search-agent": { color: "#f26b4f", laptop: "job-agent-matches.png", phones: ["job-agent-m1.png"] },
+  "ai-coding-agent": { color: "#4ade80", laptop: "coding-agent-diff.png", phones: ["coding-agent-m1.png"] },
   "aes-portal": { color: "#f59e0b", phones: ["aes-portal-workorders.jpeg", "aes-portal-dashboard.jpeg", "aes-portal-reports.jpeg"] },
   "aes-attendance": {
     color: "#22c55e",

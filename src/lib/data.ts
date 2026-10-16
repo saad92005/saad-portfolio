@@ -229,6 +229,133 @@ export const projects: Project[] = [
     frame: "phone",
   },
   {
+    slug: "rag-knowledge-agent",
+    status: "Live — try it with the sample documents",
+    category: "AI Agent / RAG",
+    title: "RAG Knowledge Agent",
+    subtitle: "Answers Only From Your Documents, With Page Citations",
+    description:
+      "Upload PDFs, Word files or text and ask questions. Hybrid search (semantic + keyword) finds the passages, a cross-encoder reranks them, and the LLM answers only from what was retrieved, citing file and page. If nothing relevant is found, code refuses before the LLM is ever called.",
+    highlights: [
+      "Hybrid retrieval (bge-small embeddings + BM25, fused with RRF) and cross-encoder reranking",
+      "Refusal enforced in code by a relevance threshold, plus a NOT_FOUND rule for near-miss questions",
+      "Invented citation markers are stripped; every claim links to the highlighted source chunk",
+      "Ask only selected documents, copy answers, export the conversation as Markdown",
+    ],
+    stack: ["FastAPI", "Python", "fastembed (ONNX)", "flashrank", "Postgres + pgvector (Neon)", "Groq LLM API", "Next.js 16", "TypeScript", "Tailwind CSS", "Vercel"],
+    system: ["Upload", "Page-aware chunking", "Hybrid search", "Rerank", "Threshold refusal", "Cited answer"],
+    result:
+      "Measured on 27 questions: the right passage ranked first 100% of the time (vs 95% dense-only), every answerable question answered correctly and faithfully, and 6/6 unanswerable questions declined.",
+    images: [
+      { src: "/images/projects/rag-agent-chat.png", alt: "RAG Knowledge Agent answering with a page citation and the highlighted source passage" },
+      { src: "/images/projects/rag-agent-home.png", alt: "RAG Knowledge Agent documents and suggested questions" },
+    ],
+    links: [{ label: "Live demo", href: "https://saad-rag-agent.vercel.app" }],
+    frame: "browser",
+  },
+  {
+    slug: "ai-finance-agent",
+    status: "Live — try it with a synthetic statement",
+    category: "AI Agent / FinTech",
+    title: "AI Finance Agent",
+    subtitle: "The LLM Only Categorizes. All Money Math Is Code.",
+    description:
+      "Upload a bank statement (CSV, Excel or PDF) and get a categorized dashboard, overspending and anomaly insights, budgets, and a chat that only quotes numbers computed in code. Account numbers, IBANs, phone numbers and names are redacted before anything reaches an LLM, and the server never stores a statement.",
+    highlights: [
+      "Statement parser for CSV/XLSX/PDF with header detection and balance-based signs for PDFs",
+      "Categorization pipeline: your corrections → keyword rules → LLM on redacted text → safe fallback",
+      "Decimal-only analytics: monthly trend, overspend vs your average, unusual purchases, budgets",
+      "Privacy-first and stateless: data lives in the browser; CSV export of categorized transactions",
+    ],
+    stack: ["FastAPI", "Python", "Decimal", "openpyxl", "pypdf", "Groq LLM API", "Next.js 16", "TypeScript", "Recharts", "Tailwind CSS", "Vercel"],
+    system: ["Statement", "Parse & normalize", "Rules → redacted LLM", "Decimal analytics", "Dashboard + budgets", "Grounded chat"],
+    result:
+      "Categorization accuracy measured at 95% on 104 hand-labeled transactions (78% with rules alone), and 84% on merchants the rules had never seen. Parsing round-trips are exact in all three file formats.",
+    images: [
+      { src: "/images/projects/finance-agent-dashboard.png", alt: "AI Finance Agent dashboard with KPIs, monthly chart and spending by category" },
+      { src: "/images/projects/finance-agent-budgets-chat.png", alt: "Budgets with progress bars and a chat answer quoting computed numbers" },
+    ],
+    links: [{ label: "Live demo", href: "https://saad-finance-agent.vercel.app" }],
+    frame: "browser",
+  },
+  {
+    slug: "ai-research-agent",
+    status: "Live — research any topic",
+    category: "AI Agent / Research",
+    title: "AI Research Agent",
+    subtitle: "Every Claim Linked to a Quote Verified on the Source Page",
+    description:
+      "Give it a topic and watch it plan sub-questions, search the web, read pages and write a cited report. For every fact the model must copy a verbatim quote, and code checks that quote really appears on the page; facts that fail are rejected before they can be cited. Conflicting sources are flagged side by side.",
+    highlights: [
+      "Visible agent steps streamed live (planning, searching, reading, checking, writing)",
+      "Quote verification in code; invented citation ids stripped from the report",
+      "Polite crawling: robots.txt, per-host rate limits, budget caps on calls, sources and time",
+      "Depth presets, saved report history, Markdown/PDF export, summarize-one-URL/PDF mode",
+    ],
+    stack: ["FastAPI", "Python", "Tavily / Wikipedia / arXiv", "BeautifulSoup", "rank-bm25", "Groq LLM API", "Next.js 16", "TypeScript", "react-markdown", "Vercel"],
+    system: ["Topic", "Plan", "Search", "Read (robots.txt)", "Extract + verify quotes", "Cited report"],
+    result:
+      "On 8 research runs, 40/40 cited links still resolved and 121/121 quotes were found verbatim when re-fetched independently. The verifier rejected 38 paraphrased or invented quotes, none of which reached a report.",
+    images: [
+      { src: "/images/projects/research-agent-report.png", alt: "AI Research Agent report with citations and verified quotes per source" },
+      { src: "/images/projects/research-agent-steps.png", alt: "AI Research Agent live steps while researching" },
+    ],
+    links: [{ label: "Live demo", href: "https://saad-research-agent.vercel.app" }],
+    frame: "browser",
+  },
+  {
+    slug: "ai-job-search-agent",
+    status: "Live — try it with a sample CV",
+    category: "AI Agent / Career",
+    title: "AI Job Search Agent",
+    subtitle: "Explainable Job Matches From Official Job APIs",
+    description:
+      "Upload a CV and get jobs from official APIs (Remotive, Arbeitnow, Remote OK, Jobicy; no scraping), each with a match score you can audit: skill overlap, semantic similarity and a seniority-fit factor. CV tailoring and cover letters are guarded, so any sentence claiming a skill your CV doesn't contain is removed.",
+    highlights: [
+      "Score = (60% skill overlap + 40% embedding similarity) × level fit, every part shown",
+      "~200-skill taxonomy with context-aware matching (\"Go to the store\" is not Go)",
+      "Guarded AI: suggestions and cover-letter sentences with invented skills are dropped and reported",
+      "Kanban application tracker with notes, reminders, .ics export and funnel stats",
+    ],
+    stack: ["FastAPI", "Python", "fastembed (ONNX)", "Official job APIs", "Groq LLM API", "Next.js 16", "TypeScript", "Tailwind CSS", "Vercel"],
+    system: ["CV", "Skills & level", "Job APIs (cached)", "Explainable score", "Guarded tailoring", "Tracker"],
+    result:
+      "Ranks hundreds of live jobs per search in seconds; scoring flaws found on real feeds (one-keyword 100% matches, junior CVs topped by senior roles) were fixed with regression tests.",
+    images: [
+      { src: "/images/projects/job-agent-matches.png", alt: "AI Job Search Agent ranked matches with the score explanation" },
+      { src: "/images/projects/job-agent-cover-letter.png", alt: "Guarded cover letter draft built only from the CV" },
+      { src: "/images/projects/job-agent-tracker.png", alt: "Application tracker with funnel stats" },
+    ],
+    links: [{ label: "Live demo", href: "https://saad-job-agent.vercel.app" }],
+    frame: "browser",
+  },
+  {
+    slug: "ai-coding-agent",
+    status: "Live — try it on 10 buggy sample repos",
+    category: "AI Agent / Developer Tool",
+    title: "AI Coding Agent",
+    subtitle: "Safe by Design: Diffs Only Apply When You Approve",
+    description:
+      "An AI coding agent that reads a project, finds bugs and proposes fixes as diffs. Nothing changes until you click Apply, commands come from an allowlist with timeouts, and secret files never leave the sandbox. Every safety guarantee is backed by a test.",
+    highlights: [
+      "Path-traversal proof (.., absolute paths, symlink escapes, zip-slip) and protected secret files",
+      "Secrets redacted before any LLM call; fixes must match the real file exactly once",
+      "Approval-gated, hash-checked atomic writes with an audit log; untrusted uploads only run in Docker",
+      "Diff viewer, allowlisted test runner, explain-file, and download of the patched project",
+    ],
+    stack: ["FastAPI", "Python", "pytest", "Docker sandbox", "Groq LLM API", "Next.js 16", "TypeScript", "Tailwind CSS", "Vercel"],
+    system: ["Workspace (sandbox)", "Redact secrets", "LLM proposes", "Validate diff", "You approve", "Run tests"],
+    result:
+      "Fixed 10/10 bugs in a seeded benchmark of small Python repos (tests fail before, pass after its diffs), with 34 tests proving traversal is blocked, writes need approval and secrets never reach the LLM.",
+    images: [
+      { src: "/images/projects/coding-agent-diff.png", alt: "AI Coding Agent proposed diff awaiting approval, with secrets redacted" },
+      { src: "/images/projects/coding-agent-tests-pass.png", alt: "Tests passing after applying the approved fix" },
+      { src: "/images/projects/coding-agent-home.png", alt: "AI Coding Agent landing screen" },
+    ],
+    links: [{ label: "Live demo", href: "https://saad-coding-agent.vercel.app" }],
+    frame: "browser",
+  },
+  {
     slug: "aes-portal",
     status: "Shipped — live on Google Play",
     category: "Android App / Enterprise",
