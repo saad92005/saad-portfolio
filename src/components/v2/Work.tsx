@@ -167,7 +167,7 @@ function Stage({ p, i, compact }: { p: Project; i: number; compact?: boolean }) 
         py.set(0);
       }}
       onClick={() => setTurns((t) => t + 1)}
-      className={`relative shrink-0 rounded-2xl overflow-hidden ${compact ? "h-[clamp(170px,30svh,290px)]" : "h-[300px] sm:h-[340px]"}`}
+      className={`relative shrink-0 rounded-2xl overflow-hidden ${compact ? "h-[clamp(130px,24svh,290px)] sm:h-[clamp(170px,30svh,290px)]" : "h-[300px] sm:h-[340px]"}`}
       style={{
         perspective: 1100,
         background: `radial-gradient(120% 90% at 50% 100%, ${m.color}55, transparent 60%), linear-gradient(180deg, #111d35, #0d1424)`,
@@ -238,22 +238,22 @@ function Body({ p, i }: { p: Project; i: number }) {
   return (
     <>
       <div className="flex justify-between items-start gap-4">
-        <span className="font-display text-4xl sm:text-5xl font-bold" style={{ WebkitTextStroke: "1px rgba(143,184,255,0.3)", color: "transparent" }}>
+        <span className="font-display text-3xl sm:text-5xl font-bold" style={{ WebkitTextStroke: "1px rgba(143,184,255,0.3)", color: "transparent" }}>
           {String(i + 1).padStart(2, "0")}
         </span>
         <div className="text-right">
-          <h3 className="font-display text-xl sm:text-2xl font-bold">{p.title}</h3>
+          <h3 className="font-display text-lg leading-tight sm:text-2xl font-bold line-clamp-2">{p.title}</h3>
           <p className="text-xs text-ink-faint mt-1">{p.category}</p>
         </div>
       </div>
-      <p className="mt-4 inline-flex items-center gap-2 text-[11px] tracking-[0.18em] font-semibold" style={{ color }}>
+      <p className="mt-2 sm:mt-4 inline-flex items-center gap-2 text-[10px] sm:text-[11px] tracking-[0.18em] font-semibold" style={{ color }}>
         <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
         {p.status.toUpperCase()}
       </p>
-      <p className="mt-3 text-sm text-ink-dim leading-relaxed line-clamp-2 sm:line-clamp-3">{p.description}</p>
-      <div className="mt-4 flex flex-wrap gap-1.5">
+      <p className="mt-2 sm:mt-3 text-[13px] sm:text-sm text-ink-dim leading-relaxed line-clamp-2 sm:line-clamp-3">{p.description}</p>
+      <div className="mt-3 sm:mt-4 flex flex-wrap gap-1.5 max-h-[26px] sm:max-h-none overflow-hidden">
         {p.stack.slice(0, 4).map((s) => (
-          <span key={s} className="text-[11px] px-2.5 py-1 rounded-full border border-line text-ink-dim">
+          <span key={s} className="text-[10px] sm:text-[11px] px-2 sm:px-2.5 py-1 rounded-full border border-line text-ink-dim">
             {s}
           </span>
         ))}
@@ -264,14 +264,14 @@ function Body({ p, i }: { p: Project; i: number }) {
 
 function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: number }) {
   return (
-    <div className="mt-auto pt-4 flex flex-wrap gap-2 sm:gap-3">
+    <div className="mt-auto pt-3 sm:pt-4 flex flex-nowrap sm:flex-wrap gap-1.5 sm:gap-3 [&>*]:flex-1 [&>*]:min-w-0 [&>*]:justify-center sm:[&>*]:flex-none">
       <button
         type="button"
         tabIndex={tab}
         onClick={onOpen}
-        className="inline-flex items-center gap-1.5 text-sm font-semibold rounded-full px-4 py-2 bg-accent text-white hover:bg-[#5a7ff0] hover:shadow-[0_0_30px_-6px_var(--accent)] transition-colors"
+        className="inline-flex items-center gap-1.5 whitespace-nowrap text-[11px] min-[400px]:text-xs sm:text-sm font-semibold rounded-full px-2 py-2 sm:px-4 sm:py-2 bg-accent text-white hover:bg-[#5a7ff0] hover:shadow-[0_0_30px_-6px_var(--accent)] transition-colors"
       >
-        <BookOpen size={14} /> Case study
+        <BookOpen size={14} className="hidden min-[400px]:block sm:block" /> Case study
       </button>
       {(p.links ?? []).map((l, k) => (
         <a
@@ -280,13 +280,22 @@ function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: numbe
           target="_blank"
           rel="noreferrer"
           tabIndex={tab}
-          className={`inline-flex items-center gap-1 text-sm font-semibold rounded-full px-4 py-2 transition-all ${
+          className={`inline-flex items-center gap-1 whitespace-nowrap text-[11px] min-[400px]:text-xs sm:text-sm font-semibold rounded-full px-2 py-2 sm:px-4 sm:py-2 transition-all ${
             k === 0
               ? "bg-accent/10 text-accent hover:bg-accent hover:text-white hover:shadow-[0_0_30px_-6px_var(--accent)]"
               : "border border-line-strong hover:border-accent hover:text-accent-2"
           }`}
         >
-          {l.label} <ArrowUpRight size={14} />
+          {/* "View on GitHub" -> "GitHub" on phones so all buttons fit one row */}
+          {l.label.startsWith("View on ") ? (
+            <>
+              <span className="hidden sm:inline">View on&nbsp;</span>
+              {l.label.slice(8)}
+            </>
+          ) : (
+            l.label
+          )}{" "}
+          <ArrowUpRight size={13} className="shrink-0" />
         </a>
       ))}
     </div>
@@ -312,7 +321,7 @@ function RingCard({ p, i, step, arc, rot, active, onOpen, onHoverFront }: { p: P
       onPointerLeave={(e) => active && e.pointerType === "mouse" && onHoverFront(false)}
       className="absolute left-1/2 top-0 h-full w-[var(--W)] -ml-[calc(var(--W)/2)] [backface-visibility:hidden]"
     >
-      <div className="relative h-full flex flex-col rounded-[2rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-4 sm:p-6 overflow-hidden">
+      <div className="relative h-full flex flex-col rounded-[2rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-3.5 sm:p-6 overflow-hidden">
         {/* lit edge on the card facing the viewer */}
         <motion.span
           aria-hidden="true"
@@ -320,7 +329,7 @@ function RingCard({ p, i, step, arc, rot, active, onOpen, onHoverFront }: { p: P
           className="pointer-events-none absolute inset-0 rounded-[2rem] border border-accent/50 shadow-[0_0_60px_-12px_rgba(65,105,225,0.6),inset_0_1px_0_rgba(143,184,255,0.25)]"
         />
         <Stage p={p} i={i} compact />
-        <div className="pt-5 flex flex-col flex-1 min-h-0">
+        <div className="pt-4 sm:pt-5 flex flex-col flex-1 min-h-0">
           <button type="button" onClick={onOpen} tabIndex={active ? 0 : -1} className="text-left cursor-pointer" aria-label={`Open ${p.title} case study`}>
             <Body p={p} i={i} />
           </button>
