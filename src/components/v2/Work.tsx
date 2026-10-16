@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, animate, motion, useAnimationFrame, useInView, useMotionValue, useMotionValueEvent, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import CaseStudy from "./CaseStudy";
@@ -135,10 +135,10 @@ function Stage({ p, i, compact }: { p: Project; i: number; compact?: boolean }) 
   const ry = useSpring(useTransform(px, [-0.5, 0.5], [-14, 14]), { stiffness: 140, damping: 16 });
 
   useEffect(() => {
-    if (!inView || window.matchMedia("(hover: hover)").matches) return;
+    if (compact || !inView || window.matchMedia("(hover: hover)").matches) return;
     const id = setTimeout(() => setTurns((t) => t + 1), 150);
     return () => clearTimeout(id);
-  }, [inView]);
+  }, [compact, inView]);
 
   function onMove(e: React.PointerEvent) {
     if (e.pointerType !== "mouse") return;
@@ -294,16 +294,19 @@ function Links({ p, onOpen, tab }: { p: Project; onOpen: () => void; tab?: numbe
 }
 
 // One card on the revolving ring. Its angle comes from the shared ring rotation.
-function RingCard({ p, i, step, rot, active, onOpen, onHoverFront }: { p: Project; i: number; step: number; rot: MotionValue<number>; active: boolean; onOpen: () => void; onHoverFront: (on: boolean) => void }) {
+function RingCard({ p, i, step, arc, rot, active, onOpen, onHoverFront }: { p: Project; i: number; step: number; arc: number; rot: MotionValue<number>; active: boolean; onOpen: () => void; onHoverFront: (on: boolean) => void }) {
   const rel = useTransform(rot, (v) => ((((i * step + v) % 360) + 540) % 360) - 180);
   const dist = useTransform(rel, (a) => Math.abs(a));
   const opacity = useTransform(dist, [0, step, step * 2, step * 2.6], [1, 0.55, 0.18, 0]);
-  const transform = useTransform(rot, (v) => `rotateY(${i * step + v}deg) translateZ(var(--R))`);
+  // `arc` is the visual angle between neighbours: equal to `step` on desktop (a closed ring),
+  // wider on phones so the nearby cards wrap round a small circle without intersecting
+  const transform = useTransform(rel, (a) => `rotateY(${(a / step) * arc}deg) translateZ(var(--R))`);
+  const visibility = useTransform(dist, (d) => (d > step * 2.6 ? "hidden" : "visible"));
   const glow = useTransform(dist, [0, step * 0.6], [1, 0]);
 
   return (
     <motion.article
-      style={{ transform, opacity, pointerEvents: active ? "auto" : "none" }}
+      style={{ transform, opacity, visibility, pointerEvents: active ? "auto" : "none" }}
       aria-hidden={!active}
       onPointerEnter={(e) => active && e.pointerType === "mouse" && onHoverFront(true)}
       onPointerLeave={(e) => active && e.pointerType === "mouse" && onHoverFront(false)}
@@ -328,126 +331,14 @@ function RingCard({ p, i, step, rot, active, onOpen, onHoverFront }: { p: Projec
   );
 }
 
-const RING_ANGLE = 34; // degrees between neighbouring cards on the mobile ring
-
-// phones get a native scroll-snap carousel: smooth, swipeable, no 3D ring to fight with
-const MOBILE_Q = "(max-width: 767px)";
-const subscribeMobile = (cb: () => void) => {
-  const mq = window.matchMedia(MOBILE_Q);
-  mq.addEventListener("change", cb);
-  return () => mq.removeEventListener("change", cb);
-};
-function useIsMobile() {
-  return useSyncExternalStore(subscribeMobile, () => window.matchMedia(MOBILE_Q).matches, () => false);
-}
-
-function MobileWork({ onOpen }: { onOpen: (i: number) => void }) {
-  const track = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const n = projects.length;
-
-  const frame = useRef(0);
-
-  // Native scroll drives the swipe; each card is then bent onto a cylinder so the
-  // row revolves like a ring. Styles are written directly (no re-render per frame).
-  const layout = useCallback(() => {
-    frame.current = 0;
-    const el = track.current;
-    if (!el) return;
-    const cards = Array.from(el.children) as HTMLElement[];
-    if (!cards.length) return;
-    const step = cards[0].offsetWidth + 16;
-    const pos = el.scrollLeft / step;
-    const R = step / (2 * Math.tan((RING_ANGLE * Math.PI) / 360));
-    cards.forEach((c, i) => {
-      const d = i - pos;
-      const ad = Math.abs(d);
-      c.style.transform = `translateX(${(-d * step).toFixed(1)}px) translateZ(${-R}px) rotateY(${(d * RING_ANGLE).toFixed(2)}deg) translateZ(${R}px)`;
-      c.style.opacity = String(Math.max(0, 1 - Math.max(0, ad - 0.6) * 0.55).toFixed(3));
-      c.style.zIndex = String(100 - Math.round(ad * 10));
-      c.style.pointerEvents = ad < 0.5 ? "auto" : "none";
-    });
-    const k = Math.max(0, Math.min(n - 1, Math.round(pos)));
-    setActive((a) => (a === k ? a : k));
-  }, [n]);
-
-  function onScroll() {
-    if (!frame.current) frame.current = requestAnimationFrame(layout);
-  }
-
-  useEffect(() => {
-    layout();
-    window.addEventListener("resize", layout);
-    return () => {
-      window.removeEventListener("resize", layout);
-      cancelAnimationFrame(frame.current);
-    };
-  }, [layout]);
-  function goTo(k: number) {
-    const el = track.current;
-    const card = el?.children[k] as HTMLElement | undefined;
-    if (el && card) el.scrollTo({ left: card.offsetLeft - el.offsetLeft - (el.clientWidth - card.offsetWidth) / 2, behavior: "smooth" });
-  }
-
-  return (
-    <section className="relative py-20">
-      <div className="flex items-end justify-between gap-4 px-5 pb-5">
-        <div>
-          <p className="flex items-center gap-3 text-[11px] tracking-[0.35em] font-semibold text-ink-faint mb-2">
-            <span className="w-8 h-px bg-accent" /> PROJECTS
-          </p>
-          <h2 className="font-display font-bold tracking-[-0.02em] text-3xl">
-            Selected <span className="font-serif italic font-normal text-accent-2">work</span>
-          </h2>
-        </div>
-        <p className="font-mono text-sm text-ink-dim tabular-nums mb-1">
-          <span className="text-ink text-lg">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
-        </p>
-      </div>
-
-      <div
-        ref={track}
-        onScroll={onScroll}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory overscroll-x-contain py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        style={{ perspective: 1000, perspectiveOrigin: "50% 50%", paddingInline: "calc(50% - min(42.5vw, 200px))" }}
-      >
-        {projects.map((p, i) => (
-          <article key={p.slug} className="snap-center shrink-0 w-[85vw] max-w-[400px] [backface-visibility:hidden] will-change-transform flex flex-col rounded-[1.6rem] border border-line bg-gradient-to-b from-surface to-bg-2 p-3.5">
-            <Stage p={p} i={i} compact />
-            <div className="pt-4 px-1 flex flex-col flex-1">
-              <button type="button" onClick={() => onOpen(i)} className="text-left" aria-label={`Open ${p.title} case study`}>
-                <Body p={p} i={i} />
-              </button>
-              <Links p={p} onOpen={() => onOpen(i)} />
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <div className="flex items-center justify-center gap-3 pt-5 px-5">
-        <button type="button" onClick={() => goTo(Math.max(0, active - 1))} aria-label="Previous project" className="grid place-items-center w-9 h-9 shrink-0 rounded-full border border-line text-ink-dim active:text-accent-2">
-          ‹
-        </button>
-        <div className="relative h-1 flex-1 max-w-[180px] rounded-full bg-line overflow-hidden">
-          <span className="absolute inset-y-0 left-0 rounded-full bg-accent transition-[width] duration-300" style={{ width: `${((active + 1) / n) * 100}%` }} />
-        </div>
-        <button type="button" onClick={() => goTo(Math.min(n - 1, active + 1))} aria-label="Next project" className="grid place-items-center w-9 h-9 shrink-0 rounded-full border border-line text-ink-dim active:text-accent-2">
-          ›
-        </button>
-      </div>
-    </section>
-  );
-}
-
 const HOVER_SPEED = 9; // degrees per second while the mouse is over the ring (desktop)
 
 export default function Work() {
   const [open, setOpen] = useState<number | null>(null);
   const close = useCallback(() => setOpen(null), []);
-  const mobile = useIsMobile();
   return (
     <div id="work">
-      {mobile ? <MobileWork onOpen={setOpen} /> : <RingWork onOpen={setOpen} />}
+      <RingWork onOpen={setOpen} />
       <AnimatePresence>
         {open !== null && (
           <CaseStudy key={open} p={projects[open]} index={open} {...caseMedia(projects[open])} onClose={close} />
@@ -459,7 +350,7 @@ export default function Work() {
 
 function RingWork({ onOpen }: { onOpen: (i: number) => void }) {
   const [active, setActive] = useState(0);
-  const [dims, setDims] = useState({ w: 440, r: 760, persp: 2200 });
+  const [dims, setDims] = useState({ w: 440, r: 760, persp: 2200, arc: 0 });
   const n = projects.length;
   const step = 360 / n;
   const rot = useMotionValue(0);
@@ -471,9 +362,16 @@ function RingWork({ onOpen }: { onOpen: (i: number) => void }) {
   useEffect(() => {
     const measure = () => {
       const vw = window.innerWidth;
-      const w = vw < 640 ? Math.min(vw * 0.84, 380) : vw < 1024 ? 420 : 460;
-      const r = Math.round(((w + (vw < 640 ? 18 : 40)) * n) / (2 * Math.PI));
-      setDims({ w: Math.round(w), r, persp: vw < 640 ? 1300 : 2200 });
+      if (vw < 768) {
+        // phones: a tight drum, so the neighbouring cards visibly curve round the circle
+        const w = Math.min(vw * 0.76, 340);
+        const arc = 42;
+        setDims({ w: Math.round(w), r: Math.round((w / 2 + 6) / Math.tan((arc * Math.PI) / 360)), persp: 900, arc });
+        return;
+      }
+      const w = vw < 1024 ? 420 : 460;
+      const r = Math.round(((w + 40) * n) / (2 * Math.PI));
+      setDims({ w: Math.round(w), r, persp: 2200, arc: 0 });
     };
     measure();
     window.addEventListener("resize", measure);
@@ -599,6 +497,7 @@ function RingWork({ onOpen }: { onOpen: (i: number) => void }) {
                 p={p}
                 i={i}
                 step={step}
+                arc={dims.arc || step}
                 rot={rot}
                 active={i === active}
                 onOpen={() => onOpen(i)}
